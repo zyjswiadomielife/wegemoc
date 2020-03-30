@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ post.title }} - Wegemoc {% endblock %}
+{% block meta %}
+<meta property="og:type"   content="article" /> 
+<meta property="og:title"  content="{{ post.title }}" /> 
+<meta property="og:image"  content="{{ post.image.url }}" /> 
+<meta property="og:description" content="{{ post.body|striptags|truncatewords:30 }}" />
+<meta property="og:url" content="https://wegemoc.pl/{{ post.slug }}" />
+{% endblock %}
+{% block content %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+
+        
+<!-- Content
+================================================== -->
+<div class="container margin-top-20">
+
+        <!-- Blog Posts -->
+        <div class="blog-page">
+        <div class="row">
+    
+    
+            <!-- Post Content -->
+            <div class="col-lg-9 col-md-8 padding-right-30">
+    
+    
+                <!-- Blog Post -->
+                <div class="blog-post single-post">
+                    
+                    <!-- Img -->
+                    {% thumbnail post.image "1000x400" crop="smart" as im %}
+                    <img class="post-img" src="{{ im.url }}" alt="{{ post.title }}">
+                    {% endthumbnail %}
+                    
+                    <!-- Content -->
+                    <div class="post-content margin-top-20">
+    
+                        <h1>{{ post.title }}</h1>
+    
+                        <ul class="post-meta">
+                            <li>{{ post.created_at|timesince }} temu</li>
+                            <li>{% for tag in post.tags.all %}<a href="#">{{ tag.name }} </a>{% endfor %}</li>
+                            <li><a href="#">5 Comments</a></li>
+                        </ul>
+    
+                        <p>{{ post.body|safe }}</p>
+    
+                        <div class="clearfix"></div>
+    
+                    </div>
+                </div>
+                <!-- Blog Post / End -->
+  
+<!--
+                <div class="about-author">
+                    <img src="images/user-avatar.jpg" alt="" />
+                    <div class="about-description">
+                        <h4>Tom Perrin</h4>
+                        <a href="#">tom@example.com</a>
+                        <p>Nullam ultricies, velit ut varius molestie, ante metus condimentum nisi, dignissim facilisis turpis ex in libero. Sed porta ante tortor, a pulvinar mi facilisis nec. Proin finibus dolor ac convallis congue.</p>
+                    </div>
+                </div> 
+            -->
+
+                <!-- Related Posts -->
+                <div class="clearfix"></div>
+                <h4 class="headline margin-top-25">Podobne</h4>
+                <div class="row">
+                    {% for similar in similar_posts %}
+                    <!-- Blog Post Item -->
+                    <div class="col-md-6">
+                        <a href="{{ similar.get_absolute_url }}" class="blog-compact-item-container">
+                            <div class="blog-compact-item">
+                                {% thumbnail similar.image "700x700" as im %}
+                                <img src="{{ im.url }}" alt="{{ similar.title }}">
+                                {% endthumbnail %}
+                                {% for tag in similar.tags.all %}<span class="blog-item-tag">{{ tag.name }}</span>{% endfor %}
+                                <div class="blog-compact-item-content">
+                                    <ul class="blog-post-tags">
+                                        <li>{{ similar.created_at|timesince }}</li>
+                                    </ul>
+                                    <h3>{{ similar.title }}</h3>
+                                    <p>{{ similar.body|truncatewords:10|striptags }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Blog post Item / End -->
+                    {% endfor %}
+    
+                </div>
+                <!-- Related Posts / End -->
+    
+    
+                <div class="margin-top-50"></div>
+    
+                <!-- Reviews -->
+                <section class="comments">
+                <h4 class="headline margin-bottom-35">Komentarze <span class="comments-amount">{% with comments.count as total_comments %} {{ total_comments }} {% endwith %}</span></h4>
+                {% if request.user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {{ form|crispy }}
+                    <button type="submit" class="button">Dodaj komentarz</button>
+                </form>
+                {% else %}
+                <p> Musisz się <a href="{% url 'account_login' %}">Zalogować</a> lub <a href="{% url 'account_signup' %}">Zarejestrować</a> aby dodać komentarz. </p>
+                {% endif %}
+                    <ul>
+                        {% for comment in comments %}
+                        <li>
+                            <div class="avatar">
+                                {% thumbnail comment.author.profile.avatar "100x100" crop="smart" as im %}
+                                <a href="{{ comment.author.get_absolute_url }}"><img src="{{ im.url }}" alt="" /></a></div>
+                                {% endthumbnail %}
+                            <div class="comment-content"><div class="arrow-comment"></div>
+                                <div class="comment-by"><a href="{{ comment.author.get_absolute_url }}">{{ comment.author.username }}</a><span class="date">{{ comment.created_at|timesince }}</span>
+                                    <!--<a href="#" class="reply"><i class="fa fa-reply"></i> Reply</a> -->
+                                </div>
+                                <p>{{ comment.body }}</p>
+                            </div>
+                    </li>
+                    {% endfor %}
+                    </ul>
+    
+                </section>
+                <div class="clearfix"></div>
+    
+        </div>
+        <!-- Content / End -->
+    
+    
+    
+        <!-- Widgets -->
+        <div class="col-lg-3 col-md-4">
+            <div class="sidebar right">
+    
+                <!-- Widget -->
+                <div class="widget">
+                    <h3 class="margin-top-0 margin-bottom-25">Szukaj na stronie</h3>
+                    <div class="search-blog-input">
+                        <div class="input"><input class="search-field" type="text" placeholder="Wpisz coś i kliknij enter" value=""/></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- Widget / End -->
+    
+    
+                <!-- Widget -->
+                <div class="widget margin-top-40">
+                    <h3>Społeczność Wegemoc!</h3>
+                    <div class="info-box margin-bottom-10">
+                        <p>Szukasz przepisów i chciałbyś </p>
+                        <a href="pages-contact.html" class="button fullwidth margin-top-20"><i class="fa fa-envelope-o"></i> Dołącz</a>
+                    </div>
+                </div>
+                <!-- Widget / End -->
+    
+    
+                <!-- Widget -->
+                <div class="widget margin-top-40">
+    
+                    <h3>Popular Posts</h3>
+                    <ul class="widget-tabs">
+    
+                        <!-- Post #1 -->
+                        <li>
+                            <div class="widget-content">
+                                    <div class="widget-thumb">
+                                    <a href="pages-blog-post.html"><img src="images/blog-widget-03.jpg" alt=""></a>
+                                </div>
+                                
+                                <div class="widget-text">
+                                    <h5><a href="pages-blog-post.html">Hotels for All Budgets </a></h5>
+                                    <span>October 26, 2016</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                        
+                        <!-- Post #2 -->
+                        <li>
+                            <div class="widget-content">
+                                <div class="widget-thumb">
+                                    <a href="pages-blog-post.html"><img src="images/blog-widget-02.jpg" alt=""></a>
+                                </div>
+                                
+                                <div class="widget-text">
+                                    <h5><a href="pages-blog-post.html">The 50 Greatest Street Arts In London</a></h5>
+                                    <span>November 9, 2016</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                        
+                        <!-- Post #3 -->
+                        <li>
+                            <div class="widget-content">
+                                <div class="widget-thumb">
+                                    <a href="pages-blog-post.html"><img src="images/blog-widget-01.jpg" alt=""></a>
+                                </div>
+                                
+                                <div class="widget-text">
+                                    <h5><a href="pages-blog-post.html">The Best Cofee Shops In Sydney Neighborhoods</a></h5>
+                                    <span>November 12, 2016</span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+    
+                    </ul>
+    
+                </div>
+                <!-- Widget / End-->
+    
+    
+                <!-- Widget -->
+                <div class="widget margin-top-40">
+                    <h3 class="margin-bottom-25">Social</h3>
+                    <ul class="social-icons rounded">
+                        <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+                        <li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+                    </ul>
+    
+                </div>
+                <!-- Widget / End-->
+    
+                <div class="clearfix"></div>
+                <div class="margin-bottom-40"></div>
+            </div>
+        </div>
+        </div>
+        <!-- Sidebar / End -->
+    
+    
+    </div>
+    </div>
+    
+{% endblock %}

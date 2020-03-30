@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Forum - pytania i odpowiedzi{% endblock %}
+{% load static %}
+
+{% block meta %}
+<meta property="og:type"   content="article" /> 
+<meta property="og:title"  content="{{ question.title }}" /> 
+<meta property="og:image"  content="{{ recipe.thumbnail_url }}" /> 
+<meta property="og:description" content="{{ question.body|truncatewords:30 }}" />
+<meta property="og:url" content="https://wegemoc.eu/{{ question.slug }}" />
+{% endblock %}
+{% block additionalcss %}
+
+{% endblock %}
+{% block content %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+
+
+
+<div style="background-color: #e8e8e8;">
+    <div class="container padding-top-35">
+            <div class="row">
+  
+				<div class="col-lg-8 col-md-12">
+                    <div class="boxed-widget-added" style="margin-bottom: 0px; border-bottom: 1px solid#ededed;">
+                        <div class="hosted-by-title-added">
+                            <h4 style="font-size: 15px;"><a href="pages-user-profile.html">{{ question.author.username }}</a></h4>
+                            {% thumbnail question.author.profile.avatar "100x100" crop="smart" as im %}
+                            <a href="pages-user-profile.html" class="hosted-by-avatar-added"><img src="{{ im.url }}" style="width: 35px; height: 35px;" alt=""></a>
+                            {% endthumbnail %}
+                            <span class="button-align" style="font-size: 12px; padding: 3px 7px 13px 5px;">Dodano: {{ question.created_at|timesince }}</span>
+                        </div>
+                    </div>
+								<!-- Blog Post -->
+			<div class="blog-post single-post" style="margin-top: 0px;">    
+				
+				<!-- Content -->
+				<div class="post-content">
+
+					<h1 style="font-size: 20px;">{{ question.title }}</h1>
+
+                    <p>{{ question.body|safe }}</p>
+                    <p>Tagi: {% for tag in question.tags.all %}<a href="">{{ tag.name }}</a> {% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                        <ul class="listing-links contact-links margin-top-10">
+                            <li><a class="listing-links" style="background-color: #de2a2a;" data-id="{{ question.id }}" data-type="question" data-action="like" title="Like">
+                                <i class="fa fa-heart" style="color: white;"></i><span style="color: white;">Lubię to!</span> <span data-count="like" style="color: white;">{{ question.votes.likes.count }}</span></a></li>
+                        </ul>
+					<div class="clearfix"></div>
+
+				</div>
+			</div>
+			<!-- Blog Post / End -->
+
+                </div>
+                <div class="col-lg-8 col-md-12">
+                <div style="background-color: white; padding: 20px;">
+
+                    
+                <!-- Add Review Box -->
+           
+    {% if request.user.is_authenticated %}
+                        <!-- Add Review -->
+                        <h3 class="listing-desc-headline margin-bottom-10">Dodaj odpowiedź</h3>
+    
+                        <!-- Review Comment -->
+                        <form method="post">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                {{ form|crispy }}
+                                <button type="submit" class="button margin-top-10">Dodaj</button>
+                        </form>
+    {% else %}
+                        <p>Aby dodać odpowiedź musisz się <a href="{% url 'account_login' %}">zalogować</a> lub <a href="{% url 'account_signup' %}">zarejestrować</a>.</p>
+    {% endif %}
+        
+             
+                <!-- Add Review Box / End -->
+                				<!-- Reviews -->
+				<section class="comments listing-reviews">
+                        <ul>
+                            {% for answer in answers %}
+                            <li>
+                                <div class="avatar">
+                                    {% thumbnail answer.author.profile.avatar "100x100" crop="smart" as im %}
+                                    <img src="{{ im.url }}" alt="" /></div>
+                                    {% endthumbnail %}
+                                <div class="comment-content"><div class="arrow-comment"></div>
+                                    <div class="comment-by">{{ answer.author.username }} <span class="date">{{ answer.created_at|timesince }}</span>
+
+                                    </div>
+                                    <p>{{ answer.body|safe }}</p>
+                                    
+                                    <a class="rate-review" data-id="{{ answer.id }}" data-type="answer" data-action="like" title="Like"><i class="sl sl-icon-like"></i> Pomocne <span data-count="like">{{ answer.votes.likes.count }}</span></a>
+                                </div>
+                            </li>
+                            {% endfor %}
+    
+                          
+                         </ul>
+                    </section>
+    
+                    <!-- Pagination
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                      
+                            <div class="pagination-container margin-top-30">
+                                <nav class="pagination">
+                                    <ul>
+                                        <li><a href="#" class="current-page">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+              Pagination / End -->
+                </div>
+    
+
+    
+    
+            </div>
+    
+    
+                </div>
+                </div>
+                <div class="col-lg-4">
+
+                </div>
+        </div>                
+    </div>
+
+    {% block javascript %}
+
+    {% endblock %}
+                
+{% endblock %}

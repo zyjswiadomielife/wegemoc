@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Profil użytkownika {{ profile.username }} {% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+{% load follow %}
+<div class="bg-white">
+
+	<div class="container">
+	  <div class="d-flex justify-content-between align-items-center py-4">
+		<div>
+		  <a href="#" class="d-inline-block text-dark">
+			<strong>234</strong>
+			<span class="text-muted">followers</span>
+		  </a>
+		  <a href="#" class="d-inline-block text-dark ml-3">
+			<strong>111</strong>
+			<span class="text-muted">following</span>
+		  </a>
+		</div>
+
+	  </div>
+	</div>
+	<hr class="m-0">
+  
+	<div class="container">
+	  <div class="text-center py-5">
+		<img src="{% thumbnail profile.profile.avatar "300x300" crop="smart" %}" width="100" height="100" class="img-circle">
+  
+		<div class="col-md-8 col-lg-6 col-xl-5 p-0 mx-auto">
+		  <h4 class="font-weight-bold my-4">{{ profile.username }}</h4>
+			{% if profile.profile.bio %}
+		  <div class="text-muted mb-4">
+			{{ profile.profile.bio }}
+		  </div>
+		  	{% endif %}
+		</div>
+  
+
+			<div class="d-flex flex-row justify-content-center bd-highlight mb-3">
+				<div class="p-2 bd-highlight">
+					{% if profile.profile.facebook %}
+					<a href="{{ profile.profile.facebook }}">
+						<i class="fab fa-facebook-square" style="color:#3b5998; font-size: 30px;"></i>
+					</a>
+					{% endif %}
+				</div>
+				<div class="p-2 bd-highlight">
+					{% if profile.profile.url %}
+					<a href="{{ profile.profile.url }}">
+						<i class="fas fa-external-link-square-alt" style="font-size: 30px; color: gray;"></i>
+					</a>
+					{% endif %}
+				</div>
+			</div>
+		<p>
+			{% if profile.followers.all|user_in:request.user %}
+			<a href="{% url 'unfollow' profile.id %}" class="btn btn-success-gradiant" id="follow">Przestań obserwować</a>
+			{% else %}
+			<a href="{% url 'follow' profile.id %}" class="btn btn-success-gradiant" id="follow">Obserwuj</a>
+			{% endif %}
+		</p>
+	
+	  </div>
+	</div>
+	<hr class="m-0">
+  
+	<ul class="nav nav-tabs tabs-alt justify-content-center">
+	  <li class="nav-item">
+		<a class="nav-link py-4 active" href="#">Posts</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link py-4" href="#">Likes</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link py-4" href="#">Followers</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link py-4" href="#">Following</a>
+	  </li>
+	</ul>
+  
+  </div>
+<!-- Header Container / End -->
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="user-profile-titlebar">
+					<div class="user-profile-avatar">
+            {% thumbnail profile.profile.avatar "200x200" crop="smart" as im %}
+            <img src="{{ im.url }}" alt="">
+            {% endthumbnail %}
+          </div>
+					<div class="user-profile-name">
+						<h2>{{ profile.username }}</h2>
+						<div class="padding-top-20">
+
+					</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Content
+================================================== -->
+<div style="background-color: #e8e8e8;">
+<div class="container">
+	<div class="row sticky-wrapper">
+
+
+		<!-- Sidebar
+		================================================== -->
+		<div class="col-lg-4 col-md-4 margin-top-0">
+				
+			<!-- Verified Badge -->
+
+
+
+
+			<!-- Contact -->
+			<div class="boxed-widget margin-top-30 margin-bottom-50">
+				<h3>O mnie</h3>
+				<ul class="listing-details-sidebar">
+					<li><i class="sl sl-icon-link"></i> {{ profile.profile.url }}</li>
+				</ul>
+				{% if profile.profile.facebook %}
+				<ul class="listing-details-sidebar social-profiles">
+					<li><a href="{{ profile.profile.facebook }}" class="facebook-profile"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+					<!-- <li><a href="#" class="gplus-profile"><i class="fa fa-google-plus"></i> Google Plus</a></li> -->
+				</ul>
+				{% endif %}
+				<!-- Reply to review popup -->
+
+				<a href="{% url "pinax_messages:message_user_create" user_id=profile.id %}" class="send-message-to-owner button"><i class="sl sl-icon-envelope-open"></i> Wyślij wiadomość</a>
+			</div>
+			<!-- Contact / End-->
+		</div>
+		<!-- Sidebar / End -->
+
+
+		<!-- Content
+		================================================== -->
+		<div class="col-lg-8 col-md-8 padding-left-30">
+				<h2 class="margin-bottom-30">Aktywności</h2>
+				{% load activity_tags %}
+
+				{% for activity in activities %}
+					{% render_activity activity %}
+				{% endfor %}
+
+		</div>
+
+	</div>
+</div>
+</div>
+{% endblock %}

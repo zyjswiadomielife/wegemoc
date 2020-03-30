@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj post{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <h5 class="mb-4">Dodaj post</h5>
+<form method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary text-lowercase letter-spacing-1">Dodaj post</button>
+</form>
+</div>
+
+{% endblock %}

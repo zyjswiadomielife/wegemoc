@@ -1,0 +1,17 @@
+Django
+pinax-likes
+django-crispy-forms
+psycopg2
+django-autoslug
+pillow
+gunicorn
+django-allauth
+django-initial-avatars
+djangorestframework
+django-mptt
+sorl-thumbnail
+django-tinymce4-lite
+stream_django
+django-tagulous
+django-autocomplete-light
+pinax-messages

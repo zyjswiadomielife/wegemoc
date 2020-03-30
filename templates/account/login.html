@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load account %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h2 class="mt-5">Logowanie</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="button">Zaloguj</button>
+            </form>
+            <div class="col-lg-12 text-center mt-3">
+                    {% load socialaccount %}
+                    <h6>Lub zaloguj się przez:</h6>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn btn-block text-white mt-3" style="background-color:#3b5998;">Facebook</a>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <a href="{% provider_login_url "google" next="/account/dashboard/" %}" class="btn btn-block btn-danger text-white mt-3">Google +</a>
+                        </div>
+                    </div>
+                    <span> <p class="mt-3">Nie masz konta? Zarejestruj się <a href="{% url 'account_signup' %}">tutaj</a></p></span>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h4 class="margin-top-30">Co daje rejestracja na Wegemoc?</h4>
+
+            <dl class="mt-2 text-dark">
+                    <dt>Tworzenie list ulubionych przepisów z ulubionych blogów</dt>
+                    <dd class="mb-3">W prosty sposób możesz stworzyć własną kategorię, do której możesz dodawać nowe przepisy jedynie za pomocą linku.
+                    </dd>
+            <dt>Obserwowanie interesujących kategorii</dt>
+            <dd class="mb-3">Posiadając konto możesz obserwować interesujące Cię kategorie i stworzyć spersonalizowaną tablicę aktywności 
+                zawierająca dokładnie te przepisy których szukasz. Dla przykładu, jeśli poszukujesz inspiracji dotyczących dań wegańskich wysokobiałkowych które pomogą Ci zbudować masę mięsniową
+                , możesz zacząć obserwować taką kategorię.
+            </dd>
+            <dt>Wspólne tworzenie kategorii</dt>
+            <dd class="mb-3">Kategorie mogą współtworzyć wszyscy użytkownicy i dodawać do nich tematyczne przepisy.
+            </dd>
+            </dl>
+            <dt>Dyskusje na forum</dt>
+            <dd class="mb-3">Dołączając do portalu możesz brać udział w dyskusjach na forum i pomagać innym rozwiewać wątpliwości na tematy związane z wegetarianizmem i weganizmem.
+            </dd>
+          </dl>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Dodaj post na forum{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div style="margin-top: 100px;">
+<div class="container">
+    <p class="text-dark"><strong></strong></p>
+    <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Dodaj post na forum</h4>
+    </div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form|crispy }}
+    <button type="submit" class="button margin-bottom-20">Dodaj</button>
+</form>
+</div>
+</div>
+
+{% endblock %}

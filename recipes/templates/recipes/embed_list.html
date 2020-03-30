@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista przepisów{% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+
+<div class="container margin-top-50">
+    <div class="row">
+
+        {% for recipe in embed_list %}
+				<!-- Listing Item -->
+				<div class="col-lg-4 col-md-6">
+                        <a href="{{ recipe.get_absolute_url }}" class="listing-item-container compact">
+                            <div class="listing-item">
+
+                                {% thumbnail recipe.image "1000x1000" crop="smart" as im %}
+                                <img src="{{ im.url }}" alt="{{ i.title }}">
+                                {% endthumbnail %}
+
+                                <div class="listing-item-content">
+                                    {% for category in recipe.category.all %}<span class="tag" style="background-color: #5EC031;">{{ category.title }}</span>{% endfor %}
+                                    <h3>{{ recipe.title }}</h3>
+                                </div>
+                            </div>
+                        </a>
+                </div>
+                <!-- Listing Item / End -->		
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

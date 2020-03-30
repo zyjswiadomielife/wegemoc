@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Stwórz wiadomość{% endblock %}
+
+{% block body_class %}{{ block.super }} pinax-messages-create{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+    .margin-head{
+        margin-top: 100px;
+    }
+    </style>
+<div class="margin-head">
+<div class="container">
+<div class="pinax-messages-create-container">
+    <h2>Wyślij wiadomość</h2>
+
+    <form class="comment-form" action="{% url "pinax_messages:message_create" %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="form-actions">
+            <a href="{% url "pinax_messages:inbox" %}" class="button">Anuluj</a>
+            <button class="button">Wyślij</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}

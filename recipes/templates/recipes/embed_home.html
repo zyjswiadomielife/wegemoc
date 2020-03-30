@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Wegemoc - strona główna{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+{% if not request.user.is_authenticated %}
+                <!-- ============================================================== -->
+                <!-- Static Slider 10  -->
+                <!-- ============================================================== -->
+                <div class="static-slider10" style="background-image:url({% static 'images/tlo.jpg' %})">
+                    <div class="container">
+                        <!-- Row  -->
+                        <div class="row justify-content-center ">
+                            <!-- Column -->
+                            <div class="col-md-7 align-self-center text-center">
+                                <h1 class="title font-stylish">Witaj na Wegemoc</h1>
+                                <h6 class="subtitle text-dark op-8">Dołącz do społeczności wegemoc, w której znajdziesz wiele inspirujących przepisów wegetariańskich i wegańskich.
+                                    Rejestrując się, możesz obserwować wybrane kategorie, tworzyć je i rozwijać je wspólnie z innymi.
+                                </h6>
+                                <a class="btn btn-success-gradiant m-t-20 m-r-20" data-toggle="collapse" href=""><span><i class="far fa-envelope"></i> Zaloguj przez email</span></a>
+
+                                <a href="#" class="btn bg-facebook m-t-20 m-r-20"><i class="fab fa-facebook-f"></i> Zaloguj przez Facebook</a>
+                            </div>
+                            <!-- Column -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Static Slider 10  -->
+                <!-- ============================================================== -->
+{% endif %}
+                <!-- ============================================================== -->
+                <!-- Blog home 4  -->
+                <!-- ============================================================== -->
+                <div class="blog-home4 bg-light mb-5 pt-5">
+                    <div class="container">
+                        <!-- Row  -->
+                        <div class="row justify-content-center mb-5">
+                            <!-- Column -->
+                            <div class="col-md-8 text-center">
+                                <h2 class="title">Najnowsze przepisy</h2>
+                                <h6 class="subtitle">Najnowsze przepisy z blogów udostępnione przez użytkowników</h6>
+                            </div>
+                            <!-- Column -->
+                        </div>
+                        <div class="row">
+                        {% for embed in embeds %}
+                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                            <!-- Column -->
+                            <div class="card card-shadow">
+                                <a href="{{ embed.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail embed.image "600x350" crop="smart" %}" alt="{{ embed.title }}"></a>
+                                <div class="card-body">
+                                    <h5 class="font-medium h5-home"><a href="{{ embed.get_absolute_url }}" class="link">{{ embed.title }}</a></h5>
+                                    <p>{{ embed.description|striptags|truncatewords:10 }}</p>
+                                    <p class="mb-0">
+                                        <a href="{{ embed.added_by.get_absolute_url }}" class="text-muted"><img src="{% thumbnail embed.added_by.profile.avatar "100x100" crop="smart" %}" alt="task-user" class="thumb-sm rounded-circle mr-2"> 
+                                            <span class="font-medium small text-dark">{{ embed.added_by.username }}</span></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Blog home 4  -->
+                <!-- ============================================================== -->
+
+<div class="container">
+    <div class="row justify-content-center mb-5">
+        <!-- Column -->
+        <div class="col-md-8 text-center">
+            <h2 class="title">Popularne kategorie</h2>
+            <h6 class="subtitle">Zajrzyj do kategorii stworzonych przez użytkowników dla użytkowników i znajdź coś dla siebie. 
+                Jeśli postanowisz zostać z nami dłużej, możesz obserwować wybrane kategorie i otrzymywać nowe przepisy tylko z wybranych kategorii.</h6>
+        </div>
+        <!-- Column -->
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+            {% for category in categories %}
+            <div class="col-6 col-md-3 col-lg-4">
+            <div class="card" style="background:linear-gradient(0deg, rgba(58, 194, 150, 0.9), rgba(3, 212, 83, 0.6)), url({% thumbnail category.image "300x200" crop="smart" %});background-size: cover;  height: 100px;">
+                <div class="card-body">
+                <div class="mid font-medium text-white"><a href="/recipes/category/{{ category.parent.slug }}/{{ category.slug }}" class="text-white">{{ category.title }}</a></div>
+
+            </div>
+            </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

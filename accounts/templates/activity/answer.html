@@ -1,0 +1,27 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="boxed-widget-added" style="margin-bottom: 0px; border-bottom: 1px solid#ededed;">
+        <div class="hosted-by-title-added">
+            <h4 style="font-size: 15px;"><a href="">{{ activity.actor.username }}</a></h4>
+            {% thumbnail activity.actor.profile.avatar "100x100" crop="smart" as im %}
+            <a href="" class="hosted-by-avatar-added"><img src="{{ im.url }}" style="width: 35px; height: 35px;" alt=""></a>
+            {% endthumbnail %}
+            <span class="button-align" style="font-size: 12px; padding: 3px 7px 13px 5px;">Dodano: {{ activity.created_at|timesince }}</span>
+        </div>
+    </div>
+                <!-- Blog Post -->
+<div class="blog-post single-post" style="margin-top: 0px;">    
+
+<!-- Content -->
+<div class="post-content">
+
+    <h1 style="font-size: 20px;"><a href="{{ question.get_absolute_url }}">{{ activity.title }}</a></h1>
+
+    <p>{{ activity.body|safe|truncatewords:30 }}</p>
+    <p>Tagi: {% for tag in activity.tags.all %}<a href="">{{ tag.name }}</a> {% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    <div class="clearfix"></div>
+
+</div>
+</div>
+<!-- Blog Post / End -->

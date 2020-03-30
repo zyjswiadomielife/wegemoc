@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ recipe.title }} - Wegemoc {% endblock %}
+{% block meta %}
+<meta property="og:type"   content="article" /> 
+<meta property="og:title"  content="{{ recipe.title }}" /> 
+<meta property="og:image"  content="{{ recipe.thumbnail_url }}" /> 
+<meta property="og:description" content="{{ recipe.description|truncatewords:30 }}" />
+<meta property="og:url" content="https://wegemoc.pl/{{ recipe.slug }}" />
+{% endblock %}
+{% block content %}
+{% load follow %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+<div class="bg-light">
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 col-md-8 col-lg-8">
+                <!--- \\\\\\\Post-->
+                <div class="card social-timeline-card mt-5 shadow">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="30" height="30" src="{% thumbnail recipe.added_by.profile.avatar "100x100" crop="smart" %}" alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <div class="m-0 text-blue"><a href="{{ recipe.added_by.get_absolute_url }}">{{ recipe.added_by.username }}</a></div>
+                                    <div class="small text-muted">Dodane: {{ recipe.created_at|timesince }}</div>
+                                </div>
+                            </div>
+
+                        </div>
+					</div>
+					{% if recipe.image %}	
+					<!-- Img -->
+					<a href="{{ recipe.url }}"><img class="img-fluid" src="{{ recipe.image.url }}" alt="{{ recipe.title }}"></a>
+					{% else %}
+					<!-- Img -->
+					<a href="{{ recipe.url }}"><img class="img-fluid" src="{{ recipe.thumbnail_url }}" alt="{{ recipe.title }}"></a>
+					{% endif %}
+                    <div class="card-body">
+                        <a class="card-link" href="{{ recipe.url }}">
+							<h5 class="font-medium">{{ recipe.title }}</h5>
+                        </a>
+						<div class="text-dark">{{ recipe.description|safe }}</div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
+						<a class="listing-links" data-id="{{ recipe.id }}" data-type="embed" data-action="like" title="Like">
+							<i class="fas fa-carrot" style="color: white;"></i><span style="color: white;">Super!</span> 
+							<span data-count="like" style="color: white;">{{ recipe.votes.likes.count }}</span></a></li>
+                    </div>
+                </div>
+				<!-- Post /////-->
+			</div>
+			<div class="col-lg-4">
+			<div class="card shadow mt-5">
+			<div class="card-body">
+				<div class="d-flex align-items-center">
+					<div class="mr-2">
+						<img class="rounded-circle" width="30" height="30" src="{% thumbnail recipe.added_by.profile.avatar "100x100" crop="smart" %}" alt="">
+					</div>
+					<div class="ml-2">
+						<div class="m-0 text-blue"><a href="{{ recipe.added_by.get_absolute_url }}">{{ recipe.added_by.username }}</a></div>
+						<div class="small text-muted">Dodane: {{ recipe.created_at|timesince }}</div>
+					</div>
+				</div>
+				<dl class="mt-2">
+					<dt>Obserwujących:</dt>
+					<dd>0</dd>
+					<dt>Przepisów:</dt>
+					<dd>{{ num_embed }}</dd>
+				</dl>
+				
+				<div class="margin-top-10">
+				{% if recipe.added_by.followers.all|user_in:request.user %}
+				<a href="{% url 'unfollow' recipe.added_by.id %}" class="btn btn-sm btn-success" id="follow">Przestań obserwować</a>
+				{% else %}
+				<a href="{% url 'follow' recipe.added_by.id %}" class="btn btn-sm btn-success" id="follow">Obserwuj</a>
+				{% endif %}
+				</div>
+			</div>
+			</div>
+
+			</div>
+		
+			<div class="col-sm-12 col-md-8 col-lg-8">
+				<div class="card shadow rounded">
+				<div class="accordion bg-white" id="accordionExample">
+					<div class="card">
+					  <div class="card-header bg-white" id="headingOne">
+						<h2 class="mb-0">
+						  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+							<i class="far fa-plus-square"></i> Dodaj komentarz
+						  </button>
+						</h2>
+					  </div>
+				  
+					  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+						<div class="card-body">
+							{% if request.user.is_authenticated %}
+							<form method="post">
+								{% csrf_token %}
+								{{ form.media }}
+								{{ form|crispy }}
+								<button type="submit" class="btn btn-success-gradiant">Dodaj komentarz</button>
+							</form>
+							{% else %}
+							<p> Musisz się <a href="{% url 'account_login' %}">Zalogować</a> lub <a href="{% url 'account_signup' %}">Zarejestrować</a> aby dodać komentarz. </p>
+							{% endif %}
+						</div>
+					  </div>
+					</div>
+					<div class="card">
+					  <div class="card-header bg-white" id="headingTwo">
+						<h2 class="mb-0">
+						  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							<i class="far fa-comments"></i> Komentarze {% with comments.count as total_comments %} {{ total_comments }} {% endwith %}
+						  </button>
+						</h2>
+					  </div>
+					  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+						<div class="card-body">
+							{% for comment in comments %}
+							<div class="media border-0">
+								<img class="mr-3 img-circle" width="60" height="60" src="{% thumbnail comment.author.profile.avatar "100x100" crop="smart" %}" alt="{{ comment.author.username }}">
+								<div class="media-body">
+								  <a href="{{ comment.author.get_absolute_url }}" class="font-medium">{{ comment.author.username }}</a>
+								  <span class="text-dark">{{ comment.body }}</span>
+								</div>
+								
+							</div>
+							{% endfor %}
+						</div>
+					  </div>
+					</div>
+				  </div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</div>
+
+
+<!-- Fullwidth Section -->
+<section class="fullwidth margin-top-65 padding-top-75 padding-bottom-70" data-background-color="#f8f8f8">
+
+		<div class="container">
+			<div class="row">
+	
+				<div class="col-md-12">
+					<h3 class="headline centered mt-5 mb-5">
+						<strong class="headline-with-separator">Podobne przepisy</strong>
+					</h3>
+				</div>
+	
+			</div>
+		</div>
+			<div class="container">
+				<div class="row">
+					{% for recipe in similar_posts %}
+					<!-- Listing Item -->
+					<div class="col-sm-12 col-md-3 col-lg-3">
+						<div class="card shadow">
+							<a href="{{ recipe.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail recipe.image "600x300" %}" alt="{{ recipe.title }}"></a>
+							<div class="card-body">
+							  <h5 class="card-title"><a href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a></h5>
+							  <p class="card-text small">{{ recipe.description|striptags|truncatewords:10 }}</p>
+			
+							<span><i class="fa fa-heart"></i> {{ recipe.votes.likes.count }} </span> 
+							<span class="ml-2"><i class="fa fa-bookmark"></i> 5 </span>
+						
+							</div>
+						</div>
+
+					</div>
+					<!-- Listing Item / End -->
+					{% endfor %}
+				</div>
+			</div>
+
+	
+	</section>
+	<!-- Fullwidth Section / End -->
+{% endblock %}

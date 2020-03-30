@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ embed.title }} {% endblock %}
+{% block meta %}
+<meta name="title" content="{{ embed.title }}">
+<meta name="description" content="{{ embed.description|striptags }}">
+
+<meta name="author" content="{{ embed.author }}">
+<meta property="og:type"   content="article" /> 
+<meta property="og:title"  content="{{ embed.title }}" /> 
+<meta property="og:image"  content="{{ embed.thumbnail_url }}" /> 
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="800" />
+<meta property="og:description" content="{{ embed.body|truncatewords:30|striptags }}" />
+<meta property="og:url" content="https://zyjswiadomie.life{{embed.get_absolute_url}}" />
+{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load initialavatar %}
+{% load thumbnail %}
+
+
+    <!-- Divider Section-->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mb-5 mb-lg-0 text-left ">
+            <a href="{{ embed.board.get_absolute_url }}"><span class="badge badge-primary text-lg font-weight-light">{{ embed.board.title }}</span></a>
+            <h3 class="font-weight-light">{{ embed.title }}</h3>
+      
+                    <div class="timeline-header">
+                        <span class="userimage">
+                            {% if embed.author.profile.image %}
+                            <a href="{{ embed.author.get_absolute_url }}"><img src="{{ embed.author.profile.image.url }}" width="30" height="30" alt=""></a>
+                            {% else %}
+                            {% load initialavatar %}
+                            <a href="{{ embed.author.get_absolute_url }}">{% get_initial_avatar embed.author 30 'circle' %}</a>
+                            {% endif %}</span>
+                         <span class="username"><a href="{{ embed.author.get_absolute_url }}">{{ embed.author.username }}</a> | Dodano: {{ embed.created_at|timesince }} temu</span>
+                    </div>
+
+          </div>
+        </div>
+      </div>
+
+    <div class="bg-light">   
+    <section class="pt-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-8 col-sm-12">
+            <!-- About Listing-->
+
+                <div class="row">
+                  {% if embed.type == 'video' %}
+                  <div class="col-md-12 col-sm-12 text-justify text-dark mb-2 mt-2">
+                      {{ embed.html|safe }}
+                     <p class="mt-3">{{ embed.description|safe }}</p>
+                     
+                  </div>
+                  
+                    {% else %}
+                    {% if embed.thumbnail_url %}
+                    <div class="col-md-4 col-sm-12">
+                      <a href="{{ embed.url }}"><img src="{{ embed.thumbnail_url }}" class="img-responsive"></a>
+                    </div>
+                    <div class="col-md-7 col-sm-12 text-justify text-dark mb-2 mt-2">
+                        {{ embed.description|safe }}
+                        <p>{% if embed.url %}<a href="{{ embed.url }}"><i class="fas fa-link"></i> {{ embed.url|truncatechars:40 }}</a>{% endif %}</p>
+                    </div>
+                    {% endif %}
+
+                  {% endif %}
+
+                </div>
+          
+            <div class="text-sm mt-3 mb-4">
+              <button data-id="{{ embed.id }}" data-type="embed" data-action="like" title="Like" type="button" class="btn btn-sm btn-danger mt-3"><i class="fas fa-heart"></i> Zainspirowało mnie! <span data-count="like">{{ embed.votes.likes.count }}</span></button>
+            </div>
+            
+            <div class="ml-form-embed"
+              data-account="1447362:t6b2w8e5d6"
+              data-form="1271144:f7c3x4">
+            </div>
+
+            <h4>Kategorie</h4>
+            <div class="row">
+              
+              {% for cat in random %}
+ 
+              <!-- place item-->
+              <div class="col-6 mb-2">
+                  
+                  <div class="card h-100 border-0 shadow" style="background-size:cover;background-image:linear-gradient(#E9F3EB, rgba(233,243,235,.7)),{% thumbnail cat.cover "500" as im %} url({{im.url}}){% endthumbnail %};">  
+                   
+                    <div class="card-body d-flex align-items-center">
+                      <div class="w-100">
+                        <h5 class="card-title text-dark"><a href="{{ cat.get_absolute_url }}" class="text-dark">{{ cat.title }}</a></h5>
+                        <div class="d-flex card-subtitle mb-3">
+                          <p class="flex-grow-1 mb-0 text-dark">{{ cat.body }}</p>
+      
+                          </p>
+                        </div>
+                        <p class="card-text text-muted text-center text-white">
+                        {% if cat in request.user.subscribed_boards.all %}
+                          <a href="{% url 'subscribe' cat.slug %}" class="btn btn-secondary btn-sm letter-spacing-1" id="subscribe_board">Przestań obserwować</a>
+                        {% else %}
+                          <a href="{% url 'subscribe' cat.slug %}" class="btn btn-success btn-sm letter-spacing-1" id="subscribe_board">Obserwuj</a>
+                        {% endif %}
+                        </p>
+                        <p class="card-text text-white"><center><small class="text-dark">Obserwujących: {{ cat.subscribers.count }} </small></center></p>
+                      </div>
+                      
+                    </div>
+                  </div>
+              </div>
+                {% endfor %}
+          </div>
+                        <!-- comment form-->
+                        {% if request.user.is_authenticated %}
+                        <div class="mb-5">
+                            <button type="button" data-toggle="collapse" data-target="#leaveComment" aria-expanded="false" aria-controls="leaveComment" class="mt-3 btn btn-outline-primary">Dodaj komentarz</button>
+                            <div id="leaveComment" class="collapse mt-4">
+                              <h5 class="mb-4">Dodaj komentarz</h5>
+                              <form method="post">
+                                  {% csrf_token %}
+                                  {{ form|crispy }}
+                                  <button type="submit" class="btn btn-primary text-lowercase letter-spacing-1">Dodaj komentarz</button>
+                              </form>
+                              
+                            </div>
+                          </div>
+                          {% else %}
+                          <p class="mt-5 text-dark">Musisz się <a href="{% url 'account_login' %}">zalogować</a> lub <a href="{% url 'account_signup' %}">zarejestrować</a> aby dodawać komentarze.</p>
+                          {% endif %}
+                          <!-- /comment form-->
+                        <!-- comments-->
+                        
+                        <div class="mt-5">
+                          {% with comments.count as total_comments %} 
+                            <h6 class="text-uppercase text-muted mb-4">Komentarzy: {{ total_comments }} </h6>
+                          {% endwith %}
+                            <!-- comment-->
+                          {% for comment in comments %}
+                          
+                            <div class="media mb-4">
+                              {% if comment.author.profile.photo %}
+                              <img src="{{ comment.author.profile.photo.cdn_url }}" alt="{{ comment.author.username }}" width="40" height="40" class="img-circle mr-4">
+                              {% else %}
+                              <a href="{{ comment.author.get_absolute_url }}" class="mr-4">{% get_initial_avatar comment.author 30 'circle' %}</a>
+                              {% endif %}
+                              <div class="media-body">
+                                <h6 class="font-weight-light"><a href="{{ comment.author.get_absolute_url }}">{{ comment.author.username }}</a></h6>
+                                <p class="text-sm text-muted"><i class="far fa-clock"></i><small> {{ comment.created_at|timesince }} czas temu </small></p>
+                                <p class="text-sm text-dark mt-2">{{ comment.body }}</p>
+                              
+                              </div>
+                            </div>
+                          {% endfor %}
+                            <!-- /comment-->
+                          </div>
+
+          </div>
+          <div class="col-lg-4">
+            <div class="pl-xl-4">
+              <!-- Opening Hours      -->
+              <div class="card border-0 shadow mb-5">
+                <div class="card-body">
+                    <a href="{% url 'addembed' %}" class="btn btn-primary btn-block">Dodaj post</a>
+                    <a href="{% url 'boardadd' %}" class="btn btn-outline-primary btn-block">Stwórz kategorię</a>
+                </div>
+              </div>
+              <!-- Contact-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    {% block js %}
+    <script src="//urlembed.com/static/js/script.js"></script>
+    {% endblock %}
+{% endblock %}

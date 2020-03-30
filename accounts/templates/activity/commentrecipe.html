@@ -1,0 +1,23 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="boxed-widget-added" style="margin-bottom: 0px; border-bottom: 1px solid#ededed;">
+        <div class="hosted-by-title-added">
+            <h4 style="font-size: 15px;"><a href="">{{ activity.actor }}</a></h4>
+            {% thumbnail activity.actor.profile.avatar "100x100" crop="smart" as im %}
+            <a href="" class="hosted-by-avatar-added"><img src="{{ im.url }}" style="width: 35px; height: 35px;" alt=""></a>
+            {% endthumbnail %}
+            <span class="button-align" style="font-size: 12px; padding: 3px 7px 13px 5px;">Dodano: {{ activity.object.created_at|timesince }}</span>
+        </div>
+    </div>
+                <!-- Blog Post -->
+<div class="blog-post single-post" style="margin-top: 0px;">    
+<!-- Content -->
+<div class="post-content">
+<p>Dodał/a komentarz w przepisie: <a href="{{ activity.object.recipe.get_absolute_url }}">{{ activity.object.recipe.title }}</a></p>
+    <p>{{ activity.object.body|safe|truncatewords:30 }}</p>
+    <div class="clearfix"></div>
+
+</div>
+</div>
+<!-- Blog Post / End -->

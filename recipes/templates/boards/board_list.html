@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Społeczność Żyj świadomie{% endblock %}
+
+{% block content %}
+
+{% load bootstrap_pagination %}
+{% load thumbnail %}
+<div class="container pt-4">
+	<div class="row">
+		<div class="col-lg-6">
+      {% for fea in feature %}
+			<div class="card border-0 mb-4 box-shadow h-xl-300">
+			{% thumbnail fea.image "400" as im %}              
+        	<div style="background-image: url({{ im.url }}); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div> 
+			{% endthumbnail %}	
+			<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+					<h2 class="h4 font-weight-bold">
+					<a class="text-dark" href="{{ fea.get_absolute_url }}">{{ fea.title }}</a>
+					</h2>
+					<p class="card-text">
+						{{ fea.body|truncatewords:35|striptags }}
+					</p>
+					<div>
+						<small class="d-block"><a class="text-muted" href="{{ subject.author.get_absolute_url }}">{{ subject.author.username }}</a></small>
+						<small class="text-muted">{{ fea.created_at }}</small>
+					</div>
+				</div>
+      </div>
+      {% endfor %}
+		</div>
+
+		<div class="col-lg-6 mb-3">
+			<div class="ml-form-embed"
+				data-account="1447362:t6b2w8e5d6"
+				data-form="1271144:f7c3x4">
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="container">
+	<h5 class="font-weight-bold spanborder"><span>Najnowsze artykuły</span></h5>
+	<div class="row">
+			{% for subject in subjects %}
+			<div class="col-lg-6">
+					<div class="flex-md-row box-shadow ">
+				
+						<div class="mb-3 d-flex align-items-center">
+							{% thumbnail subject.image "200" as im %}
+				  			<a href="{{ subject.get_absolute_url }}"><img height="80" src="{{ im.url }}"></a>
+							{% endthumbnail %}
+							<div class="pl-3">
+								<h2 class="mb-2 h6 font-weight-bold">
+								<a class="text-dark" href="{{ subject.get_absolute_url }}">{{ subject.title }}</a>
+								</h2>
+								<div class="card-text text-muted small">
+									 {{ subject.body|truncatewords:20|striptags }}
+								</div>
+								<small class="text-muted">{{ subject.created_at|timesince }} temu</small>
+							</div>
+						</div>
+					</div>
+			</div>
+			{% endfor %}
+			</div>
+			<a href="{% url 'subject_list' %}" class="btn btn-outline-primary mb-3 mt-3">Więcej artykułów</a>
+</div>
+{% if not request.user.is_authenticated %}
+<!--------------------------------------
+HEADER
+--------------------------------------->
+<div class="container">
+	<div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+		<div class="pl-4 pr-0 h-100 tofront">
+			<div class="row justify-content-between">
+				<div class="col-md-6 pt-6 pb-6 align-self-center">
+					<h1 class="secondfont mb-3 font-weight-bold">Witaj w społeczności Żyj świadomie!</h1>
+					<p class="mb-3">
+						W społeczności Żyj świadomie możesz w prosty sposób dzielić się tym co Cię inspiruje, pisać własne posty lub zadawać pytania.
+        				Możesz również obserwować wybrane kategorie i w ten sposób otrzymywać tylko to co Cię naprawde interesuje.
+					</p>
+          <a href="{% url 'account_login' %}" class="btn btn-sm btn-danger-gradiant mt-1">Zaloguj</a>
+          <a href="{% url 'account_signup' %}" class="btn btn-sm btn-danger-gradiant mt-1">Zarejestruj</a>
+				</div>
+				<div class="col-md-6 d-none d-md-block pr-0" style="background-size:cover;background-image:url({% static 'assets/img/rejestracja.jpg' %});">	</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+<div class="container">
+	<h5 class="font-weight-bold spanborder mt-5"><span>Najnowsze linki</span></h5>
+	<div class="row">
+			<div class="col-lg-8">
+				{% for embed in embeds %}	
+				<div class="mb-3 d-flex justify-content-between">
+							<div class="pr-3">
+								<h5 class="mb-1">
+								<a class="text-dark" href="{{ embed.get_absolute_url }}">{{ embed.title }}</a>
+								</h5>
+								<p>
+									{{ embed.description|truncatewords:10|striptags }}
+								</p>
+								<div class="card-text text-muted small">
+									 {{ embed.author.username }} w <a href="{{ embed.board.get_absolute_url }}">{{ embed.board.title }}</a>
+								</div>
+								<small class="text-muted">{{ embed.created_at|timesince }}</small>
+							</div>
+							<img height="100" src="{{ embed.thumbnail_url }}">
+						</div>
+				{% endfor %}
+				<a href="{% url 'embedlist' %}" class="btn btn-outline-primary">Więcej linków</a>
+			</div>
+				<!--
+				<div class="col-md-4 pl-4">
+						<div class="sticky-top">
+							<h5 class="font-weight-bold spanborder"><span>Popular in Science</span></h5>
+							<ol class="list-featured">
+								<li>
+								<span>
+								<h6 class="font-weight-bold">
+								<a href="./article.html" class="text-dark">Did Supernovae Kill Off Large Ocean Animals?</a>
+								</h6>
+								<p class="text-muted">
+									 Jake Bittle in SCIENCE
+								</p>
+								</span>
+								</li>
+								<li>
+								<span>
+								<h6 class="font-weight-bold">
+								<a href="./article.html" class="text-dark">Humans Reversing Climate Clock: 50 Million Years</a>
+								</h6>
+								<p class="text-muted">
+									 Jake Bittle in SCIENCE
+								</p>
+								</span>
+								</li>
+								<li>
+								<span>
+								<h6 class="font-weight-bold">
+								<a href="./article.html" class="text-dark">Unprecedented Views of the Birth of Planets</a>
+								</h6>
+								<p class="text-muted">
+									 Jake Bittle in SCIENCE
+								</p>
+								</span>
+								</li>
+								<li>
+								<span>
+								<h6 class="font-weight-bold">
+								<a href="./article.html" class="text-dark">Effective New Target for Mood-Boosting Brain Stimulation Found</a>
+								</h6>
+								<p class="text-muted">
+									 Jake Bittle in SCIENCE
+								</p>
+								</span>
+								</li>
+							</ol>
+						</div>
+					</div>
+					-->
+</div>
+</div>
+{% endblock %}

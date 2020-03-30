@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Edycja profilu{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load account %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <h2 class="mt-5">Edycja profilu</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ profile_form.media }}
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
+                <button type="submit" class="btn btn-primary text-lowercase letter-spacing-1">Zapisz</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

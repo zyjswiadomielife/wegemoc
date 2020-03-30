@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kategorie{% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+
+
+<section class="py-6 bg-light">
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <h2>Kategorie</h2>
+      </div>
+    </div>
+    <div class="row">
+        <!-- Slides-->
+        {% for board in boards %}
+ 
+          <!-- place item-->
+        <div class="col-lg-3 col-md-3 col-sm-12 mb-5">
+            <div class="card h-100 border-0 shadow" style="background-size:cover;background-image:linear-gradient(#E9F3EB, rgba(233,243,235,.7)),{% if board.cover %} url({{board.cover.url}}){% endif %};">  
+                <div class="card-body d-flex align-items-center">
+                  <div class="w-100">
+                    <h5 class="card-title text-dark"><a href="{{ board.get_absolute_url }}" class="text-dark">{{ board.title }}</a></h5>
+                    <div class="d-flex card-subtitle mb-3">
+                      <p class="flex-grow-1 mb-0 text-dark">{{ board.body }}</p>
+  
+                      </p>
+                    </div>
+                    <p class="card-text text-muted text-center text-white">
+                    {% if cat in request.user.subscribed_boards.all %}
+                      <a href="{% url 'subscribe' board.slug %}" class="btn btn-secondary btn-sm letter-spacing-1" id="subscribe_board">Przestań obserwować</a>
+                    {% else %}
+                      <a href="{% url 'subscribe' board.slug %}" class="btn btn-success btn-sm letter-spacing-1" id="subscribe_board">Obserwuj</a>
+                    {% endif %}
+                    </p>
+                    <p class="card-text text-white"><center><small class="text-dark">Obserwujących: {{ board.subscribers.count }} </small></center></p>
+                  </div>
+                  
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+      </div>
+        <script type="text/javascript">
+          // Subscribe boards
+          $(document).ready(function(){
+            $("a#subscribe_board").on("click", function () {
+              {% if not request.user.is_authenticated %}
+              window.location.href = "{% url 'account_login' %}";
+              {% else %}
+              var $msg = $(this);
+              var $subscribe_url = $(this).attr("href");
+              var $board_subscribers = $('span#board_subscribers')
+              $.ajax({
+                url: $subscribe_url,
+                type: 'GET',
+                success: function (data) {
+                  if ($msg.text() == 'Obserwuj') {
+                    $msg.removeClass('btn-primary');
+                    $msg.addClass('btn-secondary');
+                    $msg.text('Przestań obserwować');
+                    $board_subscribers.text(data + ' readers');
+                  }
+                  else if ($msg.text() == 'Przestań obserwować') {
+                    $msg.removeClass('btn-secondary');
+                    $msg.addClass('btn-primary');
+                    $msg.text('Obserwuj');
+                    $board_subscribers.text(data + ' readers');
+                  }
+                  else {
+                    console.log('Unexpected error!');
+                  }
+                }
+              });
+              {% endif %}
+              return false;
+            });
+          });
+          </script>
+
+
+</section>
+{% endblock %}

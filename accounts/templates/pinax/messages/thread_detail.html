@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block body_class %}{{ block.super }} pinax-messages-thread{% endblock %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    .margin-head{
+        margin-top: 100px;
+    }
+img{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+</style>
+<div class="margin-head">
+<div class="container">
+<div class="pinax-messages-thread-detail-container">
+    <h2 class="with-actions">
+        {{ thread.subject }}
+        <a class="button" href="{% url "pinax_messages:thread_delete" thread.pk %}">Usuń wiadomości</a>
+    </h2>
+
+    <section class="thread-messages">
+        {% for message in thread.messages.all %}
+            <div class="thread-message">
+                <div class="message-byline">
+                    {% if message.sender.profile.photo %}
+                    <img src="{{ message.sender.profile.photo.url }}">
+                    {% else %}
+                    {% load initialavatar %}
+                    {% get_initial_avatar message.sender 30 %}
+                    {% endif %}
+                    <div class="message-from">{{ message.sender.username }}</div>
+                    <div class="message-sent">{{ message.sent_at }}</div>
+                </div>
+                <div class="message-content">{{ message.content|urlize|linebreaks }}</div>
+            </div>
+        {% endfor %}
+    </section>
+
+    <form class="comment-form" action="{% url "pinax_messages:thread_detail" thread.pk %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="form-actions">
+            <a href="{% url "pinax_messages:inbox" %}" class="cancel btn btn-sm btn-primary">Anuluj</a>
+            <button class="button">Wyślij</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Sprawdzamy{% endblock %}
+
+{% block content %}
+
+<div style="margin-top: 100px;">
+<div class="container">
+    <h5 class="mb-4">Link został dodany! I będzie wyglądał tak. :)</h5>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="card">
+                <img class="card-img-top" src="{{ embed.thumbnail_url }}" alt="Card image cap">
+                <div class="card-body">
+                    <div class="card-title">
+                      <h2> {{ embed.title }} </h2>
+                    </div>
+                <div class="card-text">
+                    {{ embed.description }}
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
