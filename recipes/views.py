@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import RecipeCategory, Embed
-from django.http import HttpResponse
-from django.views.generic import ListView
+from django.http import HttpResponse, JsonResponse
+from django.views.generic import ListView, TemplateView
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -15,27 +15,30 @@ from django.db.models import Count
 from dal import autocomplete
 
 
+
 import requests
 import json
 
 from .forms import SubmitEmbed, EmbedEdit, AddCategory
 from .serializer import EmbedSerializer
 
+class EmbedAddView(TemplateView):
+    template_name = "embed/addembed.html"
+
 @login_required
 def save_embed(request):
+
     if request.method == "POST":
         form = SubmitEmbed(request.POST)
         if form.is_valid():
             url = form.cleaned_data['url']
             r = requests.get('http://iframe.ly/api/oembed?url='+ url + '&api_key=' + IFRAMELYKEY)
-            json = r.json()
-            serializer = EmbedSerializer(data=json, context={'request': request})
+            data = r.json()
+            serializer = EmbedSerializer(data=data, context={'request': request})
             if serializer.is_valid():
                 embed = serializer.save()
-                redir_url = reverse(
-                "embededit",
-                kwargs={"pk": embed.id})
-                return redirect(redir_url)
+                return JsonResponse(serializer.data, status=201, content_type="application/json", safe=False)
+            return JsonResponse(serializer.errors, status=400)
     else:
         form = SubmitEmbed()
 

@@ -25,7 +25,7 @@ SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['wegemoc.local', 'wegemoc.eu']
+ALLOWED_HOSTS = ['wegemoc.local', 'wegemoc.eu', 'wege.local']
 
 # Application definition
 
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'pinax.messages',
     'dal',
     'dal_select2',
+    'corsheaders',
     'tagulous',
     'tinymce',
     'autoslug',
@@ -87,9 +88,12 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: "/account/%s" % u.username,
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

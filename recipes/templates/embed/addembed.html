@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dodaj link{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="mt-5 mb-5">
+<div class="container">
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">    
+            
+            <h2 class="mb-4">Dodaj link do przepisu</h2>
+            <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
+                <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
+            <div id="app">
+            <form method="post" class="margin-bottom-25" @submit="formSubmit">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                      <label for="formGroupExampleInput">Adres przepisu*</label>
+                      <input type="url" class="form-control" id="formGroupExampleInput" placeholder="Url" v-model="embed.url">
+                    </div>
+                    <div class="form-group">
+                      <label for="formGroupExampleInput2">Tytuł</label>
+                      <input class="form-control" id="formGroupExampleInput2" placeholder="Title" v-model="embed.title">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Description</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Description" v-model="embed.description">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Thumbnail_url</label>
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Tthumbnail_url" v-model="embed.thumbnail_url">
+                    </div>
+
+                <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>
+            </form>
+            !! embed.title !!
+            !! embed.url !!
+          </div>
+            </div>
+        </div>
+</div>
+</div>
+{% block javascript %}
+
+{% endblock %}
+
+{% endblock %}

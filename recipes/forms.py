@@ -5,7 +5,7 @@ from .models import RecipeCategory, Embed
 from dal import autocomplete
 
 class SubmitEmbed(forms.Form):
-    url = forms.URLField(label='Adres przepisu')
+    url = forms.URLField(label='Adres przepisu', widget=forms.URLInput(attrs={'v-model': 'url'}))
 
 class EmbedEdit(ModelForm):
 
