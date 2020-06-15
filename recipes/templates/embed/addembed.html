@@ -21,7 +21,7 @@
 
                     <div class="form-group">
                       <label for="formGroupExampleInput">Adres przepisu*</label>
-                      <input type="url" class="form-control" placeholder="Url" v-model="embed.url">
+                      <input type="url" class="form-control" placeholder="Url" @paste="paste" @input="input" v-model="embed.url">
                     </div>
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Tytuł</label>

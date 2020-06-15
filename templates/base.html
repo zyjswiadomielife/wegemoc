@@ -188,7 +188,8 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
     },
     input() {
     if (this.isPaste) {
-      axios.get('iframe.ly/api/oembed?url=https%3A%2F%2Fvimeo.com%2F141567420&api_key=493c9ebbdfcbdac2a10d6b')
+      axios.get('http://iframe.ly/api/oembed?url=https%3A%2F%2Fvimeo.com%2F141567420&api_key=493c9ebbdfcbdac2a10d6b')
+      .then(response => (this.embedsinfo = response))
       isPaste = false;
     }
   }
