@@ -148,33 +148,53 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
 	new Vue({
 	  el: '#app',
 	  delimiters: ['!!', '!!'],
 	  data () {
 		return {
-		  url: []
+		  embed: {
+              url: '',
+              title: '',
+              description: '',
+              type: '',
+              thumbnail_url: '',
+              html: '',
+          },
+          isPaste: false,
+          embedsinfo: [],
 		}
 	  },
     methods: {
 
-  formSubmit(e) {
+    formSubmit(e) {
 
-    e.preventDefault();
-    let currentObj = this;
-    axios.post('http://wege.local:8000/recipes/recipe/embed/add/', {
-        url: this.url,
-    })
-    .then(function (response) {
-        currentObj.output = response.data;
-    })
-    .catch(function (error) {
-        currentObj.output = error;
+        e.preventDefault();
+        let currentObj = this;
+        axios.post('http://wegemoc.local:8000/recipes/recipe/embed/add/', {
+            url: this.url,
+        })
+        .then(function (response) {
+            currentObj.output = response.data;
+        })
+        .catch(function (error) {
+            currentObj.output = error;
     });
+    },
+    paste() {
+    this.isPaste = true;
+    },
+    input() {
+    if (this.isPaste) {
+      axios.get('iframe.ly/api/oembed?url=https%3A%2F%2Fvimeo.com%2F141567420&api_key=493c9ebbdfcbdac2a10d6b')
+      isPaste = false;
+    }
+  }
 
-}
+}, 
 
-}
 	});
 </script>  
     {% block javascript %}

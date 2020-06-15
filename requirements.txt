@@ -1,4 +1,4 @@
-Django
+Django==2.2
 pinax-likes
 django-crispy-forms
 psycopg2
@@ -15,3 +15,4 @@ stream_django
 django-tagulous
 django-autocomplete-light
 pinax-messages
+django-cors-headers

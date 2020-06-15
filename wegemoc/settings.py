@@ -90,6 +90,7 @@ ABSOLUTE_URL_OVERRIDES = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -125,6 +126,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
 
 WSGI_APPLICATION = 'wegemoc.wsgi.application'
 

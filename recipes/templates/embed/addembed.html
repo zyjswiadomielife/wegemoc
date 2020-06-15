@@ -15,20 +15,21 @@
             <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
                 <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
             <div id="app">
+              !! embedsinfo.title !!
             <form method="post" class="margin-bottom-25" @submit="formSubmit">
                     {% csrf_token %}
 
                     <div class="form-group">
                       <label for="formGroupExampleInput">Adres przepisu*</label>
-                      <input type="url" class="form-control" id="formGroupExampleInput" placeholder="Url" v-model="embed.url">
+                      <input type="url" class="form-control" placeholder="Url" v-model="embed.url">
                     </div>
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Tytuł</label>
-                      <input class="form-control" id="formGroupExampleInput2" placeholder="Title" v-model="embed.title">
+                      <input class="form-control" placeholder="Title" v-model="embed.title">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Description</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Description" v-model="embed.description">
+                        <input type="textarea" class="form-control" id="formGroupExampleInput2" placeholder="Description" v-model="embed.description">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Thumbnail_url</label>
@@ -37,8 +38,7 @@
 
                 <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>
             </form>
-            !! embed.title !!
-            !! embed.url !!
+
           </div>
             </div>
         </div>
