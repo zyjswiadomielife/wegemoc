@@ -15,7 +15,7 @@
             <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
                 <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
             <div id="app">
-              !! embedsinfo.title !!
+              <span v-html="embedsinfo.html">!! embedsinfo.html !!</span>
             <form method="post" class="margin-bottom-25" @submit="formSubmit">
                     {% csrf_token %}
 
@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Tytuł</label>
-                      <input class="form-control" placeholder="Title" v-model="embed.title">
+                      <input class="form-control" placeholder="Title" :value="embedsinfo.title">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Description</label>
