@@ -15,25 +15,22 @@
             <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
                 <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
             <div id="app">
-              <span v-html="embedsinfo.html">!! embedsinfo.html !!</span>
-            <form method="post" class="margin-bottom-25" @submit="formSubmit">
-                    {% csrf_token %}
 
+            <form method="post" class="margin-bottom-25" @submit.prevent="submitForm($event)">
+                    {% csrf_token %}
+                    <span v-html="embedsinfo.html"> !! embedsinfo.html !! </span>
                     <div class="form-group">
                       <label for="formGroupExampleInput">Adres przepisu*</label>
                       <input type="url" class="form-control" placeholder="Url" @paste="paste" @input="input" v-model="embed.url">
                     </div>
                     <div class="form-group">
-                      <label for="formGroupExampleInput2">Tytuł</label>
-                      <input class="form-control" placeholder="Title" :value="embedsinfo.title">
+                      <input type="hidden" class="form-control" placeholder="Title" :value="embedsinfo.title">
                     </div>
                     <div class="form-group">
-                        <label for="formGroupExampleInput2">Description</label>
-                        <input type="textarea" class="form-control" id="formGroupExampleInput2" placeholder="Description" v-model="embed.description">
+                        <input type="hidden" class="form-control" id="formGroupExampleInput2" placeholder="Description" :value="embedsinfo.description">
                     </div>
                     <div class="form-group">
-                        <label for="formGroupExampleInput2">Thumbnail_url</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Tthumbnail_url" v-model="embed.thumbnail_url">
+                        <input type="hidden" class="form-control" id="formGroupExampleInput2" placeholder="Tthumbnail_url" :value="embedsinfo.thumbnail_url">
                     </div>
 
                 <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>

@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from comments.forms import CommentFormRecipe
 from comments.models import CommentRecipe
+from .forms import AddEmbed
 from django.views.generic.edit import UpdateView, CreateView
 from django.urls import reverse
 from wegemoc.settings import IFRAMELYKEY
@@ -29,18 +30,14 @@ class EmbedAddView(TemplateView):
 def save_embed(request):
 
     if request.method == "POST":
-        form = SubmitEmbed(request.POST)
+        form = AddEmbed(request.POST)
         if form.is_valid():
-            url = form.cleaned_data['url']
-            r = requests.get('http://iframe.ly/api/oembed?url='+ url + '&api_key=' + IFRAMELYKEY)
-            data = r.json()
-            serializer = EmbedSerializer(data=data, context={'request': request})
-            if serializer.is_valid():
-                embed = serializer.save()
-                return JsonResponse(serializer.data, status=201, content_type="application/json", safe=False)
-            return JsonResponse(serializer.errors, status=400)
+            new_embed = form.save(commit=False)
+            new_embed.added_by = request.user
+            new_embed.save()
+            form.save_m2m()
     else:
-        form = SubmitEmbed()
+        form = AddEmbed()
 
     return render(request, 'embed/embedadd.html', {'form': form})
 

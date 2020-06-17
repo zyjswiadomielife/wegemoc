@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Embed
+from .models import Embed, RecipeCategory
 import os, uuid, requests
 from django.conf import settings
 
@@ -22,3 +22,9 @@ class EmbedSerializer(serializers.ModelSerializer):
             f.write(response.content)
         attrs['image'] = relative_path
         return attrs
+
+class RecipeCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RecipeCategory
+        fields = '__all__'

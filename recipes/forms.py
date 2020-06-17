@@ -4,6 +4,18 @@ from mptt.forms import TreeNodeChoiceField, TreeNodeMultipleChoiceField
 from .models import RecipeCategory, Embed
 from dal import autocomplete
 
+class AddEmbed(ModelForm):
+
+    url = forms.URLField(label='Adres przepisu', widget=forms.URLInput(attrs={'v-model': 'embed.url', '@paste':'paste', '@input':'input'}))
+    title = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.title'}))
+    description = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.description'}))
+    thumbnail_url = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.thumbnail_url'}))
+    html = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.html'}))
+
+    class Meta:
+        model = Embed
+        fields = ['url','title', 'description', 'thumbnail_url', 'html', 'category']
+
 class SubmitEmbed(forms.Form):
     url = forms.URLField(label='Adres przepisu', widget=forms.URLInput(attrs={'v-model': 'url'}))
 

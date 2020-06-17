@@ -47,7 +47,7 @@ class RecipeCategory(MPTTModel):
 class Embed(models.Model, Activity):
     url = models.URLField(max_length=255, verbose_name='Adres przepisu')
     title = models.CharField(max_length=255, verbose_name='Tytuł')
-    description = HTMLField(verbose_name='Opis', blank=True, null=True)
+    description = models.TextField(verbose_name='Opis', blank=True, null=True)
     type = models.CharField(blank=True, max_length=200)
     thumbnail_url = models.URLField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='recipes', blank=True)

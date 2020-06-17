@@ -15,8 +15,8 @@
             <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
                 <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
             <div id="app">
-              !! url !!
-            <form method="post" class="margin-bottom-25" @submit="formSubmit">
+              <div v-html="embedsinfo.html">!! embedsinfo.html !!</div>
+            <form method="post" class="margin-bottom-25">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>

@@ -6,6 +6,7 @@ from . import viewsets
 
 router = routers.DefaultRouter()
 router.register(r'embeds', viewsets.EmbedViewSet)
+router.register(r'recipecategories', viewsets.RecipeCategoryViewSet)
 
 urlpatterns = [
     path('', views.RecipeList.as_view(), name='recipelist'),
