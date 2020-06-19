@@ -5,6 +5,26 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
+{% block javascript %}
+    <script src="{% static "assets/node_modules/jquery/dist/jquery.min.js" %}"></script>
+{% endblock %}
+<style>
+.tags-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.tag {
+  background-color: #30ce6c;
+  color: #fff;
+  border-radius: 2px;
+  display: flex;
+  padding: 3px 5px;
+  margin: 2px;
+  font-size: 0.85em;
+  cursor: pointer;
+}
+</style>
 <div class="mt-5 mb-5">
 <div class="container">
 
@@ -14,14 +34,40 @@
             <h2 class="mb-4">Dodaj link do przepisu</h2>
             <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
                 <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
-            <div id="app">
-              <div v-html="embedsinfo.html">!! embedsinfo.html !!</div>
+
+         
             <form method="post" class="margin-bottom-25">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ form.media }}
+          <div id="app">
+            <div v-if="loading===true" class="spinner-grow" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div v-else class="card">
+              <img class="card-img-top" v-bind:src="embedsinfo.thumbnail_url" alt="Card image cap">
+              <div class="card-body">
+                <div class="card-title">!! embedsinfo.title !!</div>
+                <div class="card-text">!! embedsinfo.description !!</div>
+              </div>
+            </div>
+                {{ form.url|as_crispy_field }}
+                {{ form.title|as_crispy_field }}
+                {{ form.description|as_crispy_field }}
+                {{ form.thumbnail_url|as_crispy_field }}
+                {{ form.html|as_crispy_field }}
+                {{ form.category }}
+              </div>
+                
+                    <div class="tags-wrapper">
+                      <div class="tag" @click="addSuggestionToTags(item)">
+                    <div class="content">
+                      {{ item.text }}
+                    </div>
+                  </div>
+                 </div>
                 <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>
             </form>
-          </div>
+          
             </div>
         </div>
 </div>

@@ -145,49 +145,13 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
-<script type="text/javascript">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
+ 
 
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-
-	new Vue({
-	  el: '#app',
-	  delimiters: ['!!', '!!'],
-	  data () {
-		return {
-		  embed: {
-              url: '',
-              title: '',
-              description: '',
-              type: '',
-              thumbnail_url: '',
-              html: '',
-          },
-          isPaste: false,
-          embedsinfo: [],
-		}
-	  },
-    methods: {
-
-    paste() {
-    this.isPaste = true;
-    },
-    input() {
-    if (this.isPaste) {
-      axios.get('http://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
-      .then(response => (this.embedsinfo = response.data))
-      isPaste = false;
-    }
-  }
-
-}, 
-
-	});
-</script>  
     {% block javascript %}
-
-    {% endblock %}
     <script src="{% static "assets/node_modules/jquery/dist/jquery.min.js" %}"></script>
+    {% endblock %}
+
     <!-- Bootstrap popper Core JavaScript -->
     <script src="{% static "assets/node_modules/popper/dist/popper.min.js" %}"></script>
     <script src="{% static "assets/node_modules/bootstrap/js/bootstrap.min.js" %}"></script>
@@ -200,7 +164,50 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
     <!-- ============================================================== -->
 
     <script src="js/isotope.pkgd.min.js"></script>
-
+    <script type="application/javascript">
+        $('main script:not([type="application/javascript"])').attr('type', 'application/javascript');
+        axios.defaults.xsrfHeaderName = "X-CSRFToken";
+        
+            new Vue({
+              el: '#app',
+              delimiters: ['!!', '!!'],
+              data () {
+                return {
+                  embed: {
+                      url: '',
+                      title: '',
+                      description: '',
+                      type: '',
+                      thumbnail_url: '',
+                      html: '',
+                  },
+                  loading: false,
+                  isPaste: false,
+                  embedsinfo: [],
+                  tags: [],
+                }
+              },
+          methods: {
+            addSuggestionToTags(item) {
+              this.tags.push(item)
+            },
+            paste() {
+            this.isPaste = true;
+            },
+            input() {
+            if (this.isPaste) {
+              this.loading = true;
+              axios.get('http://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
+              .then(response => (this.embedsinfo = response.data))
+              isPaste = false;
+              loading = false;
+            }
+          }
+        
+        }, 
+        
+            });
+        </script>  
 </body>
 
 </html>
