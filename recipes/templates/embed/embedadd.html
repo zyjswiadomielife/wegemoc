@@ -20,7 +20,6 @@
   border-radius: 2px;
   display: flex;
   padding: 3px 5px;
-  margin: 2px;
   font-size: 0.85em;
   cursor: pointer;
 }
@@ -31,9 +30,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">    
             
-            <h2 class="mb-4">Dodaj link do przepisu</h2>
-            <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
-                <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
+            <h2>Dodaj link do przepisu</h2>
 
          
             <form method="post" class="margin-bottom-25">
@@ -44,7 +41,7 @@
               <span class="sr-only">Loading...</span>
             </div>
             <div v-else class="card">
-              <img class="card-img-top" v-bind:src="embedsinfo.thumbnail_url" alt="Card image cap">
+              <img class="card-img-top" v-bind:src="embedsinfo.thumbnail_url" alt="">
               <div class="card-body">
                 <div class="card-title">!! embedsinfo.title !!</div>
                 <div class="card-text">!! embedsinfo.description !!</div>
@@ -57,15 +54,8 @@
                 {{ form.html|as_crispy_field }}
                 {{ form.category }}
               </div>
-                
-                    <div class="tags-wrapper">
-                      <div class="tag" @click="addSuggestionToTags(item)">
-                    <div class="content">
-                      {{ item.text }}
-                    </div>
-                  </div>
-                 </div>
-                <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>
+
+                <button type="submit" class="btn btn-success-gradiant mt-3">Dodaj link</button>
             </form>
           
             </div>
