@@ -28,7 +28,6 @@ class EmbedAddView(TemplateView):
 
 @login_required
 def save_embed(request):
-    interests = RecipeCategory.objects.all()
 
     if request.method == "POST":
         form = AddEmbed(request.POST)
@@ -40,8 +39,7 @@ def save_embed(request):
     else:
         form = AddEmbed()
 
-    return render(request, 'embed/embedadd.html', {'form': form,
-                                                  'interests': interests})
+    return render(request, 'embed/embedadd.html', {'form': form})
 
 class EmbedUpdate(UpdateView):
 

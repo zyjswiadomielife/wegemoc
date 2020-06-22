@@ -15,9 +15,7 @@ class AddEmbed(ModelForm):
     class Meta:
         model = Embed
         fields = ['url','title', 'description', 'thumbnail_url', 'html', 'category']
-        widgets = {
-            'category': autocomplete.ModelSelect2Multiple(url='allcategories-autocomplete')
-        }
+        widgets = {'category': forms.HiddenInput(attrs={':value': 'tags'})}
 
 class SubmitEmbed(forms.Form):
     url = forms.URLField(label='Adres przepisu', widget=forms.URLInput(attrs={'v-model': 'url'}))

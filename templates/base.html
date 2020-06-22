@@ -146,7 +146,7 @@
     <!-- ============================================================== -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
- 
+    <script src="https://unpkg.com/@johmun/vue-tags-input/dist/vue-tags-input.js"></script>
 
     {% block javascript %}
     <script src="{% static "assets/node_modules/jquery/dist/jquery.min.js" %}"></script>
@@ -184,10 +184,41 @@
                   loading: false,
                   isPaste: false,
                   embedsinfo: [],
+                  tag: '',
                   tags: [],
+                  autocompleteItems: [
+                        { text: 'Adam' },
+                        { text: 'Piotrek' },
+                        { text: 'Ewa' },
+                        { text: 'Damian' },
+                    ],
+                  suggestions: [{ text: 'Piotrek' }, { text: 'Adam' }],
                 }
               },
+          watch: {
+            'tag': 'initItems',
+          },  
+          computed: {
+            filteredSuggestions() {
+                    console.log(this.suggestions.filter(
+                    (el) => !this.tags.some((tag) => tag.text === el.text)
+                ))
+                return this.suggestions.filter(
+                    (el) => !this.tags.some((tag) => tag.text === el.text)
+                )
+                },
+          },
           methods: {
+            update(newTags) {
+            this.autocompleteItems = [];
+            this.tags = newTags;
+            },
+            initItems() {
+            if (this.tag.length < 2) return;
+                axios.get('http://wege.local:8000/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
+                    return { text: category.title };
+                })})
+            },
             addSuggestionToTags(item) {
               this.tags.push(item)
             },
