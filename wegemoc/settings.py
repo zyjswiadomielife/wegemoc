@@ -90,6 +90,9 @@ ABSOLUTE_URL_OVERRIDES = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ORIGIN_WHITELIST = [
+    "http://wege.local:8000",
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

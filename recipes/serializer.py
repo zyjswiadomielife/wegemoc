@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Embed, RecipeCategory
+from django.contrib.auth.models import User
 import os, uuid, requests
 from django.conf import settings
 
@@ -25,6 +26,26 @@ class EmbedSerializer(serializers.ModelSerializer):
 
 class RecipeCategorySerializer(serializers.ModelSerializer):
 
+    full_name = serializers.SerializerMethodField("get_full_name")
+
     class Meta:
         model = RecipeCategory
+        fields = '__all__'
+
+    def get_full_name(self, obj):
+        title = obj.title
+
+        if "parent" in self.context:
+            parent = self.context["parent"]
+
+            parent_name = self.context["parent_serializer"].get_full_name(parent)
+
+            title = "%s - %s" % (parent_name, title, )
+
+        return title
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
         fields = '__all__'

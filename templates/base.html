@@ -193,8 +193,14 @@
                         { text: 'Damian' },
                     ],
                   suggestions: [{ text: 'Piotrek' }, { text: 'Adam' }],
+                  test: [],
                 }
               },
+          mounted () {
+                axios
+                .get('/recipes/suggestions/')
+                .then(response => (this.test = response))
+          },
           watch: {
             'tag': 'initItems',
           },  
@@ -215,7 +221,7 @@
             },
             initItems() {
             if (this.tag.length < 2) return;
-                axios.get('http://wege.local:8000/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
+                axios.get('/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
                     return { text: category.title };
                 })})
             },

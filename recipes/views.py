@@ -170,3 +170,9 @@ def feed(request):
     categories = user.subscribed_category.prefetch_related('embeds')
     return render(request, 'recipes/feed.html',
                 {'categories': categories})
+
+@login_required
+def suggestedcategories(request):
+    user = get_object_or_404(User, username=request.user)
+    categories = user.subscribed_category.all()
+    return JsonResponse(categories, safe=False)

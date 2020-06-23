@@ -66,12 +66,13 @@
             </template>
             <div class="tags-wrapper">
  
-              <div v-for="item in filteredSuggestions" :key="item.name" class="tag" @click="addSuggestionToTags(item)">
+            <div v-for="item in filteredSuggestions" :key="item.name" class="tag" @click="addSuggestionToTags(item)">
             <div class="content">
               {{ item.text }}
             </div>
           </div>
          </div>
+
             </div>
               
                 <button type="submit" class="btn btn-success-gradiant mt-3">Dodaj link</button>
