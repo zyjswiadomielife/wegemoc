@@ -180,6 +180,7 @@
                       type: '',
                       thumbnail_url: '',
                       html: '',
+                      category: [],
                   },
                   loading: false,
                   isPaste: false,
@@ -187,24 +188,21 @@
                   tag: '',
                   tags: [],
                   autocompleteItems: [
-                        { text: 'Adam' },
-                        { text: 'Piotrek' },
-                        { text: 'Ewa' },
-                        { text: 'Damian' },
+                    { text: 'Adam', id: 1 },
                     ],
                   suggestions: [{ text: 'Piotrek' }, { text: 'Adam' }],
                   test: [],
                 }
               },
-          mounted () {
-                axios
-                .get('/recipes/suggestions/')
-                .then(response => (this.test = response))
-          },
           watch: {
             'tag': 'initItems',
           },  
           computed: {
+            filteredAutocompleteItems() {
+            return this.autocompleteItems.filter(
+                (el) => el.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1
+            ).map(el => ({text: el.text}))
+            },
             filteredSuggestions() {
                     console.log(this.suggestions.filter(
                     (el) => !this.tags.some((tag) => tag.text === el.text)
@@ -213,6 +211,17 @@
                     (el) => !this.tags.some((tag) => tag.text === el.text)
                 )
                 },
+                selectedId() {
+                const array = []
+                this.tags.forEach(tag => {
+                const foundItem = this.autocompleteItems.find(item => item.text=== tag.text)
+                if(foundItem) {
+                array.push(foundItem.id)
+                }
+                })
+            console.log(array, this.tags)
+            return array.join(',')
+            }
           },
           methods: {
             update(newTags) {
@@ -222,7 +231,7 @@
             initItems() {
             if (this.tag.length < 2) return;
                 axios.get('/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
-                    return { text: category.title };
+                    return { text: category.title, id: category.id };
                 })})
             },
             addSuggestionToTags(item) {
@@ -235,12 +244,22 @@
             if (this.isPaste) {
               this.loading = true;
               axios.get('http://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
-              .then(response => (this.embedsinfo = response.data))
+              .then(response => (this.embed = response.data))
               isPaste = false;
               loading = false;
             }
-          }
-        
+          },
+        addArticle: function() {
+        this.loading = true;
+        axios.post('/recipes/embeds/',this.embed)
+            .then((response) => {
+                this.loading = false;
+            })
+            .catch((err) => {
+                this.loading = false;
+                console.log(err);
+            })
+        },
         }, 
         
             });

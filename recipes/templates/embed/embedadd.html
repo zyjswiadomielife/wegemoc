@@ -56,12 +56,11 @@
             <template>
               <div>
                 <vue-tags-input
-                  v-model="tag"
-                  :tags="tags"
-                  :autocomplete-items="autocompleteItems"
-                  :add-only-from-autocomplete="true"
-                  @tags-changed="update"
-                />
+                v-model="tag"
+                :tags="tags"
+                :autocomplete-items="filteredAutocompleteItems"
+                @tags-changed="(newTags) => (tags = newTags)"
+              ></vue-tags-input>
               </div>
             </template>
             <div class="tags-wrapper">

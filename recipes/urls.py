@@ -20,7 +20,6 @@ urlpatterns = [
     re_path(r'^allcategories-autocomplete/$', views.AllCategoriesAutocomplete.as_view(),name='allcategories-autocomplete'),
     path('<slug>/', views.recipedetail, name='recipedetail'),
     path('recipe/embed/add/', views.save_embed, name='addembed'),
-    path('categories/suggestions/', views.suggestedcategories, name='suggestions'),
     path('recipe/embed/add1/', EmbedAddView.as_view(), name='embedadd'),
     path('embed/<int:pk>/edit/', views.EmbedUpdate.as_view(), name='embededit'),
     re_path(r'^category/(?P<hierarchy>.+)/$', views.show_category, name='category'),

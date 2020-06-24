@@ -11,11 +11,11 @@ class AddEmbed(ModelForm):
     description = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.description'}))
     thumbnail_url = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.thumbnail_url'}))
     html = forms.CharField(widget=forms.HiddenInput(attrs={':value':'embedsinfo.html'}))
+    category = forms.CharField(widget=forms.HiddenInput(attrs={':value': 'selectedId'}))
 
     class Meta:
         model = Embed
         fields = ['url','title', 'description', 'thumbnail_url', 'html', 'category']
-        widgets = {'category': forms.HiddenInput(attrs={':value': 'tags'})}
 
 class SubmitEmbed(forms.Form):
     url = forms.URLField(label='Adres przepisu', widget=forms.URLInput(attrs={'v-model': 'url'}))

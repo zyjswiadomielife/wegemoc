@@ -4,6 +4,9 @@
 {% block title %}Dodaj link{% endblock %}
 
 {% block content %}
+{% block javascript %}
+    <script src="{% static "assets/node_modules/jquery/dist/jquery.min.js" %}"></script>
+{% endblock %}
 {% load crispy_forms_tags %}
 <div class="mt-5 mb-5">
 <div class="container">
@@ -15,27 +18,39 @@
             <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
                 <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
             <div id="app">
-              !! embedsinfo.title !!
-            <form class="margin-bottom-25" v-on:submit.prevent="addEmbed()">
+              
+            <form class="margin-bottom-25" v-on:submit.prevent="addArticle()">
                     {% csrf_token %}
-                    <span v-html="embedsinfo.html"> !! embedsinfo.html !! </span>
+
                     <div class="form-group">
                       <label for="formGroupExampleInput">Adres przepisu*</label>
-                      <input type="url" class="form-control" id="url" placeholder="Url" @paste="paste" @input="input" v-model="embedsinfo.url">
+                      <input type="url" class="form-control" id="url" placeholder="Url" @paste="paste" @input="input" v-model="embed.url">
                     </div>
                     <div class="form-group">
-                      <input type="hidden" class="form-control" id="title" placeholder="Title" :value="embedsinfo.title">
+                      <input type="hidden" class="form-control" id="title" placeholder="Title" :value="embed.title">
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="description" placeholder="Description" :value="embedsinfo.description">
+                        <input type="hidden" class="form-control" id="description" placeholder="Description" :value="embed.description">
                     </div>
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="thumbnail_url" placeholder="Thumbnail_url" :value="embedsinfo.thumbnail_url">
+                        <input type="hidden" class="form-control" id="thumbnail_url" placeholder="Thumbnail_url" :value="embed.thumbnail_url">
                     </div>
                     <div class="form-group">
-                      <input type="hidden" class="form-control" id="html" placeholder="Html" :value="embedsinfo.html">
+                      <input type="hidden" class="form-control" id="html" placeholder="Html" :value="embed.html">
                     </div>
-
+                    <div class="form-group">
+                      <input type="hidden" class="form-control" id="category" placeholder="Category" :value="selectedId" :value="embed.category">
+                    </div>
+                    <template>
+                      <div>
+                        <vue-tags-input
+                        v-model="tag"
+                        :tags="tags"
+                        :autocomplete-items="filteredAutocompleteItems"
+                        @tags-changed="(newTags) => (tags = newTags)"
+                      ></vue-tags-input>
+                      </div>
+                    </template>
                 <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>
             </form>
 
@@ -44,8 +59,6 @@
         </div>
 </div>
 </div>
-{% block javascript %}
 
-{% endblock %}
 
 {% endblock %}

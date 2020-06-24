@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import RecipeCategory, Embed
 from django.http import HttpResponse, JsonResponse
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, View
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -26,6 +26,7 @@ from .serializer import EmbedSerializer
 class EmbedAddView(TemplateView):
     template_name = "embed/addembed.html"
 
+
 @login_required
 def save_embed(request):
 
@@ -35,7 +36,13 @@ def save_embed(request):
             new_embed = form.save(commit=False)
             new_embed.added_by = request.user
             new_embed.save()
+            category = form.cleaned_data['category']
+            for category_id in category:
+                category_id = category_id.strip().lower() # clean up tag
+                tag, _ = RecipeCategory.objects.get_or_create(id=category_id)
+                new_embed.category.add(tag)
             form.save_m2m()
+            return redirect('recipedetail', slug=new_embed.slug)
     else:
         form = AddEmbed()
 
@@ -171,8 +178,3 @@ def feed(request):
     return render(request, 'recipes/feed.html',
                 {'categories': categories})
 
-@login_required
-def suggestedcategories(request):
-    user = get_object_or_404(User, username=request.user)
-    categories = user.subscribed_category.all()
-    return JsonResponse(categories, safe=False)
