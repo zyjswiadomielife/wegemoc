@@ -220,7 +220,7 @@
                 }
                 })
             console.log(array, this.tags)
-            return array.join(',')
+            return array
             }
           },
           methods: {
@@ -231,7 +231,7 @@
             initItems() {
             if (this.tag.length < 2) return;
                 axios.get('/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
-                    return { text: category.title, id: category.id };
+                    return { text: category.title + ' - ' + category.parent, id: category.id };
                 })})
             },
             addSuggestionToTags(item) {
@@ -251,6 +251,7 @@
           },
         addArticle: function() {
         this.loading = true;
+        this.embed.category = this.selectedId
         axios.post('/recipes/embeds/',this.embed)
             .then((response) => {
                 this.loading = false;

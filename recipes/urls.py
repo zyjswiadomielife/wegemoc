@@ -3,11 +3,12 @@ from rest_framework import routers
 from . import views
 from .views import EmbedAddView
 from . import viewsets
+from .models import RecipeCategory
 from django.contrib.auth.models import User
 
 router = routers.DefaultRouter()
 router.register(r'embeds', viewsets.EmbedViewSet)
-router.register(r'recipecategories', viewsets.RecipeCategoryViewSet)
+router.register(r'recipecategories', viewsets.RecipeCategoryViewSet, basename="RecipeCategory")
 
 urlpatterns = [
     path('', views.RecipeList.as_view(), name='recipelist'),
