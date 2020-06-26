@@ -8,17 +8,32 @@
     <script src="{% static "assets/node_modules/jquery/dist/jquery.min.js" %}"></script>
 {% endblock %}
 {% load crispy_forms_tags %}
+<style>
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+}
+</style>
 <div class="mt-5 mb-5">
 <div class="container">
 
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-lg-6 col-md-6 col-sm-12">    
             
             <h2 class="mb-4">Dodaj link do przepisu</h2>
-            <p class="text-dark">Tutaj w prosty sposób możesz podzielić się ulubionym przepisem. Wystarczy dodać do niego link.
-                <span><strong>Po tym jak link zostanie pobrany będzie można przypisać go do kategorii.</strong></span></p>
             <div id="app">
-              
+
+              <div v-if="loading===true" class="spinner-grow" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <div class="card">
+                <img class="card-img-top" :src="embedsinfo.thumbnail_url" :alt="embedsinfo.title">
+                <div class="card-body">
+                  <div class="card-title">!! embedsinfo.title !!</div>
+                  <div class="card-text">!! embedsinfo.description !!</div>
+                </div>
+              </div>
+ 
             <form class="margin-bottom-25" v-on:submit.prevent="addArticle()">
                     {% csrf_token %}
 
@@ -51,7 +66,7 @@
                       ></vue-tags-input>
                       </div>
                     </template>
-                <button type="submit" class="btn btn-success-gradiant">Dodaj link</button>
+                <button type="submit" class="btn btn-success-gradiant mt-3">Dodaj link</button>
             </form>
 
           </div>

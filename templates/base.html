@@ -182,6 +182,7 @@
                       html: '',
                       category: [],
                   },
+                  embedadd: 'Przepis został dodany!',
                   loading: false,
                   isPaste: false,
                   embedsinfo: [],
@@ -242,11 +243,9 @@
             },
             input() {
             if (this.isPaste) {
-              this.loading = true;
               axios.get('http://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
               .then(response => (this.embed = response.data))
               isPaste = false;
-              loading = false;
             }
           },
         addArticle: function() {
@@ -255,13 +254,20 @@
         axios.post('/recipes/embeds/',this.embed)
             .then((response) => {
                 this.loading = false;
+                this.embedadd = response.data
+                this.embedsinfo = response.data
             })
             .catch((err) => {
                 this.loading = false;
                 console.log(err);
             })
         },
-        }, 
+        },
+        filters: {
+        truncate: function (text, length, suffix) {
+            return text.substring(0, length) + suffix;
+            },
+        }
         
             });
         </script>  
