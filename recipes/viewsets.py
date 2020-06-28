@@ -15,8 +15,8 @@ class RecipeCategoryViewSet(viewsets.ModelViewSet):
 
 class Suggestions(generics.ListAPIView):
 
-    serializer_class = UserSerializer
+    serializer_class = RecipeCategorySerializer
 
     def get_queryset(self):
         user = self.request.user
-        return user.subscribed_category.all()
+        return user.subscribed_category.prefetch_related('embeds')

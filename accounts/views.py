@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Follow
 from stream_django.enrich import Enrich
 from stream_django.feed_manager import feed_manager
+from .forms import EditUser, EditProfile
 
 def profile(request, username):
     enricher = Enrich()
@@ -33,3 +34,17 @@ def unfollow(request, id):
     follow.delete()
 
     return HttpResponse()
+
+@login_required
+def editprofile(request):
+    if request.method=='POST':
+        user_form = EditUser(instance=request.user, data=request.POST)
+        profile_form = EditProfile(instance=request.user.profile, data=request.POST, files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form = EditUser(instance=request.user)
+        profile_form = EditProfile(instance=request.user.profile)
+    return render(request, 'profile/edit.html', {'user_form': user_form,
+                                                 'profile_form': profile_form})

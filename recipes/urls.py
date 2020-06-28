@@ -3,7 +3,7 @@ from rest_framework import routers
 from . import views
 from .views import EmbedAddView
 from . import viewsets
-from .models import RecipeCategory
+from .models import RecipeCategory, Embed
 from django.contrib.auth.models import User
 
 router = routers.DefaultRouter()
@@ -14,6 +14,7 @@ urlpatterns = [
     path('', views.RecipeList.as_view(), name='recipelist'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('suggestions/', viewsets.Suggestions.as_view(), name='suggestions'),
     path('feed/', views.feed, name='feed'),
     path('categories/', views.categories, name='categories'),
     path('categories/add/', views.addcategory, name='addcategory'),

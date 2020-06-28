@@ -13,6 +13,21 @@
     display: flex;
     flex: 1 1 auto;
 }
+.tags-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.tag {
+  background-color: #5c6bc0;
+  color: #fff;
+  border-radius: 2px;
+  display: flex;
+  padding: 3px 5px;
+  margin: 2px;
+  font-size: 0.85em;
+  cursor: pointer;
+}
 </style>
 <div class="mt-5 mb-5">
 <div class="container">
@@ -66,6 +81,13 @@
                       ></vue-tags-input>
                       </div>
                     </template>
+                    <div class="tags-wrapper">
+                      <div v-for="item in filteredSuggestions" :key="item.name" class="tag" @click="addSuggestionToTags(item)">
+                    <div class="content">
+                      {{ item.text }}
+                    </div>
+                  </div>
+                  </div>
                 <button type="submit" class="btn btn-success-gradiant mt-3">Dodaj link</button>
             </form>
 
