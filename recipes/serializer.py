@@ -3,6 +3,9 @@ from .models import Embed, RecipeCategory
 from django.contrib.auth.models import User
 import os, uuid, requests
 from django.conf import settings
+from django.db.models import Count
+
+
 
 class EmbedSerializer(serializers.ModelSerializer):
     added_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -36,18 +39,18 @@ class RecipeCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeCategory
         fields = '__all__'
-
+    
     def get_full_name(self, obj):
-        title = obj.title
+        name = obj.title
 
         if "parent" in self.context:
             parent = self.context["parent"]
 
             parent_name = self.context["parent_serializer"].get_full_name(parent)
 
-            title = "%s - %s" % (parent_name, title, )
+            name = "%s - %s" % (parent_name, name, )
 
-        return title
+        return name
 
 class UserSerializer(serializers.ModelSerializer):
 

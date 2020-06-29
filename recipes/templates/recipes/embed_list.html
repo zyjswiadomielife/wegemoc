@@ -6,27 +6,26 @@
 {% block content %}
 {% load thumbnail %}
 
-<div class="container margin-top-50">
+<div class="container mt-5">
     <div class="row">
 
-        {% for recipe in embed_list %}
-				<!-- Listing Item -->
-				<div class="col-lg-4 col-md-6">
-                        <a href="{{ recipe.get_absolute_url }}" class="listing-item-container compact">
-                            <div class="listing-item">
+        {% for embed in embed_list %}
 
-                                {% thumbnail recipe.image "1000x1000" crop="smart" as im %}
-                                <img src="{{ im.url }}" alt="{{ i.title }}">
-                                {% endthumbnail %}
-
-                                <div class="listing-item-content">
-                                    {% for category in recipe.category.all %}<span class="tag" style="background-color: #5EC031;">{{ category.title }}</span>{% endfor %}
-                                    <h3>{{ recipe.title }}</h3>
-                                </div>
+                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                        <!-- Column -->
+                        <div class="card card-shadow">
+                            <a href="{{ embed.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail embed.image "600x350" crop="smart" %}" alt="{{ embed.title }}"></a>
+                            <div class="card-body">
+                                <h5 class="font-medium h5-home"><a href="{{ embed.get_absolute_url }}" class="link">{{ embed.title }}</a></h5>
+                                <p>{{ embed.description|striptags|truncatewords:10 }}</p>
+                                <p class="mb-0">
+                                    <a href="{{ embed.added_by.get_absolute_url }}" class="text-muted"><img src="{% thumbnail embed.added_by.profile.avatar "100x100" crop="smart" %}" alt="task-user" class="thumb-sm rounded-circle mr-2"> 
+                                        <span class="font-medium small text-dark">{{ embed.added_by.username }}</span></a>
+                                </p>
                             </div>
-                        </a>
-                </div>
-                <!-- Listing Item / End -->		
+                        </div>
+                    </div>
+               
         {% endfor %}
     </div>
 </div>

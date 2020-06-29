@@ -31,6 +31,11 @@ class RecipeCategory(MPTTModel):
         unique_together = (('parent', 'slug',))
         verbose_name_plural = 'Kategorie'
 
+    def get_full_name(self):
+        names = self.get_ancestors(include_self=True).values('title')
+        full_name = ' - '.join(map(lambda x: x['title'], names))
+        return full_name
+
     def get_slug_list(self):
 
         try:

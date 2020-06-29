@@ -5,6 +5,7 @@ from .views import EmbedAddView
 from . import viewsets
 from .models import RecipeCategory, Embed
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 router = routers.DefaultRouter()
 router.register(r'embeds', viewsets.EmbedViewSet)

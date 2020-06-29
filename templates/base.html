@@ -38,35 +38,123 @@
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper">
-                <!-- ============================================================== -->
-                <!-- Header 1  -->
-                <!-- ============================================================== -->
-                <div class="header1 po-relative shadow-sm">
-                    <div class="container">
-                        <!-- Header 1 code -->
-                        <nav class="navbar navbar-expand-lg h1-nav">
-                            <a class="navbar-brand font-stylish text-dark" href="/">Wegemoc.pl</a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header1" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="ti-menu"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="header1">
-                                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                                    <li class="nav-item active"><a class="nav-link" href="#">Strona główna</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Kategorie</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Przepisy</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Wydarzenia</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">O nas</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Kontakt</a></li>
-                                </ul>
-							</div>
-                        </nav>
-                    </div>
+    <div class="container-fluid main-menu-conteiner" style="border-bottom-style: groove; border-bottom-color: #e8e8e8; border-bottom-width: 1px;">
+      <div class="nav-wrapper">
+        <!--Logo -->
+        <div class="custom-logo-wrapper">
+            <a class="navbar-brand font-stylish text-dark" href="/">Wegemoc.pl</a>
+        </div>
+         <!--Menu -->
+         <div class="custom-menu-wrapper">
+              <nav class="navbar navbar-icon-top navbar-expand-lg navbar-light bg-white">
+
+                <button class="navbar-toggler navbar-toggler-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse main-menu-custom" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'feed' %}">
+                        Obserwujesz
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'categories' %}">
+                        Kategorie
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'recipelist' %}">
+                        Przepisy
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'questionlist' %}">
+                        Forum
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'postlist' %}">
+                        Blog
+                      </a>
+                    </li>
+                  </ul>
+
+
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Header 1  -->
-                <!-- ============================================================== -->
-                        <!-- End Header 1 code -->
+              </nav>
+         </div>
+
+         <!-- Additional icons in navbar -->
+         <div class="nav-add-icons">
+                 <ul class="navbar-nav add-icons-list">
+                  {% if request.user.is_authenticated %}
+                  <!--Notifications-->
+                    <li class="nav-item counter-wrapper-sn">
+                      <a class="nav-link" href="">
+                        
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-success counter-sn"></span>
+                        
+                      </a>
+                     
+                    </li>
+          
+          {% endif %}
+          {% if request.user.is_authenticated %}
+                    <!--Avatar-->
+                    <li class="nav-item dropdown no-arrow">
+                        {% load thumbnail %}
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% thumbnail request.user.profile.avatar "100x100" crop="smart" as im %}
+                        <img class="img-profile rounded-circle" src="{{ im.url }}"></a>
+                        {% endthumbnail %}
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                          <a class="dropdown-item" href="{% url "profiledetail" request.user.username %}">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Profil
+                          </a>
+                          <a class="dropdown-item" href="{% url 'pinax_messages:inbox' %}">
+                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Wiadomości
+                          </a>
+                          <a class="dropdown-item" href="">
+                            <i class="far fa-bell fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Powiadomienia
+                          </a>
+                          <a class="dropdown-item" href="{% url 'editprofile' %}">
+                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Edycja profilu
+                          </a>
+
+                          <a class="dropdown-item" href="{% url 'account_logout' %}">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Wyloguj
+                          </a>
+                        </div>
+                    </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link logowanie" href="{% url 'account_login' %}">  
+                <i class="far fa-user text-dark logowanie"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link logowanie" href="{% url 'account_signup' %}">  
+                  <i class="fas fa-user-plus text-dark logowanie"></i>
+                  </a>
+              </li>
+              {% endif %}
+              </ul>
+
+         </div>
+		  
+    </div>
+</div>
+    <div id="main-wrapper">
+
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
@@ -106,12 +194,11 @@
                             <br/>Office : +207 235 7890</p>
                     </div>
                     <div class="col-lg-3 col-md-6 m-b-30">
-                        <h5 class="m-b-20">Email</h5>
-                        <p>Office : <a href="#" class="link">info@wrappixel.com</a>
-                            <br/>Site : <a href="#" class="link">wrapkit@wrappixel.com</a></p>
+                        <h5 class="m-b-20">Kontakt</h5>
+                        <p><a href="#" class="link">maciej@wegemoc.pl</a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <h5 class="m-b-20">Social</h5>
+                        <h5 class="m-b-20">Dołącz do nas na</h5>
                         <div class="round-social light">
                             <a href="#" class="link"><i class="fa fa-facebook"></i></a>
                             <a href="#" class="link"><i class="fa fa-twitter"></i></a>
@@ -123,7 +210,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="d-flex font-14">
-                                <div class="m-t-10 m-b-10 copyright"><img src="images/footer-logo.png" class="m-r-10" alt="wrapkit" width="50" />All Rights Reserved by WrapPixel.</div>
+                                <div class="m-t-10 m-b-10 copyright"><img src="images/footer-logo.png" class="m-r-10" alt="wrapkit" width="50" />Wegemoc.pl</div>
                                 <div class="links ml-auto m-t-10 m-b-10">
                                     <a href="#" class="p-10 p-l-0">Terms of Use</a>
                                     <a href="#" class="p-10">Legal Disclaimer</a>

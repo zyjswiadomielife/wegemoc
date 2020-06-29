@@ -4,203 +4,22 @@
 
 {% block content %}
 {% load thumbnail %}
-<div class="clearfix"></div>
-<!-- Header Container / End -->
 
-
-<!-- Titlebar
-================================================== -->
-<div id="titlebar" class="gradient">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-
-				<h2>Blog</h2><span>Najnowsze artykuły</span>
-
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li>Blog</li>
-					</ul>
-				</nav>
-
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<!-- Content
-================================================== -->
-<div class="container">
-
-	<!-- Blog Posts -->
-	<div class="blog-page">
+<div class="container mt-5">
+	<h3 class="mb-3">Najnowsze artykuły</h3>
 	<div class="row">
-		<div class="col-lg-9 col-md-8 padding-right-30">
-			{% for post in posts %}
-			<!-- Blog Post -->
-			<div class="blog-post">
-				
-				<!-- Img -->
-				<a href="{{ post.get_absolute_url }}" class="post-img">
-					{% thumbnail post.image "1000x400" crop="smart" as im %}
-					<img src="{{ im.url }}" alt="{{ post.title }}">
-					{% endthumbnail %}
-				</a>
-				
-				<!-- Content -->
-				<div class="post-content margin-top-20">
-					<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-
-					<ul class="post-meta">
-						<li>{{ post.created_at|timesince }}</li>
-						<li>{% for tag in post.tags.all %}<a href="#">{{ tag.name }} </a>{% endfor %}</li>
-						<li><a href="#">5 Comments</a></li>
-					</ul>
-
-					<p>{{ post.body|safe|truncatewords:40 }}</p>
-
-					<a href="{{ post.get_absolute_url }}" class="read-more">Czytaj dalej <i class="fa fa-angle-right"></i></a>
-				</div>
-
-			</div>
-			<!-- Blog Post / End -->
-			{% endfor %}
-
-
-			<!-- Pagination -->
-			<div class="clearfix"></div>
-			<div class="row">
-				<div class="col-md-12">
-					<!-- Pagination -->
-					<div class="pagination-container margin-bottom-40">
-						<nav class="pagination">
-							<ul>
-								<li><a href="#" class="current-page">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
-							</ul>
-						</nav>
-					</div>
+		{% for post in posts %}
+		<div class="col-sm-12 col-md-4 col-lg-4">
+			<div class="card card-shadow">
+				<a href="{{ post.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail post.image "600x350" crop="smart" %}" alt="{{ embed.title }}"></a>
+				<div class="card-body">
+					<h5 class="font-medium h5-home"><a href="{{ post.get_absolute_url }}" class="link">{{ post.title }}</a></h5>
+					<p>{{ post.body|striptags|truncatewords:10 }}</p>
 				</div>
 			</div>
-			<!-- Pagination / End -->
-
 		</div>
-
-	<!-- Blog Posts / End -->
-
-
-	<!-- Widgets -->
-	<div class="col-lg-3 col-md-4">
-		<div class="sidebar right">
-
-			<!-- Widget -->
-			<div class="widget">
-				<h3 class="margin-top-0 margin-bottom-25">Search Blog</h3>
-				<div class="search-blog-input">
-					<div class="input"><input class="search-field" type="text" placeholder="Type and hit enter" value=""/></div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<!-- Widget / End -->
-
-
-			<!-- Widget -->
-			<div class="widget margin-top-40">
-				<h3>Got any questions?</h3>
-				<div class="info-box margin-bottom-10">
-					<p>Having any questions? Feel free to ask!</p>
-					<a href="pages-contact.html" class="button fullwidth margin-top-20"><i class="fa fa-envelope-o"></i> Drop Us a Line</a>
-				</div>
-			</div>
-			<!-- Widget / End -->
-
-
-			<!-- Widget -->
-			<div class="widget margin-top-40">
-
-				<h3>Popular Posts</h3>
-				<ul class="widget-tabs">
-
-					<!-- Post #1 -->
-					<li>
-						<div class="widget-content">
-								<div class="widget-thumb">
-								<a href="pages-blog-post.html"><img src="images/blog-widget-03.jpg" alt=""></a>
-							</div>
-							
-							<div class="widget-text">
-								<h5><a href="pages-blog-post.html">Hotels for All Budgets </a></h5>
-								<span>October 26, 2016</span>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</li>
-					
-					<!-- Post #2 -->
-					<li>
-						<div class="widget-content">
-							<div class="widget-thumb">
-								<a href="pages-blog-post.html"><img src="images/blog-widget-02.jpg" alt=""></a>
-							</div>
-							
-							<div class="widget-text">
-								<h5><a href="pages-blog-post.html">The 50 Greatest Street Arts In London</a></h5>
-								<span>November 9, 2016</span>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</li>
-					
-					<!-- Post #3 -->
-					<li>
-						<div class="widget-content">
-							<div class="widget-thumb">
-								<a href="pages-blog-post.html"><img src="images/blog-widget-01.jpg" alt=""></a>
-							</div>
-							
-							<div class="widget-text">
-								<h5><a href="pages-blog-post.html">The Best Cofee Shops In Sydney Neighborhoods</a></h5>
-								<span>November 12, 2016</span>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					</li>
-
-				</ul>
-
-			</div>
-			<!-- Widget / End-->
-
-
-			<!-- Widget -->
-			<div class="widget margin-top-40">
-				<h3 class="margin-bottom-25">Social</h3>
-				<ul class="social-icons rounded">
-					<li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
-					<li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
-					<li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
-					<li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
-				</ul>
-
-			</div>
-			<!-- Widget / End-->
-
-			<div class="clearfix"></div>
-			<div class="margin-bottom-40"></div>
-		</div>
+		{% endfor %}
 	</div>
-	</div>
-	</div>
-</div>
-
-	<!-- Sidebar / End -->
-
-</div>
 </div>
 
 
