@@ -9,6 +9,43 @@
     color: #ffffff;
   }
 </style>
+<div class="bg-light">
+<div class="container">
+  <div class="row">
+    {% for category in categories %}
+    {% for recipe in category.embeds.all %}
+    <div class="col-lg-6">
+      <div class="card card-shadow mb-4 mt-3">
+        <div class="card-body">
+          <div class="media border-0">
+            {% thumbnail recipe.added_by.profile.avatar "40x40" as im %}
+            <img src="{{ im.url }}" class="d-block ui-w-40 rounded-circle" alt="">
+            {% endthumbnail %}
+            <div class="media-body ml-3">
+              {{ recipe.added_by.username }}
+              <div class="text-muted small">Dodane: {{ recipe.created_at|timesince }} temu</div>
+            </div>
+          </div>
+          <p>{{ recipe.html|safe }}</p>
+          <p>{% for cat in recipe.embeds.all %}
+                {{ cat.title }}
+             {% endfor %}</p>
+        </div>
+        <div class="card-footer">
+          <a href="javascript:void(0)" class="btn btn-sm btn-success">
+            <i class="fas fa-carrot"></i> Super!
+          </a>
+          <a href="javascript:void(0)" class="btn btn-sm btn-danger">
+            <i class="fas fa-heart"></i> Ulubione
+          </a>
+        </div>
+      </div>
+  </div>
+  {% endfor %}
+  {% endfor %}
+  </div>
+</div>
+</div>
 <div style="background-color: #e8e8e8;" class="pt-5">
   <div class="container">
     <div class="row">
