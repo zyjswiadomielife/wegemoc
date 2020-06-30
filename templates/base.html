@@ -226,6 +226,29 @@
         <!-- footer 4  -->
         <!-- ============================================================== -->
     </div>
+          <!--Bottom menu start-->
+          <nav class="nav-bottom">
+            <a href="{% url 'embedadd' %}" class="nav__link">
+              <i class="fas fa-plus"></i>
+              <span class="nav__text">Dodaj przepis</span>
+            </a>
+            <a href="{% url 'feed' %}" class="nav__link">
+              <i class="far fa-eye"></i>
+              <span class="nav__text">Obserwujesz</span>
+            </a>
+            <a href="{% url 'categories' %}" class="nav__link">
+              <i class="fas fa-archive"></i>
+              <span class="nav__text">Kategorie</span>
+            </a>
+            <a href="#" class="nav__link">
+              <i class="far fa-bookmark"></i>
+              <span class="nav__text">Ulubione</span>
+            </a>
+            <a href="{% url 'editprofile' %}" class="nav__link">
+              <i class="fas fa-sliders-h"></i>
+              <span class="nav__text">Ustawienia</span>
+            </a>
+          </nav>
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -279,13 +302,13 @@
                   autocompleteItems: [
                     { text: 'Adam', id: 1 },
                     ],
-                  suggestions: [{ text: 'Piotrek' }, { text: 'Adam' }],
+                  suggestions: [{ text: 'Adam', id: 1 }],
                   test: [],
                 }
               },
           mounted(){
             axios.get('/recipes/suggestions/').then(response => {this.suggestions = response.data.map(sugestion => {
-                    return { text: sugestion.title + ' - ' + sugestion.parent, id: sugestion.id };
+                    return { text: sugestion.title + ' - ' + sugestion.parentname, id: sugestion.id };
                 })})
           },
           watch: {
@@ -325,7 +348,7 @@
             initItems() {
             if (this.tag.length < 2) return;
                 axios.get('/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
-                    return { text: category.title + ' - ' + category.parent, id: category.id };
+                    return { text: category.title + ' - ' + category.parentname, id: category.id };
                 })})
             },
             addSuggestionToTags(item) {

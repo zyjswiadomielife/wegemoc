@@ -12,10 +12,8 @@ class EmbedViewSet(viewsets.ModelViewSet):
 
 class RecipeCategoryViewSet(viewsets.ModelViewSet):
     
-    def list(self, request):
-        tree = cache_tree_children(RecipeCategory.objects.filter(level=0))
-        serializer_class = RecipeCategorySerializer(tree, many=True)
-        return Response(serializer_class.data)
+    queryset = RecipeCategory.objects.all()
+    serializer_class = RecipeCategorySerializer
 
 class Suggestions(generics.ListAPIView):
 

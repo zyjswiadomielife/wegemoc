@@ -13,7 +13,7 @@ import os
 
 class RecipeCategory(MPTTModel):
     title = models.CharField(max_length=255, verbose_name='Nazwa kategorii')
-    full_name = models.CharField(max_length=255, verbose_name='Pełna nazwa')
+    parentname = models.CharField(max_length=255, verbose_name='Pełna nazwa', null=True, blank=True)
     body = models.TextField(verbose_name='Opis kategorii', blank=True, help_text='To pole nie jest obowiązkowe. Jeśli chcesz, możesz napisać co konkretnie ma być dodawane do tej kategorii.')
     image = models.ImageField(upload_to='Tło', default='defaultbgcategory.jpg' ,verbose_name='Tło kategorii', help_text='Dodając zdjęcie jesteś w stanie wyróżnić kategorię, jeśli jednak tego nie zrobisz nic się nie stanie. :)', null=True, blank=True)
     slug = AutoSlugField(populate_from='title', unique=True)
@@ -31,10 +31,9 @@ class RecipeCategory(MPTTModel):
         unique_together = (('parent', 'slug',))
         verbose_name_plural = 'Kategorie'
 
-    def get_full_name(self):
-        names = self.get_ancestors(include_self=True).values('title')
-        full_name = ' - '.join(map(lambda x: x['title'], names))
-        return full_name
+    def save(self, *args, **kwargs):
+        self.parentname = self.parent.title
+        super(RecipeCategory, self).save(*args, **kwargs) 
 
     def get_slug_list(self):
 
