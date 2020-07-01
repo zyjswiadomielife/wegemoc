@@ -35,6 +35,7 @@ def unfollow(request, id):
 
     return HttpResponse()
 
+
 @login_required
 def editprofile(request):
     if request.method=='POST':

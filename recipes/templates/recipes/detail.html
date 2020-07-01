@@ -17,6 +17,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12 col-md-8 col-lg-8">
+			
                 <!--- \\\\\\\Post-->
                 <div class="card social-timeline-card mt-5 shadow">
                     <div class="card-header bg-white">
@@ -73,7 +74,9 @@
 					<dt>Przepisów:</dt>
 					<dd>{{ num_embed }}</dd>
 				</dl>
-				
+				<div id="follow">
+					<a :href="'{% url 'follow' recipe.added_by.id %}'" @click.prevent="followUser()">Obserwuj</a>
+				</div>
 				<div class="margin-top-10">
 				{% if recipe.added_by.followers.all|user_in:request.user %}
 				<a href="{% url 'unfollow' recipe.added_by.id %}" class="btn btn-sm btn-success" id="follow">Przestań obserwować</a>
