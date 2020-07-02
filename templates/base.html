@@ -42,7 +42,7 @@
       <div class="nav-wrapper">
         <!--Logo -->
         <div class="custom-logo-wrapper">
-            <a class="navbar-brand font-stylish text-dark" href="/">Wegemoc.pl</a>
+            <a class="navbar-brand" href="/"><img src="{% static 'images/logo.png' %}" width="120px"></a>
         </div>
          <!--Menu -->
          <div class="custom-menu-wrapper">
@@ -327,7 +327,7 @@
                 return this.suggestions.filter(
                     (el) => !this.tags.some((tag) => tag.text === el.text)
                 )
-                },
+            },
                 selectedId() {
                 const array = []
                 this.tags.forEach(tag => {
@@ -388,15 +388,26 @@
             });
         </script>
 <script type="application/javascript">
-var follow = new Vue({
-  el: '#follow',
-  data: {
-    follow: [],
+Vue.component('follow-button', {
+  props: ['userId'],
+  data: function () {
+    return {
+      status: 'Obserwuj',
+      followed: false,
+      submitted: false,
+    }
   },
   methods: {
-            followUser() {
-                const url = document.querySelector("#follow a").getAttribute("href")
-                axios.post(url)
+        toggleFollow: function()
+    {
+        if(this.followed) {
+            this.unlikePhoto()
+        } else {
+            this.likePhoto()
+        }
+    },
+    followUser() {
+            axios.post('/account/follows/', {'target': this.userId})
                     .then(response => {
                         console.log(response.data);
                     })
@@ -406,8 +417,30 @@ var follow = new Vue({
                             window.location = '/login';
                         }
                     });
-            }
+            },
+            unfollowUser() {
+            axios.post('/account/follows/', {'target': this.userId})
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    
+                    .catch(errors => {
+                        if (errors.response.status == 401){
+                            window.location = '/login';
+                        }
+                    });
+            },
         },
+  template: `
+  <button class="btn btn-sm btn-success" @click="followUser"></button>
+  `
+})
+
+var follow = new Vue({
+  el: '#follow',
+  data: {
+    follow: [],
+  },
 })
 </script> 
 </body>

@@ -75,7 +75,7 @@
 					<dd>{{ num_embed }}</dd>
 				</dl>
 				<div id="follow">
-					<a :href="'{% url 'follow' recipe.added_by.id %}'" @click.prevent="followUser()">Obserwuj</a>
+					<follow-button user-id="{{ recipe.added_by.id }}" v-on:click="toggleFollow"></follow-button>
 				</div>
 				<div class="margin-top-10">
 				{% if recipe.added_by.followers.all|user_in:request.user %}
