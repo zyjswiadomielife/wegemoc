@@ -58,7 +58,7 @@ class Embed(models.Model, Activity):
     image = models.ImageField(upload_to='recipes', blank=True)
     html = models.TextField()
     votes = GenericRelation(LikeDislike, related_query_name='embedlikes')
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addedbyuser')
     created_at = models.DateTimeField(auto_now_add=True)
     category = TreeManyToManyField(RecipeCategory, blank=True, null=True, related_name='embeds', verbose_name='Kategoria')
     slug = AutoSlugField(populate_from='title', unique=True)

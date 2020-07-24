@@ -54,24 +54,25 @@
 					{% endif %}
 				</div>
 			</div>
+		<div id="follow">
 		<p>
 			{% if profile.followers.all|user_in:request.user %}
-			<a href="{% url 'unfollow' profile.id %}" class="btn btn-success-gradiant" id="follow">Przestań obserwować</a>
+			<follow-button user-id="{{ recipe.added_by.id }}" v-bind:isfollowing="true"></follow-button>
 			{% else %}
-			<a href="{% url 'follow' profile.id %}" class="btn btn-success-gradiant" id="follow">Obserwuj</a>
+			<follow-button user-id="{{ recipe.added_by.id }}" v-bind:isfollowing="false"></follow-button>
 			{% endif %}
 		</p>
-	
+	</div>
 	  </div>
 	</div>
 	<hr class="m-0">
   
 	<ul class="nav nav-tabs tabs-alt justify-content-center">
 	  <li class="nav-item">
-		<a class="nav-link py-4 active" href="#">Posts</a>
+		<a class="nav-link py-4" href="#">Dodane przepisy</a>
 	  </li>
 	  <li class="nav-item">
-		<a class="nav-link py-4" href="#">Likes</a>
+		<a class="nav-link py-4" href="#">Polubienia</a>
 	  </li>
 	  <li class="nav-item">
 		<a class="nav-link py-4" href="#">Followers</a>
@@ -83,85 +84,24 @@
   
   </div>
 <!-- Header Container / End -->
-
-<!-- Titlebar
-================================================== -->
-<div id="titlebar" class="gradient">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-
-				<div class="user-profile-titlebar">
-					<div class="user-profile-avatar">
-            {% thumbnail profile.profile.avatar "200x200" crop="smart" as im %}
-            <img src="{{ im.url }}" alt="">
-            {% endthumbnail %}
-          </div>
-					<div class="user-profile-name">
-						<h2>{{ profile.username }}</h2>
-						<div class="padding-top-20">
-
-					</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-<!-- Content
-================================================== -->
-<div style="background-color: #e8e8e8;">
 <div class="container">
-	<div class="row sticky-wrapper">
-
-
-		<!-- Sidebar
-		================================================== -->
-		<div class="col-lg-4 col-md-4 margin-top-0">
-				
-			<!-- Verified Badge -->
-
-
-
-
-			<!-- Contact -->
-			<div class="boxed-widget margin-top-30 margin-bottom-50">
-				<h3>O mnie</h3>
-				<ul class="listing-details-sidebar">
-					<li><i class="sl sl-icon-link"></i> {{ profile.profile.url }}</li>
-				</ul>
-				{% if profile.profile.facebook %}
-				<ul class="listing-details-sidebar social-profiles">
-					<li><a href="{{ profile.profile.facebook }}" class="facebook-profile"><i class="fa fa-facebook-square"></i> Facebook</a></li>
-					<!-- <li><a href="#" class="gplus-profile"><i class="fa fa-google-plus"></i> Google Plus</a></li> -->
-				</ul>
-				{% endif %}
-				<!-- Reply to review popup -->
-
-				<a href="{% url "pinax_messages:message_user_create" user_id=profile.id %}" class="send-message-to-owner button"><i class="sl sl-icon-envelope-open"></i> Wyślij wiadomość</a>
+	<h4 class="mt-3 mb-3">Ostatnio dodane</h4>
+	<div class="row ">
+		{% for recipe in addedbyuser %}
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+			<!-- Column -->
+			<div class="card card-shadow">
+				<a href="{{ recipe.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail recipe.image "600x350" crop="smart" %}" alt="{{ embed.title }}"></a>
+				<div class="card-body">
+					<h5 class="font-medium h5-home"><a href="{{ recipe.get_absolute_url }}" class="link">{{ recipe.title }}</a></h5>
+					<p>{{ recipe.description|striptags|truncatewords:10 }}</p>
+				</div>
 			</div>
-			<!-- Contact / End-->
 		</div>
-		<!-- Sidebar / End -->
-
-
-		<!-- Content
-		================================================== -->
-		<div class="col-lg-8 col-md-8 padding-left-30">
-				<h2 class="margin-bottom-30">Aktywności</h2>
-				{% load activity_tags %}
-
-				{% for activity in activities %}
-					{% render_activity activity %}
-				{% endfor %}
-
-		</div>
-
+		{% endfor %}
 	</div>
 </div>
-</div>
+
+				
+
 {% endblock %}

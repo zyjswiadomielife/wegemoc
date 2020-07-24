@@ -46,6 +46,10 @@
 							<h5 class="font-medium">{{ recipe.title }}</h5>
                         </a>
 						<div class="text-dark">{{ recipe.description|safe }}</div>
+						<p class="mt-2 mb-0 text-dark font-medium">Kategorie:</p>
+						{% for category in recipe.category.all %}
+							<span class="badge badge-success">{{ category.title }}</span>
+						{% endfor %}
                     </div>
                     <div class="card-footer">
                         <a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
@@ -74,16 +78,15 @@
 					<dt>Przepisów:</dt>
 					<dd>{{ num_embed }}</dd>
 				</dl>
-				<div id="follow">
-					<follow-button user-id="{{ recipe.added_by.id }}" v-on:click="toggleFollow"></follow-button>
-				</div>
 				<div class="margin-top-10">
-				{% if recipe.added_by.followers.all|user_in:request.user %}
-				<a href="{% url 'unfollow' recipe.added_by.id %}" class="btn btn-sm btn-success" id="follow">Przestań obserwować</a>
-				{% else %}
-				<a href="{% url 'follow' recipe.added_by.id %}" class="btn btn-sm btn-success" id="follow">Obserwuj</a>
-				{% endif %}
+				<div id="follow">
+					{% if recipe.added_by.followers.all|user_in:request.user %}
+					<follow-button user-id="{{ recipe.added_by.id }}" v-bind:isfollowing="true"></follow-button>
+					{% else %}
+					<follow-button user-id="{{ recipe.added_by.id }}" v-bind:isfollowing="false"></follow-button>
+					{% endif %}
 				</div>
+			</div>
 			</div>
 			</div>
 

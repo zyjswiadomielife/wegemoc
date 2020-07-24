@@ -153,7 +153,7 @@
 		  
     </div>
 </div>
-    <div id="main-wrapper">
+    <div id="main-wrapper bg-light">
 
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
@@ -162,7 +162,7 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid">
+            <div class="container-fluid bg-light">
      
 				{% block content %}
 				{% endblock %}
@@ -275,141 +275,198 @@
     <!-- ============================================================== -->
 
     <script src="js/isotope.pkgd.min.js"></script>
-    <script type="application/javascript">
-        $('main script:not([type="application/javascript"])').attr('type', 'application/javascript');
-        axios.defaults.xsrfHeaderName = "X-CSRFToken";
-        
-            new Vue({
-              el: '#app',
-              delimiters: ['!!', '!!'],
-              data () {
-                return {
-                  embed: {
-                      url: '',
-                      title: '',
-                      description: '',
-                      type: '',
-                      thumbnail_url: '',
-                      html: '',
-                      category: [],
-                  },
-                  embedadd: 'Przepis został dodany!',
-                  loading: false,
-                  isPaste: false,
-                  embedsinfo: [],
-                  tag: '',
-                  tags: [],
-                  autocompleteItems: [
-                    { text: 'Adam', id: 1 },
-                    ],
-                  suggestions: [{ text: 'Adam', id: 1 }],
-                  test: [],
-                }
-              },
-          mounted(){
-            axios.get('/recipes/suggestions/').then(response => {this.suggestions = response.data.map(sugestion => {
-                    return { text: sugestion.title + ' - ' + sugestion.parentname, id: sugestion.id };
-                })})
-          },
-          watch: {
+    <script type = "application/javascript" >
+    
+    $('main script:not([type="application/javascript"])').attr('type', 'application/javascript');
+    axios.defaults.xsrfHeaderName = "X-CSRFToken";
+
+    new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                embed: {
+                    url: '',
+                    title: '',
+                    description: '',
+                    type: '',
+                    thumbnail_url: '',
+                    html: '',
+                    category: [],
+                },
+                loading: false,
+                isPaste: false,
+                embedsinfo: [],
+                tag: '',
+                tags: [],
+                maxTags: 3,
+                autocompleteItems: [{
+                    text: 'Adam',
+                    id: 1
+                }, ],
+                suggestions: [{
+                    text: 'Adam',
+                    id: 1
+                }],
+                test: [],
+                cardrender: false,
+                embedadd:'',
+            }
+        },
+        mounted() {
+            axios.get('/recipes/suggestions/').then(response => {
+                this.suggestions = response.data.map(sugestion => {
+                    return {
+                        text: sugestion.title + ' - ' + sugestion.parentname,
+                        id: sugestion.id
+                    };
+                })
+            })
+        },
+        watch: {
             'tag': 'initItems',
-          },  
-          computed: {
+        },
+        computed: {
             filteredAutocompleteItems() {
-            return this.autocompleteItems.filter(
-                (el) => el.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1
-            ).map(el => ({text: el.text}))
+                return this.autocompleteItems.filter(
+                    (el) => el.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1
+                ).map(el => ({
+                    text: el.text
+                }))
             },
             filteredSuggestions() {
-                    console.log(this.suggestions.filter(
+                console.log(this.suggestions.filter(
                     (el) => !this.tags.some((tag) => tag.text === el.text)
                 ))
                 return this.suggestions.filter(
                     (el) => !this.tags.some((tag) => tag.text === el.text)
                 )
             },
-                selectedId() {
+            selectedId() {
                 const array = []
                 this.tags.forEach(tag => {
-                const foundItem = this.autocompleteItems.find(item => item.text=== tag.text)
-                if(foundItem) {
-                array.push(foundItem.id)
-                }
+                    const foundItem = this.autocompleteItems.find(item => item.text === tag.text)
+                    if (foundItem) {
+                        array.push(foundItem.id)
+                    }
                 })
-            console.log(array, this.tags)
-            return array
+                console.log(array, this.tags)
+                return array
             }
-          },
-          methods: {
+        },
+        methods: {
             update(newTags) {
-            this.autocompleteItems = [];
-            this.tags = newTags;
+                this.autocompleteItems = [];
+                this.tags = newTags;
             },
             initItems() {
-            if (this.tag.length < 2) return;
-                axios.get('/recipes/recipecategories/').then(response => {this.autocompleteItems = response.data.map(category => {
-                    return { text: category.title + ' - ' + category.parentname, id: category.id };
-                })})
+                if (this.tag.length < 2) return;
+                axios.get('/recipes/recipecategories/').then(response => {
+                    this.autocompleteItems = response.data.map(category => {
+                        return {
+                            text: category.title + ' - ' + category.parentname,
+                            id: category.id
+                        };
+                    })
+                })
             },
             addSuggestionToTags(item) {
-              this.tags.push(item)
+                this.tags.push(item)
             },
             paste() {
-            this.isPaste = true;
+                this.isPaste = true;
             },
             input() {
-            if (this.isPaste) {
-              axios.get('http://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
-              .then(response => (this.embed = response.data))
-              isPaste = false;
-            }
-          },
-        addArticle: function() {
-        this.loading = true;
-        this.embed.category = this.selectedId
-        axios.post('/recipes/embeds/',this.embed)
-            .then((response) => {
-                this.loading = false;
-                this.embedadd = response.data
-                this.embedsinfo = response.data
-            })
-            .catch((err) => {
-                this.loading = false;
-                console.log(err);
-            })
-        },
+                if (this.isPaste) {
+                    axios.get('http://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
+                        .then(response => (this.embed = response.data))
+                    isPaste = false;
+                }
+            },
+            addArticle: function() {
+                this.loading = true;
+                this.embed.category = this.selectedId
+                axios.post('/recipes/embeds/', this.embed)
+                    .then((response) => {
+                        this.loading = false;
+                        this.cardrender = true;
+                        this.embedadd = 'Przepis został dodany'
+                        this.embedsinfo = response.data
+                    })
+                    .catch((err) => {
+                        this.loading = false;
+                        console.log(err);
+                    })
+            },
         },
         filters: {
-        truncate: function (text, length, suffix) {
-            return text.substring(0, length) + suffix;
+            truncate: function(text, length, suffix) {
+                return text.substring(0, length) + suffix;
             },
         }
-        
-            });
-        </script>
+
+    }); 
+  </script>
 <script type="application/javascript">
-Vue.component('follow-button', {
-  props: ['userId'],
+  Vue.component('follow-button', {
+    delimiters: ['[[', ']]'],
+    props: ['userId', 'isfollowing', 'buttontext'],
+    data: function () {
+      return {
+        followingStatus: null,
+      }
+    },
+    created() {
+      this.followingStatus = this.isfollowing
+    },
+    methods: {
+      followUser() {
+          axios.post('/account/follows/', {'target': this.userId})
+                    .then(response => {
+                        this.followingStatus = true;
+                        console.log(response.data);
+                    })
+                    
+                    .catch(errors => {
+                        if (errors.response.status == 401){
+                            window.location = '/login';
+                        }
+                    });
+              },
+      unfollowUser(){
+        axios.delete('/account/unfollow/' + this.userId + '/').then(response => {
+                    this.followingStatus = false;
+                    console.log(response.data);
+        })}
+
+            },
+    template: `
+    <button class="btn btn-sm btn-success" @click="unfollowUser" v-if="this.followingStatus">Przestań obserwować</button>
+    <button class="btn btn-sm btn-success" @click="followUser" v-else>Obserwuj</button>
+    `
+  })
+  
+  var follow = new Vue({
+    el: '#follow',
+    data: {
+      follow: [],
+    },
+  })
+  </script>
+<script type="application/javascript">
+  Vue.component('like-button', {
+  props: ['dataId', 'dataType'],
   data: function () {
     return {
-      status: 'Obserwuj',
-      followed: false,
-      submitted: false,
+      likes: [],
     }
   },
+  template: '<button class="btn btn-sm btn-success" @click="likeReaction"></button>',
   methods: {
-        toggleFollow: function()
-    {
-        if(this.followed) {
-            this.unlikePhoto()
-        } else {
-            this.likePhoto()
-        }
-    },
-    followUser() {
-            axios.post('/account/follows/', {'target': this.userId})
+    likeReaction() {
+            axios.post('/api/' + this.dataType + '/' + this.dataId + '/like/')
                     .then(response => {
-                        console.log(response.data);
+                        this.likes = response.data;
                     })
                     
                     .catch(errors => {
@@ -418,31 +475,12 @@ Vue.component('follow-button', {
                         }
                     });
             },
-            unfollowUser() {
-            axios.post('/account/follows/', {'target': this.userId})
-                    .then(response => {
-                        console.log(response.data);
-                    })
-                    
-                    .catch(errors => {
-                        if (errors.response.status == 401){
-                            window.location = '/login';
-                        }
-                    });
-            },
-        },
-  template: `
-  <button class="btn btn-sm btn-success" @click="followUser"></button>
-  `
+  }
 })
 
-var follow = new Vue({
-  el: '#follow',
-  data: {
-    follow: [],
-  },
-})
-</script> 
+new Vue({ el: '#like',
+          delimiters: ['[[', ']]'] })
+</script>
 </body>
 
 </html>

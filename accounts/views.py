@@ -8,13 +8,10 @@ from stream_django.feed_manager import feed_manager
 from .forms import EditUser, EditProfile
 
 def profile(request, username):
-    enricher = Enrich()
     profile = get_object_or_404(User, username=username)
-    feed = feed_manager.get_user_feed(profile.id)
-    activities = feed.get(limit=25)['results']
-    activities = enricher.enrich_activities(activities)
+    addedbyuser = profile.addedbyuser.all()
     return render(request, 'profile/detail.html', {'profile': profile,
-                                                    'activities': activities})
+                                                    'addedbyuser': addedbyuser})
 
 @login_required
 def follow(request, id):
