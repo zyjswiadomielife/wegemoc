@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.contrib.contenttypes.models import ContentType
      
-from .models import LikeDislike
+from .models import Like
      
      
 class VotesView(View):
@@ -14,13 +14,12 @@ class VotesView(View):
         obj = self.model.objects.get(pk=pk)
         # GenericForeignKey does not support get_or_create
         try:
-            likedislike = LikeDislike.objects.get(content_type=ContentType.objects.get_for_model(obj), object_id=obj.id, user=request.user)
-            if likedislike:
+            like = Like.objects.get(content_type=ContentType.objects.get_for_model(obj), object_id=obj.id, user=request.user)
+            if like:
                 result = True
             else:
-                likedislike.delete()
-                result = False
-        except LikeDislike.DoesNotExist:
+                like.delete()
+        except Like.DoesNotExist:
             obj.create(user=request.user)
             result = True
      

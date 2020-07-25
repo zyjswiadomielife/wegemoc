@@ -162,12 +162,12 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid bg-light">
+            
      
 				{% block content %}
 				{% endblock %}
 
-            </div>
+            
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -455,16 +455,17 @@
   </script>
 <script type="application/javascript">
   Vue.component('like-button', {
-  props: ['dataId', 'dataType'],
+  delimiters: ['[[', ']]'],
+  props: ['dataId', 'dataType', 'dataCount'],
   data: function () {
     return {
       likes: [],
     }
   },
-  template: '<button class="btn btn-sm btn-success" @click="likeReaction"></button>',
+  template: '<button class="btn btn-sm btn-success" @click="likeReaction"><i class="fas fa-carrot"></i> Lubię to [[ dataCount ]]</button>',
   methods: {
     likeReaction() {
-            axios.post('/api/' + this.dataType + '/' + this.dataId + '/like/')
+            axios.post('/api/' + this.dataType + '/' + this.dataId + '/')
                     .then(response => {
                         this.likes = response.data;
                     })

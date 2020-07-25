@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'stream_django',
-    'likedislike',
+    'likes',
     'questions',
     'comments',
     'sorl.thumbnail',

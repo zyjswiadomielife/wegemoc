@@ -52,10 +52,10 @@
 						{% endfor %}
                     </div>
                     <div class="card-footer">
-                        <a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
-						<a class="listing-links" data-id="{{ recipe.id }}" data-type="embed" data-action="like" title="Like">
-							<i class="fas fa-carrot" style="color: white;"></i><span style="color: white;">Super!</span> 
-							<span data-count="like" style="color: white;">{{ recipe.votes.likes.count }}</span></a></li>
+						<a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
+					<div id="like">
+						<like-button data-id="{{ recipe.id }}" data-type="embed" data-count="{{ recipe.votes.count }}"></like-button>
+					</div>
                     </div>
                 </div>
 				<!-- Post /////-->

@@ -26,7 +26,7 @@ urlpatterns = [
     path('recipes/', include('recipes.urls')),
     path('blog/', include('blog.urls')),
     path('account/', include('accounts.urls')),
-    path('api/', include('likedislike.urls')),
+    path('like/', include('likes.urls')),
     re_path(r'^tinymce/', include('tinymce.urls')),
     re_path(r'^accounts/', include('allauth.urls')),
     re_path(r"^messages/", include("pinax.messages.urls", namespace="pinax_messages")),

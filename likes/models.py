@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from stream_django.activity import Activity
 
      
-class LikeDislike(models.Model, Activity):
+class Like(models.Model, Activity):
 
     user = models.ForeignKey(User, verbose_name='uzytkownicy', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

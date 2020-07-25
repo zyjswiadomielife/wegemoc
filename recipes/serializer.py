@@ -9,10 +9,14 @@ from django.db.models import Count
 
 class EmbedSerializer(serializers.ModelSerializer):
     added_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    total_votes = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Embed
         fields = '__all__'
+
+    def get_total_votes(self, embed):
+        return embed.votes.count()
 
     def validate(self, attrs):
         url = attrs['thumbnail_url']
