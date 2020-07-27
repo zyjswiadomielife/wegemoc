@@ -240,7 +240,7 @@
               <i class="fas fa-archive"></i>
               <span class="nav__text">Kategorie</span>
             </a>
-            <a href="#" class="nav__link">
+            <a href="{% url 'user_bookmarks_list' request.user.username %}" class="nav__link">
               <i class="far fa-bookmark"></i>
               <span class="nav__text">Ulubione</span>
             </a>
@@ -462,7 +462,7 @@
       likes: [],
     }
   },
-  template: '<button class="btn btn-sm btn-success" @click="likeReaction"><i class="fas fa-carrot"></i> Lubię to [[ dataCount ]]</button>',
+  template: '<button class="btn btn-sm btn-success-gradiant ml-2" @click="likeReaction"><i class="fas fa-carrot"></i> Lubię to [[ dataCount ]]</button>',
   methods: {
     likeReaction() {
             axios.post('/api/' + this.dataType + '/' + this.dataId + '/')
@@ -480,6 +480,35 @@
 })
 
 new Vue({ el: '#like',
+          delimiters: ['[[', ']]'] })
+</script>
+<script type="application/javascript">
+  Vue.component('bookmark-button', {
+  delimiters: ['[[', ']]'],
+  props: ['bookmarkId', 'bookmarkCount'],
+  data: function () {
+    return {
+      bookmarks: [],
+    }
+  },
+  template: '<button class="btn btn-sm btn-danger-gradiant ml-2" @click="bookmarkReaction"><i class="fas fa-heart"></i> Ulubione [[ bookmarkCount ]]</button>',
+  methods: {
+    bookmarkReaction() {
+            axios.post('/bookmarks/' + this.bookmarkId + '/bookmark/')
+                    .then(response => {
+                        this.bookmarks = response.data;
+                        this.bookmarkCount = this.bookmarks.count
+                    })
+                    
+                    .catch(errors => {
+                        if (errors.response.status == 401){
+                            window.location = '/login';
+                        }
+                    });
+            },
+  }
+})
+new Vue({ el: '#bookmark',
           delimiters: ['[[', ']]'] })
 </script>
 </body>

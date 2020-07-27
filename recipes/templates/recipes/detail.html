@@ -52,23 +52,31 @@
 						{% endfor %}
                     </div>
                     <div class="card-footer">
-						<a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
-					<div id="like">
-						<like-button data-id="{{ recipe.id }}" data-type="embed" data-count="{{ recipe.votes.count }}"></like-button>
-					</div>
+						<div class="d-inline-flex p-2 bd-highlight">
+							<a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
+							<div id="like">
+								<like-button data-id="{{ recipe.id }}" data-type="embed" data-count="{{ recipe.votes.count }}"></like-button>
+							</div>
+							<div id="bookmark">
+								<bookmark-button bookmark-id="{{ recipe.id }}" bookmark-count="{{ recipe.bookmarks.count }}"></bookmark-button>
+							</div>
+						</div>
+						
+
+
                     </div>
                 </div>
 				<!-- Post /////-->
 			</div>
 			<div class="col-lg-4">
-			<div class="card shadow mt-5">
+			<div class="card shadow mt-lg-5">
 			<div class="card-body">
 				<div class="d-flex align-items-center">
 					<div class="mr-2">
 						<img class="rounded-circle" width="30" height="30" src="{% thumbnail recipe.added_by.profile.avatar "100x100" crop="smart" %}" alt="">
 					</div>
 					<div class="ml-2">
-						<div class="m-0 text-blue"><a href="{{ recipe.added_by.get_absolute_url }}">{{ recipe.added_by.username }}</a></div>
+						<div class="m-0 text-blue"><a href="{{ recipe.added_by.get_absolute_url }}" class="link">{{ recipe.added_by.username }}</a></div>
 						<div class="small text-muted">Dodane: {{ recipe.created_at|timesince }}</div>
 					</div>
 				</div>
@@ -173,11 +181,11 @@
 						<div class="card shadow">
 							<a href="{{ recipe.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail recipe.image "600x300" %}" alt="{{ recipe.title }}"></a>
 							<div class="card-body">
-							  <h5 class="card-title"><a href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a></h5>
+							  <h5 class="card-title"><a href="{{ recipe.get_absolute_url }}" class="link">{{ recipe.title }}</a></h5>
 							  <p class="card-text small">{{ recipe.description|striptags|truncatewords:10 }}</p>
 			
-							<span><i class="fa fa-heart"></i> {{ recipe.votes.likes.count }} </span> 
-							<span class="ml-2"><i class="fa fa-bookmark"></i> 5 </span>
+							<span><i class="fa fa-heart"></i> {{ recipe.votes.count }} </span> 
+							<span class="ml-2"><i class="fa fa-bookmark"></i> {{ recipe.bookmarks.count }} </span>
 						
 							</div>
 						</div>

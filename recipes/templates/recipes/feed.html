@@ -12,6 +12,8 @@
 <div class="bg-light">
 <div class="container">
   <div class="row">
+    <div id="like">
+      <div id="bookmark">
     {% for category in categories %}
     {% for recipe in category.embeds.all %}
     <div class="col-lg-6">
@@ -32,18 +34,23 @@
              {% endfor %}</p>
         </div>
         <div class="card-footer">
-          <a href="javascript:void(0)" class="btn btn-sm btn-success">
-            <i class="fas fa-carrot"></i> Super!
-          </a>
-          <a href="javascript:void(0)" class="btn btn-sm btn-danger">
-            <i class="fas fa-heart"></i> Ulubione
-          </a>
-        </div>
-      </div>
+          <div class="d-inline-flex p-2 bd-highlight">
+            
+              <like-button data-id="{{ recipe.id }}" data-type="embed" data-count="{{ recipe.votes.count }}"></like-button>
+            
+            
+              <bookmark-button bookmark-id="{{ recipe.id }}" bookmark-count="{{ recipe.bookmarks.count }}"></bookmark-button>
+            </div>
+          </div>
+          </div>
+     
+      
   </div>
   {% endfor %}
   {% endfor %}
   </div>
+</div>
+</div>
 </div>
 </div>
 

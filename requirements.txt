@@ -16,3 +16,4 @@ django-tagulous
 django-autocomplete-light
 pinax-messages
 django-cors-headers
+django-imgix

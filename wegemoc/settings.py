@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'autoslug',
     'accounts',
     'recipes',
+    'bookmarks',
     'mptt',
     'home',
     'blog',

@@ -1,4 +1,4 @@
-from django.urls import re_path, path
+from django.urls import re_path, path, include
 from django.contrib.auth.decorators import login_required
 from rest_framework import routers
 from . import viewsets
@@ -8,5 +8,5 @@ router.register(r'likes', viewsets.LikeViewSet)
 
 app_name = 'ajax'
 urlpatterns = [
-
+    path('', include(router.urls)),
 ]

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Ulubione przepisy{% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+    <div class="container mt-5">
+        <h3 class="mb-3">Twoje ulubione przepisy</h3>
+        <div class="row">
+            
+            {% for bookmark in bookmarks %}
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                <!-- Column -->
+                <div class="card card-shadow">
+                    <a href="{{ bookmark.obj.get_absolute_url }}"><img class="card-img-top" src="{{ bookmark.obj.image.url }}" alt="{{ embed.title }}"></a>
+                    <div class="card-body">
+                        <h5 class="font-medium h5-home"><a href="{{ bookmark.obj.get_absolute_url }}" class="link">{{ bookmark.obj.title }}</a></h5>
+                        <p>{{ bookmark.obj.description|striptags|truncatewords:10 }}</p>
+                        <p class="mb-0">
+                            <a href="{{ bookmark.obj.added_by.get_absolute_url }}" class="text-muted"><img src="{{ bookmark.obj.added_by.profile.avatar.url }}" alt="task-user" class="thumb-sm rounded-circle mr-2"> 
+                                <span class="font-medium small text-dark">{{ bookmark.obj.added_by.username }}</span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
