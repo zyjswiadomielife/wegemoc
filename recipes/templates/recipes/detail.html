@@ -55,7 +55,11 @@
 						<div class="d-inline-flex p-2 bd-highlight">
 							<a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
 							<div id="like">
-								<like-button data-id="{{ recipe.id }}" data-type="embed" data-count="{{ recipe.votes.count }}"></like-button>
+								{% if recipe.votes.all|user_in:user %}
+								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="27" data-count="{{ recipe.votes.count }}" v-bind:isliked="false"></like-button>
+								{% else %}
+								<like-button  data-id="{{ recipe.id }}" data-type="27" data-count="{{ recipe.votes.count }}" v-bind:isliked="true"></like-button>
+								{% endif %}
 							</div>
 							<div id="bookmark">
 								<bookmark-button bookmark-id="{{ recipe.id }}" bookmark-count="{{ recipe.bookmarks.count }}"></bookmark-button>
