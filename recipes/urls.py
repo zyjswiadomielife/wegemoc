@@ -24,6 +24,7 @@ urlpatterns = [
     path('recipe/embed/add1/', EmbedAddView.as_view(), name='embedadd'),
     path('embed/<int:pk>/edit/', views.EmbedUpdate.as_view(), name='embededit'),
     re_path(r'^category/(?P<hierarchy>.+)/$', views.show_category, name='category'),
-    re_path(r'^b/(?P<recipecategory>[-\w]+)/subscription/$', views.subscribe, name='subscribe'),
+    path('<recipecategory>/subscriptionadd/', views.subscribeadd, name='subscribeadd'),
+    path('<recipecategory>/subscriptiondelete/', views.subscribedelete, name='subscribedelete'),
     path('u/<username>/subscriptions/', views.UserSubscriptionListView.as_view(), name='user_subscription_list'),
 ]

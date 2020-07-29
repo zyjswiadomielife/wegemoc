@@ -160,16 +160,34 @@ def recipedetail(request, slug):
                                                   'form': form,
                                                   'num_embed': num_embed})
 
-def subscribe(request, recipecategory):
+def subscribeadd(request, recipecategory):
+
+    recipecategory = get_object_or_404(RecipeCategory, slug=recipecategory)
+
+    user = request.user
+    if recipecategory not in user.subscribed_category.all():
+        recipecategory.subscribers.add(user)
+    return HttpResponse(
+            json.dumps({
+                "subscribers_count": recipecategory.subscribers.count(),
+            }),
+            content_type="application/json"
+        )
+
+def subscribedelete(request, recipecategory):
 
     recipecategory = get_object_or_404(RecipeCategory, slug=recipecategory)
 
     user = request.user
     if recipecategory in user.subscribed_category.all():
         recipecategory.subscribers.remove(user)
-    else:
-        recipecategory.subscribers.add(user)
-    return HttpResponse(recipecategory.subscribers.count())
+        
+    return HttpResponse(
+            json.dumps({
+                "subscribers_count": recipecategory.subscribers.count(),
+            }),
+            content_type="application/json"
+        )
 
 @login_required
 def feed(request):

@@ -12,7 +12,7 @@ class EmbedViewSet(viewsets.ModelViewSet):
 
 class RecipeCategoryViewSet(viewsets.ModelViewSet):
     
-    queryset = RecipeCategory.objects.all()
+    queryset = RecipeCategory.objects.filter(level=1)
     serializer_class = RecipeCategorySerializer
 
 class Suggestions(generics.ListAPIView):

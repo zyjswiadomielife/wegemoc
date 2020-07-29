@@ -355,3 +355,62 @@ Header 1
 .default-style .ui-bordered {
   border: 1px solid rgba(24,28,33,0.06);
 }
+
+.Button {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: inherit;
+  display: inline-block;
+  font: inherit;
+  height: auto;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+}
+
+/**
+ * Override default focus styles so we can apply our own.
+ * Never do this unless you will replace them!!
+ */
+
+.Button-cat:focus {
+  outline: none;
+}
+
+.Button-cat::-moz-focus-inner {
+  border: 0;
+}
+
+.Button-inner-cat {
+  align-items: center;
+  background: #4CAF50;
+  border: 2px solid transparent;
+  border-radius: 99em;
+  color: #fff;
+  display: flex;
+  font-weight: 600;
+  height: 2.5em;
+  min-width: 2.5em;
+  padding: 0 1em;
+  position: relative;
+  transition: 0.2s ease;
+  width: 100%;
+}
+
+.Button-cat:focus .Button-inner {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #43A047;
+}
+
+.Button-cat:hover .Button-inner {
+  filter: brightness(1.1);
+}
+
+.Button-cat:active .Button-inner {
+  filter: brightness(0.9);
+}

@@ -4,34 +4,30 @@
 {% block title %} Kategorie - Wegemoc {% endblock %}
 
 {% block content %}
-
+{% load follow %}
+<div id="subscribe">
 <div class="container">
 
 {% load thumbnail %}
 <div class="margin-top-50">
   <div class="container mt-5 mb-5">
-
-    <h3>Kategorie</h3>
-
-          <a href="{% url 'addcategory' %}" class="btn btn-success-gradiant"><i class="fa fa-plus" style="color: white;"></i> <span style="color: white;">Stwórz kategorię</span></a>
-          {% if request.user.is_authenticated %}
-          <a href="{% url 'user_subscription_list' request.user.username %}" class="btn btn-success-gradiant"><i class="fas fa-eye" style="color: white;"></i> <span style="color: white;">Kategorie, które obserwuje</span></a>
-          {% endif %}
-       
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active m-2" href="{% url 'addcategory' %}"><i class="fa fa-plus"></i> <span>Stwórz kategorię</span></a>
+      </li>
+      {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link active m-2" href="{% url 'user_subscription_list' request.user.username %}"><i class="fas fa-eye" style="color: white;"></i> <span style="color: white;">Kategorie, które obserwuje</span></a>
+      </li>
+      {% endif %}
+      {% for category in rootcategories %}
+      <li class="nav-item">
+        <a class="nav-link active m-2" href="/recipes/category/{{ category.slug }}">{{ category.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
 
   </div>
-</div>
-<div class="container">
-  <div class="row">
-  {% for category in rootcategories %}
-          <!-- place item-->
-          <div class="col-lg-3 col-md-3 col-sm-12">
-            <div class="card h-100 border-0 shadow text-center" style="background-size:cover;background-image:linear-gradient(#E9F3EB, rgba(233,243,235,.7)),{% if category.image %} url({{category.image.url}}) {% endif %};">  
-            <h4><a href="/recipes/category/{{ category.slug }}" class="text-dark">{{ category.title }}</a></h4>
-            </div>
-        </div>
-  {% endfor %}
-</div>
 </div>
    
 <div class="container">
@@ -44,66 +40,25 @@
 
 
             <h6 class="text-center mt-3"><a href="/recipes/category/{{ i.parent.slug }}/{{ i.slug }}" class="text-dark font-medium">{{ i.title }} - {{ i.parent.title }}</a></h6>
-     
-
-                    <p class="text-white"><center><small class="text-dark">Obserwujących: {{ i.subscribers.count }} </small></center></p>
-              
-
+                  
                     <div class="text-center mb-3">
-                        {% if i in request.user.subscribed_category.all %}
+                        {% if request.user in i.subscribers.all %}
                
-                        <a href="{% url 'subscribe' i.slug %}" class="btn btn-sm btn-success-gradiant" style="background-color: #5EC031; color: white;" id="subscribe_board">Przestań obserwować</span></a>
+                        <subscribe-button subscribe-id="{{ i.slug }}" subscribe-count="{{ i.subscribers.count }}" v-bind:issubscribed="false"></subscribe-button>
                   
                         {% else %}
                  
-                        <a href="{% url 'subscribe' i.slug %}" class="btn btn-sm btn-success-gradiant" style="background-color: #5EC031; color: white;" id="subscribe_board">Obserwuj</span></a></li>
+                        <subscribe-button subscribe-id="{{ i.slug }}" subscribe-count="{{ i.subscribers.count }}" v-bind:issubscribed="true"></subscribe-button>
                       
                         {% endif %}
                     </div>
-  
+                  
               </div>
         </div>
 
 {% endfor %}
   </div>
 </div>
+</div>
 
-{% block javascript %}
-        <script type="text/javascript">
-          // Subscribe boards
-          $(document).ready(function(){
-            $("a#subscribe_board").on("click", function () {
-              {% if not request.user.is_authenticated %}
-              window.location.href = "{% url 'account_login' %}";
-              {% else %}
-              var $msg = $(this);
-              var $subscribe_url = $(this).attr("href");
-              var $board_subscribers = $('span#board_subscribers')
-              $.ajax({
-                url: $subscribe_url,
-                type: 'GET',
-                success: function (data) {
-                  if ($msg.text() == 'Obserwuj') {
-                    $msg.removeClass('listing-links');
-                    $msg.addClass('listing-links');
-                    $msg.text('Przestań obserwować');
-                    $board_subscribers.text(data + ' readers');
-                  }
-                  else if ($msg.text() == 'Przestań obserwować') {
-                    $msg.removeClass('listing-links');
-                    $msg.addClass('listing-links');
-                    $msg.text('Obserwuj');
-                    $board_subscribers.text(data + ' readers');
-                  }
-                  else {
-                    console.log('Unexpected error!');
-                  }
-                }
-              });
-              {% endif %}
-              return false;
-            });
-          });
-          </script>
-{% endblock %}
 {% endblock %}

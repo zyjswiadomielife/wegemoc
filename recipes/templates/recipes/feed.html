@@ -21,17 +21,24 @@
         <div class="card-body">
           <div class="media border-0">
             {% thumbnail recipe.added_by.profile.avatar "40x40" as im %}
-            <img src="{{ im.url }}" class="d-block ui-w-40 rounded-circle" alt="">
+            <a href="{{ recipe.added_by.get_absolute_url }}"><img src="{{ im.url }}" class="d-block ui-w-40 rounded-circle" alt=""></a>
             {% endthumbnail %}
             <div class="media-body ml-3">
-              {{ recipe.added_by.username }}
+              <a href="{{ recipe.added_by.get_absolute_url }}" class="link">{{ recipe.added_by.username }}</a>
               <div class="text-muted small">Dodane: {{ recipe.created_at|timesince }} temu</div>
             </div>
           </div>
-          <p>{{ recipe.html|safe }}</p>
-          <p>{% for cat in recipe.embeds.all %}
-                {{ cat.title }}
-             {% endfor %}</p>
+          <div class="media">
+            <img class="align-self-start mr-3" width="100px" height="100px" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            <div class="media-body">
+              <h5 class="mt-0"><a href="{{ recipe.get_absolute_url }}" class="link">{{ recipe.title }}</a></h5>
+              <p>{{ recipe.description|truncatewords:40|striptags }}</p>
+            </div>
+          </div>
+          <p class="mt-2 mb-0 text-dark font-medium">Kategorie:</p>
+          {% for category in recipe.category.all %}
+          <a href="/recipes/category/{{ category.parent.slug }}/{{ category.slug }}" class="text-dark font-medium"><span class="badge badge-success">{{ category.title }}</span></a>
+          {% endfor %}
         </div>
         <div class="card-footer">
           <div class="d-inline-flex p-2 bd-highlight">

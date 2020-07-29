@@ -5,14 +5,14 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load account %}
-<div style="margin-top: 100px;">
-<div class="container">
+
+<div class="container mb-5">
             <h2 class="mt-5">Wyloguj</h2>
             <form method="post">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button type="submit" class="button">Wyloguj</button>
+                    <button type="submit" class="btn btn-success">Wyloguj</button>
             </form>
 </div>
-</div>
+
 {% endblock %}

@@ -57,9 +57,9 @@
 		<div id="follow">
 		<p>
 			{% if profile.followers.all|user_in:request.user %}
-			<follow-button user-id="{{ recipe.added_by.id }}" v-bind:isfollowing="true"></follow-button>
+			<follow-button user-id="{{ profile.id }}" v-bind:isfollowing="true"></follow-button>
 			{% else %}
-			<follow-button user-id="{{ recipe.added_by.id }}" v-bind:isfollowing="false"></follow-button>
+			<follow-button user-id="{{ profile.id }}" v-bind:isfollowing="false"></follow-button>
 			{% endif %}
 		</p>
 	</div>

@@ -48,7 +48,7 @@
 						<div class="text-dark">{{ recipe.description|safe }}</div>
 						<p class="mt-2 mb-0 text-dark font-medium">Kategorie:</p>
 						{% for category in recipe.category.all %}
-							<span class="badge badge-success">{{ category.title }}</span>
+						<a href="/recipes/category/{{ category.parent.slug }}/{{ category.slug }}" class="text-dark font-medium"><span class="badge badge-success">{{ category.title }}</span></a>
 						{% endfor %}
                     </div>
                     <div class="card-footer">
@@ -56,7 +56,7 @@
 							<a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
 							<div id="like">
 								{% if recipe.votes.all|user_in:user %}
-								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="27" data-count="{{ recipe.votes.count }}" v-bind:isliked="false"></like-button>
+								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="27" data-count="{{ recipe.votes.count }}" v-bind:issubscribed="false"></like-button>
 								{% else %}
 								<like-button  data-id="{{ recipe.id }}" data-type="27" data-count="{{ recipe.votes.count }}" v-bind:isliked="true"></like-button>
 								{% endif %}
