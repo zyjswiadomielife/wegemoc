@@ -11,18 +11,20 @@
 <meta property="og:url" content="https://wegemoc.eu/{{ question.slug }}" />
 {% endblock %}
 {% block additionalcss %}
+{% load follow %}
 
 {% endblock %}
 {% block content %}
 {% load thumbnail %}
 {% load crispy_forms_tags %}
-
+<div id="like">
+<div class="bg-light">
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-8">
             <h1 class="mt-4 mb-4" style="font-size: xx-large;">{{ question.title }}</h1>
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header bg-white">
                     <div class="media flex-wrap w-100 align-items-center border-0"> 
                         {% thumbnail question.author.profile.avatar "50x50" as im %}
                         <img src="{{ im.url }}" class="d-block ui-w-40 rounded-circle" alt="">
@@ -30,23 +32,44 @@
                         <div class="media-body ml-3"> <a href="{{ question.author.get_absolute_url }}">{{ question.author.username }}</a>
                             <div class="text-muted small">{{ question.created_at|timesince }} temu</div>
                         </div>
-                        <div class="text-muted small ml-3">
-                            <div>Member since <strong>01/1/2019</strong></div>
-                            <div><strong>134</strong> posts</div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="card-body">
                     <p class="text-dark">{{ question.body|safe }}</p>
                     <p>Tagi: {% for tag in question.tags.all %}<a href="">{{ tag.name }}</a> {% if not forloop.last %}, {% endif %}{% endfor %}</p>
                 </div>
-                <div class="card-footer d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
+                <div class="card-footer bg-white d-flex flex-wrap justify-content-between align-items-center px-0 pt-0 pb-3">
                     <div class="px-4 pt-3">
-                        <div id="like">
-                            <like-button data-id="{{ question.id }}" data-type="question" title="Polubienie" v-bind:count="likes.like_count">Super! </like-button>
-                        </div>
+                        {% if question.votes.all|user_in:request.user %}
+                        <like-button vote-type="question" data-id="{{ question.id }}" data-type="27" data-count="{{ question.votes.count }}" v-bind:issubscribed="false"></like-button>
+                        {% else %}
+                        <like-button vote-type="question" data-id="{{ question.id }}" data-type="27" data-count="{{ question.votes.count }}" v-bind:isliked="true"></like-button>
+                        {% endif %}
                         <a href="javascript:void(0)" class="text-muted d-inline-flex align-items-center align-middle" data-abc="true"> <i class="fa fa-heart text-danger"></i>&nbsp; <span class="align-middle">445</span> </a> <span class="text-muted d-inline-flex align-items-center align-middle ml-4"> <i class="fa fa-eye text-muted fsize-3"></i>&nbsp; <span class="align-middle">14532</span> </span> </div>
-                    <div class="px-4 pt-3"> <button type="button" class="btn btn-primary">Odpowiedz</button> </div>
+                    <div class="px-4 pt-3"><a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Odpowiedz
+                      </a></div>
+                </div>
+
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    {% if request.user.is_authenticated %}
+                    <!-- Add Review -->
+                    <h3 class="listing-desc-headline margin-bottom-10">Dodaj odpowiedź</h3>
+
+                    <!-- Review Comment -->
+                    <form method="post">
+                            {% csrf_token %}
+                            {{ form.media }}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-primary">Dodaj</button>
+                    </form>
+                    {% else %}
+                    <p>Aby dodać odpowiedź musisz się <a href="{% url 'account_login' %}">zalogować</a> lub <a href="{% url 'account_signup' %}">zarejestrować</a>.</p>
+                    {% endif %}
+                  </div>
                 </div>
             </div>
         </div>
@@ -78,47 +101,7 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-8 col-lg-10">            
-                <!-- Add Review Box -->
-           
-    {% if request.user.is_authenticated %}
-                        <!-- Add Review -->
-                        <h3 class="listing-desc-headline margin-bottom-10">Dodaj odpowiedź</h3>
-    
-                        <!-- Review Comment -->
-                        <form method="post">
-                                {% csrf_token %}
-                                {{ form.media }}
-                                {{ form|crispy }}
-                                <button type="submit" class="btn btn-primary">Dodaj</button>
-                        </form>
-    {% else %}
-                        <p>Aby dodać odpowiedź musisz się <a href="{% url 'account_login' %}">zalogować</a> lub <a href="{% url 'account_signup' %}">zarejestrować</a>.</p>
-    {% endif %}
-        
-             
-                <!-- Add Review Box / End -->
-                				<!-- Reviews -->
-
-                            
-            
-                                    {% thumbnail answer.author.profile.avatar "100x100" crop="smart" as im %}
-                                    <img src="{{ im.url }}" alt="" /></div>
-                                    {% endthumbnail %}
-
-                           {{ answer.author.username }} <span class="date">{{ answer.created_at|timesince }}</span>
-
-                                    <p>{{ answer.body|safe }}</p>
-
-                     
-    
-                </div>
-                </div>
-    </div>
-</div>   
-
-
+</div>
+</div>
                 
 {% endblock %}

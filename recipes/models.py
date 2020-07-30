@@ -9,6 +9,7 @@ from likes.models import Like
 from stream_django.activity import Activity
 from django.core.files import File
 from urllib import request
+import gdpr_assist
 import os
 
 class RecipeCategory(MPTTModel):
@@ -19,7 +20,7 @@ class RecipeCategory(MPTTModel):
     slug = AutoSlugField(populate_from='title', unique=True)
     parent = TreeForeignKey('self', related_name='children', db_index=True, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Kategoria')
     subscribers = models.ManyToManyField(User, related_name='subscribed_category', blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    author = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL), default=1)
 
     def __str__(self):
         return self.title
@@ -48,6 +49,12 @@ class RecipeCategory(MPTTModel):
             slugs.append('/'.join(ancestors[:i+1]))
         return slugs
 
+    class PrivacyMeta:
+        search_fields = ['title']
+
+        def anonymise_private_data(self, instance):
+            return 0
+
 
 class Embed(models.Model, Activity):
     url = models.URLField(max_length=255, verbose_name='Adres przepisu')
@@ -58,7 +65,7 @@ class Embed(models.Model, Activity):
     image = models.ImageField(upload_to='recipes', blank=True)
     html = models.TextField()
     votes = GenericRelation(Like, related_query_name='embedlikes')
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addedbyuser')
+    added_by = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL), related_name='addedbyuser')
     created_at = models.DateTimeField(auto_now_add=True)
     category = TreeManyToManyField(RecipeCategory, blank=True, null=True, related_name='embeds', verbose_name='Kategoria')
     slug = AutoSlugField(populate_from='title', unique=True)
@@ -77,3 +84,9 @@ class Embed(models.Model, Activity):
     @property
     def activity_actor_attr(self):
         return self.added_by
+
+    class PrivacyMeta:
+        fields = ['added_by']
+
+        def anonymise_private_data(self, instance):
+            return 0

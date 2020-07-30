@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'gdpr_assist',
     'stream_django',
     'likes',
     'questions',
@@ -147,8 +148,14 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATA_DB_PASS'),
         'HOST': os.environ.get('DATA_DB_HOST'),
         'PORT': '',
+    },
+    'gdpr_log': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
     }
 }
+
+DATABASE_ROUTERS = ['gdpr_assist.routers.EventLogRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

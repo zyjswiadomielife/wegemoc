@@ -7,14 +7,14 @@ from autoslug import AutoSlugField
 from django.urls import reverse
 from tinymce import HTMLField
 import tagulous.models
+import gdpr_assist
 
 
 class Question(models.Model, Activity):
     title = models.CharField(max_length=255, verbose_name='Tytuł', help_text='')
     body = HTMLField(verbose_name='Treść')
-    tags = tagulous.models.TagField(max_count=5, verbose_name='Tagi')
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
     votes = GenericRelation(Like, related_query_name='questionlikes')
     slug = AutoSlugField(populate_from='title', unique=True)
 
@@ -28,10 +28,16 @@ class Question(models.Model, Activity):
     def get_absolute_url(self):
         return reverse('questiondetail', args=[self.slug])
 
+    class PrivacyMeta:
+        search_fields = ['title']
+
+        def anonymise_private_data(self, instance):
+            return 0
+
 class Answer(models.Model, Activity):
     body = HTMLField(verbose_name='Treść')
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     votes = GenericRelation(Like, related_query_name='answerlikes')
 
@@ -41,3 +47,9 @@ class Answer(models.Model, Activity):
     @property
     def activity_actor_attr(self):
         return self.author
+
+    class PrivacyMeta:
+        search_fields = ['body']
+
+        def anonymise_private_data(self, instance):
+            return 0

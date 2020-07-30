@@ -5,7 +5,7 @@ class QuestionAdd(ModelForm):
     
     class Meta:
         model = Question
-        fields = ['title', 'body', 'tags']
+        fields = ['title', 'body']
 
 class AnswerAdd(ModelForm):
 

@@ -23,16 +23,14 @@ class SubmitEmbed(forms.Form):
 class EmbedEdit(ModelForm):
 
     class Meta:
-        category = TreeNodeMultipleChoiceField(queryset=RecipeCategory.objects.all())
+        category = TreeNodeMultipleChoiceField(RecipeCategory.objects.root_nodes().filter(level=1))
 
         model=Embed
         fields = ['category', 'title', 'description']
 
 class AddCategory(ModelForm):
+    parent = TreeNodeChoiceField(RecipeCategory.objects.root_nodes().filter(level=0))
 
     class Meta:
         model = RecipeCategory
         fields = ['image', 'title', 'body', 'parent']
-        widgets = {
-            'parent': autocomplete.ModelSelect2(url='category-autocomplete')
-        }
