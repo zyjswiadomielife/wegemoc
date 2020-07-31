@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Wegemoc - strona główna{% endblock %}
+{% block title %}Wegemoc - przepisy wegetariańskie i wegańskie z całego internetu{% endblock %}
 
 {% block content %}
 {% load crispy_forms_tags %}
@@ -21,7 +21,7 @@
                                 <h6 class="subtitle text-dark op-8">Dołącz do społeczności wegemoc, w której znajdziesz wiele inspirujących przepisów wegetariańskich i wegańskich.
                                     Rejestrując się, możesz obserwować wybrane kategorie, tworzyć je i rozwijać je wspólnie z innymi.
                                 </h6>
-                                <a class="btn btn-success-gradiant m-t-20 m-r-20" data-toggle="collapse" href="{% url 'account_login' %}"><span><i class="far fa-envelope"></i> Zaloguj przez email</span></a>
+                                <a class="btn btn-success-gradiant m-t-20 m-r-20" href="{% url 'account_login' %}"><span><i class="far fa-envelope"></i> Zaloguj przez email</span></a>
 
                                 <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn bg-facebook m-t-20 m-r-20"><i class="fab fa-facebook-f"></i> Zaloguj przez Facebook</a>
                             </div>

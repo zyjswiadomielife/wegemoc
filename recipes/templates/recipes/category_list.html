@@ -42,6 +42,7 @@
             <h6 class="text-center mt-3"><a href="/recipes/category/{{ i.parent.slug }}/{{ i.slug }}" class="text-dark font-medium">{{ i.title }} - {{ i.parent.title }}</a></h6>
                   
                     <div class="text-center mb-3">
+                    {% if request.user.is_authenticated %}
                         {% if request.user in i.subscribers.all %}
                
                         <subscribe-button subscribe-id="{{ i.slug }}" subscribe-count="{{ i.subscribers.count }}" v-bind:issubscribed="false"></subscribe-button>
@@ -51,6 +52,11 @@
                         <subscribe-button subscribe-id="{{ i.slug }}" subscribe-count="{{ i.subscribers.count }}" v-bind:issubscribed="true"></subscribe-button>
                       
                         {% endif %}
+                    {% else %}
+                    <button type="button" class="btn btn-sm btn-success-gradiant ml-2" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany/a aby zacząć obserwować tą kategorię.">
+                     Obserwuj {{ i.subscribers.count }}
+                    </button>
+                    {% endif %}
                     </div>
                   
               </div>

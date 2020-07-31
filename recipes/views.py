@@ -23,30 +23,10 @@ import json
 from .forms import SubmitEmbed, EmbedEdit, AddCategory
 from .serializer import EmbedSerializer
 
+
 class EmbedAddView(TemplateView):
     template_name = "embed/addembed.html"
 
-
-@login_required
-def save_embed(request):
-
-    if request.method == "POST":
-        form = AddEmbed(request.POST)
-        if form.is_valid():
-            new_embed = form.save(commit=False)
-            new_embed.added_by = request.user
-            new_embed.save()
-            category = form.cleaned_data['category']
-            for category_id in category:
-                category_id = category_id.strip().lower() # clean up tag
-                tag, _ = RecipeCategory.objects.get_or_create(id=category_id)
-                new_embed.category.add(tag)
-            form.save_m2m()
-            return redirect('recipedetail', slug=new_embed.slug)
-    else:
-        form = AddEmbed()
-
-    return render(request, 'embed/embedadd.html', {'form': form})
 
 class EmbedUpdate(UpdateView):
 

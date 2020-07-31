@@ -87,7 +87,7 @@
                         </div>
                         <template>
                             <div>
-                                <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="filteredAutocompleteItems" :add-only-from-autocomplete="true" placeholder="Przypisz kategorie" @tags-changed="(newTags) => (tags = newTags)"></vue-tags-input>
+                                <vue-tags-input v-model="tag" :tags="tags" :autocomplete-items="filteredAutocompleteItems" :autocomplete-min-length="0" placeholder="Przypisz kategorie" @tags-changed="(newTags) => (tags = newTags)"></vue-tags-input>
                             </div>
                         </template>
                         <div class="tags-wrapper">

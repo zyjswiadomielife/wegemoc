@@ -12,7 +12,7 @@ import gdpr_assist
 
 class Question(models.Model, Activity):
     title = models.CharField(max_length=255, verbose_name='Tytuł', help_text='')
-    body = HTMLField(verbose_name='Treść')
+    body = models.TextField(verbose_name='Treść')
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
     votes = GenericRelation(Like, related_query_name='questionlikes')
@@ -35,7 +35,7 @@ class Question(models.Model, Activity):
             return 0
 
 class Answer(models.Model, Activity):
-    body = HTMLField(verbose_name='Treść')
+    body = models.TextField(verbose_name='Treść')
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')

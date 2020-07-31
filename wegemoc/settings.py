@@ -25,7 +25,7 @@ SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['wegemoc.local', 'wegemoc.eu', 'wege.local']
+ALLOWED_HOSTS = ['wegemoc.local', 'wegemoc.eu', 'wege.local', 'wegemoc.nanoapp.io', 'wegemoc.pl']
 
 # Application definition
 

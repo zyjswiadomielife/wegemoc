@@ -175,6 +175,7 @@ Header 1
   width:100%;
   margin:auto;
   display:flex;
+  align-items: center;
 }
 .custom-logo-wrapper{
   width:120px;
@@ -263,10 +264,6 @@ Header 1
 .navbar-nav .nav-link i{
   color:#666;
   font-size:20px;
-}
-.main-menu-custom a{
-  font-weight:500;
-  color:#000 !important;
 }
 
 

@@ -12,4 +12,6 @@ app_name = 'ajax'
 urlpatterns = [
     path('', include(router.urls)),
     path('embed/<pk>/', login_required(views.VotesView.as_view(model=Embed)), name='embed_like'),
+    path('question/<pk>/', login_required(views.VotesView.as_view(model=Embed)), name='embed_like'),
+    path('answer/<pk>/', login_required(views.VotesView.as_view(model=Embed)), name='embed_like'),
 ]

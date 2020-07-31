@@ -8,6 +8,7 @@
 <div class="container mt-5">
 <h2>{{instance.title}}</h2>
 <p>{{ instance.body }}</p>
+{% if request.user.is_authenticated %}
 {% if instance.parent %}
 
 {% if request.user in instance.subscribers.all %}
@@ -20,7 +21,11 @@
 
 {% endif %}
 
-
+{% endif %}
+{% else %}
+<button type="button" class="btn btn-sm btn-success-gradiant ml-2" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany/a aby zacząć obserwować tą kategorię.">
+  Obserwuj {{ instance.subscribers.count }}
+ </button>
 {% endif %}
 {% load thumbnail %}
 
