@@ -139,16 +139,10 @@ WSGI_APPLICATION = 'wegemoc.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gonano',
-        'USER': os.environ.get('DATA_DB_USER'),
-        'PASSWORD': os.environ.get('DATA_DB_PASS'),
-        'HOST': os.environ.get('DATA_DB_HOST'),
-        'PORT': '',
-    },
+    'default': dj_database_url.config(default='postgres://postgres:032b26dd2d8f0d3e161d1e222df5d1c4@dokku-postgres-wegemocdb:5432/wegemocdb'),
     'gdpr_log': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
