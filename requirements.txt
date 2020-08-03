@@ -16,5 +16,5 @@ django-tagulous
 django-autocomplete-light
 pinax-messages
 django-cors-headers
-django-imgix
 django-gdpr-assist
+dj-database-url
