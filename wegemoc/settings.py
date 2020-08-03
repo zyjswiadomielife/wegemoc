@@ -141,15 +141,33 @@ WSGI_APPLICATION = 'wegemoc.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(default='postgres://postgres:0e96f5548f4fa68018ca95ef3359a22b@dokku-postgres-wegemocdb:5432/wegemocdb'),
-    'gdpr_log': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
+if DEBUG:
+    DATABASES = {
+            'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'gonano',
+            'USER': os.environ.get('DATA_DB_USER'),
+            'PASSWORD': os.environ.get('DATA_DB_PASS'),
+            'HOST': os.environ.get('DATA_DB_HOST'),
+            'PORT': '',
+        },
+        'gdpr_log': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
+        }
     }
-}
 
-DATABASE_ROUTERS = ['gdpr_assist.routers.EventLogRouter']
+
+else:
+        DATABASES = {
+            'default': dj_database_url.config(default='postgres://postgres:0e96f5548f4fa68018ca95ef3359a22b@dokku-postgres-wegemocdb:5432/wegemocdb'),
+            'gdpr_log': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
+            }
+        }
+
+        DATABASE_ROUTERS = ['gdpr_assist.routers.EventLogRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
