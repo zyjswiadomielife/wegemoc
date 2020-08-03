@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['wegemoc.local', 'wegemoc.eu', 'wege.local', 'wegemoc.nanoapp.io', 'wegemoc.pl']
 
