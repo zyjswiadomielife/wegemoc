@@ -142,7 +142,7 @@ WSGI_APPLICATION = 'wegemoc.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(default=' postgres://postgres:0e96f5548f4fa68018ca95ef3359a22b@dokku-postgres-wegemocdb:5432/wegemocdb'),
+    'default': dj_database_url.config(default='postgres://postgres:0e96f5548f4fa68018ca95ef3359a22b@dokku-postgres-wegemocdb:5432/wegemocdb'),
     'gdpr_log': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
