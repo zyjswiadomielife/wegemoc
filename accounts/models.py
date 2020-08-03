@@ -71,9 +71,3 @@ def follow_feed(sender, instance, created, **kwargs):
 
 post_save.connect(follow_feed, sender=Follow)
 post_delete.connect(unfollow_feed, sender=Follow)
-
-class UserPrivacyMeta:
-    fields = ['first_name', 'last_name', 'email', 'username']
-    search_fields = ['username']
-
-gdpr_assist.register(User, UserPrivacyMeta)
