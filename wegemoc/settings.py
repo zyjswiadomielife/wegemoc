@@ -160,7 +160,14 @@ if DEBUG:
 
 else:
         DATABASES = {
-            'default': dj_database_url.config(default='postgres://postgres:0e96f5548f4fa68018ca95ef3359a22b@dokku-postgres-wegemocdb:5432/wegemocdb'),
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'defaultdb',
+            'USER': 'doadmin',
+            'PASSWORD': 'kle4vkwcdt8hyfps',
+            'HOST': 'db-postgresql-fra1-86155-do-user-7829836-0.a.db.ondigitalocean.com',
+            'PORT': '25060',
+        },
             'gdpr_log': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
