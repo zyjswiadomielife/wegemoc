@@ -9,6 +9,7 @@ django-allauth
 django-initial-avatars
 djangorestframework
 django-mptt
+whitenoise
 sorl-thumbnail
 django-tinymce4-lite
 stream_django
