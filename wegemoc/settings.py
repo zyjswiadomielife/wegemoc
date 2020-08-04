@@ -161,14 +161,7 @@ if DEBUG:
 
 else:
         DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'defaultdb',
-            'USER': 'doadmin',
-            'PASSWORD': 'kle4vkwcdt8hyfps',
-            'HOST': 'db-postgresql-fra1-86155-do-user-7829836-0.a.db.ondigitalocean.com',
-            'PORT': '25060',
-        },
+            'default': dj_database_url.parse(os.environ.get('postgres://postgres:ddacaa956aadf99449f1325be16755b5@dokku-postgres-wegemocdb:5432/wegemocdb')),
             'gdpr_log': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
@@ -213,7 +206,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
