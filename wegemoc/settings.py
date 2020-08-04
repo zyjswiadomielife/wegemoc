@@ -98,6 +98,7 @@ CORS_ORIGIN_WHITELIST = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -160,7 +161,7 @@ if DEBUG:
 
 else:
         DATABASES = {
-            'default': dj_database_url.parse(os.environ.get('postgres://postgres:ddacaa956aadf99449f1325be16755b5@dokku-postgres-wegemocdb:5432/wegemocdb')),
+            'default': dj_database_url.parse('postgres://postgres:ddacaa956aadf99449f1325be16755b5@dokku-postgres-wegemocdb:5432/wegemocdb'),
             'gdpr_log': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
