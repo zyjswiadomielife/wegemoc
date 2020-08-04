@@ -37,5 +37,3 @@ urlpatterns = [
     re_path(r"^messages/", include("pinax.messages.urls", namespace="pinax_messages")),
     path('sentry-debug/', trigger_error),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += staticfiles_urlpatterns()
