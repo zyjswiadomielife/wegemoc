@@ -32,6 +32,10 @@ class RecipeCategory(MPTTModel):
         unique_together = (('parent', 'slug',))
         verbose_name_plural = 'Kategorie'
 
+    def save(self, *args, **kwargs):
+        self.parentname = self.parent.title
+        super(RecipeCategory, self).save(*args, **kwargs) 
+
     def get_slug_list(self):
 
         try:
