@@ -44,8 +44,8 @@
                     <div class="card-body">
                         <a class="card-link" href="{{ recipe.url }}">
 							<h5 class="font-medium">{{ recipe.title }}</h5>
-                        </a>
-						<div class="text-dark">{{ recipe.description|safe }}</div>
+						</a>
+						<div class="text-dark">{{ recipe.description|safe|truncatewords:100 }}</div>
 						<p class="mt-2 mb-0 text-dark font-medium">Kategorie:</p>
 						{% for category in recipe.category.all %}
 						<a href="/recipes/category/{{ category.parent.slug }}/{{ category.slug }}" class="text-dark font-medium"><span class="badge badge-success">{{ category.title }}</span></a>
