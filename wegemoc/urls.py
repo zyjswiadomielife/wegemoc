@@ -18,7 +18,17 @@ from django.urls import path, re_path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import GenericSitemap
+from recipes.models import Embed
 from home.views import home
+
+sitemaps = {
+    'recipes': GenericSitemap({
+        'queryset': Embed.objects.all(),
+        'date_field': 'created_at',
+    }, priority=0.9),
+}
 
 def trigger_error(request):
     division_by_zero = 1 / 0
@@ -35,5 +45,6 @@ urlpatterns = [
     re_path(r'^tinymce/', include('tinymce.urls')),
     re_path(r'^accounts/', include('allauth.urls')),
     re_path(r"^messages/", include("pinax.messages.urls", namespace="pinax_messages")),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('sentry-debug/', trigger_error),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
