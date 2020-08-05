@@ -8,6 +8,8 @@ from django.urls import reverse
 from likes.models import Like
 from stream_django.activity import Activity
 from django.core.files import File
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from urllib import request
 import gdpr_assist
 import os
@@ -90,3 +92,10 @@ class Embed(models.Model, Activity):
 
         def anonymise_private_data(self, instance):
             return 0
+
+@receiver(post_save, sender=Embed)
+def save_image_fromurl(sender, instance, **kwargs):
+    if instance.thumbnail_url and not instance.image:
+        result = request.urlretrieve(instance.thumbnail_url)
+        instance.image.save(os.path.basename(instance.thumbnail_url), File(open(result[0], 'rb')))
+        instance.save()

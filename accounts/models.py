@@ -6,6 +6,7 @@ from stream_django.activity import Activity
 from django.dispatch import receiver
 import gdpr_assist
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
     avatar = models.ImageField(upload_to='avatar', verbose_name='Awatar profilu', default='defaultavatar.png')
