@@ -24,7 +24,7 @@ class EmbedSerializer(serializers.ModelSerializer):
         response = requests.get(attrs['thumbnail_url'])
         random_name = uuid.uuid4().hex + ".jpg"
         folder_name = "recipes"
-        absolute_file_path = os.path.join(settings.MEDIA_ROOT, folder_name, random_name)
+        absolute_file_path = os.path.join(settings.MEDIA_URL, folder_name, random_name)
         relative_path = os.path.join(folder_name, random_name)
         with open(absolute_file_path, 'wb') as f:
             f.write(response.content)
