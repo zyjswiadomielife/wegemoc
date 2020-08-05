@@ -8,9 +8,10 @@ from django.urls import reverse
 from likes.models import Like
 from stream_django.activity import Activity
 from django.core.files import File
+from urllib.request import urlopen
+from tempfile import NamedTemporaryFile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from urllib import request
 import gdpr_assist
 import os
 
@@ -96,6 +97,8 @@ class Embed(models.Model, Activity):
 @receiver(post_save, sender=Embed)
 def save_image_fromurl(sender, instance, **kwargs):
     if instance.thumbnail_url and not instance.image:
-        result = request.urlretrieve(instance.thumbnail_url)
-        instance.image.save(os.path.basename(instance.thumbnail_url), File(open(result[0], 'rb')))
+        img_temp = NamedTemporaryFile(delete=True)
+        img_temp.write(urlopen(instance.thumbnail_url).read())
+        img_temp.flush()
+        instance.image.save(f"image_{instance.pk}", File(img_temp))
         instance.save()
