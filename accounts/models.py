@@ -9,7 +9,7 @@ import gdpr_assist
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
-    avatar = models.ImageField(upload_to='avatar', verbose_name='Awatar profilu', default='defaultavatar.png')
+    avatar = models.ImageField(upload_to='avatar', verbose_name='Awatar profilu', default='/static/defaultavatar.png')
     bio = models.TextField(verbose_name='O mnie', blank=True)
     url = models.URLField(max_length=255, verbose_name='Link do bloga lub innej strony', blank=True, null=True)
     facebook = models.URLField(max_length=255, verbose_name='Profil lub fanpage na Facebooku', blank=True, null=True)
