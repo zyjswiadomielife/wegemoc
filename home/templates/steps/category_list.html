@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static  %}
+
+{% block title %} Kategorie - Wegemoc {% endblock %}
+
+{% block content %}
+{% load follow %}
+<div id="subscribe">
+<div class="container">
+
+{% load thumbnail %}
+<div class="margin-top-50">
+  <div class="container mt-5 mb-5">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active m-2" href="{% url 'addcategory' %}"><i class="fa fa-plus"></i> <span>Stwórz kategorię</span></a>
+      </li>
+      {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link active m-2" href="{% url 'user_subscription_list' request.user.username %}"><i class="fas fa-eye" style="color: white;"></i> <span style="color: white;">Kategorie, które obserwuje</span></a>
+      </li>
+      {% endif %}
+      {% for category in rootcategories %}
+      <li class="nav-item">
+        <a class="nav-link active m-2" href="/recipes/category/{{ category.slug }}">{{ category.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</div>
+   
+<div class="container">
+  <h4 class="mt-5 mb-5">Wszystkie podkategorie</h4>
+  <div class="row">
+      {% for i in categories %}
+      <!-- place item-->
+      <div class="col-6 col-md-3 col-lg-4">
+            <div class="card shadow mb-3" style="background-size:cover;background-image:linear-gradient(#E9F3EB, rgba(233,243,235,.7)),{% if i.image %} url({{i.image.url}}) {% endif %};">  
+
+
+            <h6 class="text-center mt-3"><a href="/recipes/category/{{ i.parent.slug }}/{{ i.slug }}" class="text-dark font-medium">{{ i.title }} - {{ i.parent.title }}</a></h6>
+                  
+                    <div class="text-center mb-3">
+                    {% if request.user.is_authenticated %}
+                        {% if request.user in i.subscribers.all %}
+               
+                        <subscribe-button subscribe-id="{{ i.slug }}" subscribe-count="{{ i.subscribers.count }}" v-bind:issubscribed="false"></subscribe-button>
+                  
+                        {% else %}
+                 
+                        <subscribe-button subscribe-id="{{ i.slug }}" subscribe-count="{{ i.subscribers.count }}" v-bind:issubscribed="true"></subscribe-button>
+                      
+                        {% endif %}
+                    {% else %}
+                    <button type="button" class="btn btn-sm btn-success-gradiant ml-2" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany/a aby zacząć obserwować tą kategorię.">
+                     Obserwuj {{ i.subscribers.count }}
+                    </button>
+                    {% endif %}
+                    </div>
+                  
+              </div>
+        </div>
+
+{% endfor %}
+  </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static  %}
+
+{% block title %} Witaj w gronie - Wegemoc {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row text-dark justify-content-center">
+    <div class="col-lg-8">
+      <h3>Witaj wśród użytkowników :)</h3>
+      <p>Aby spersonalizować swoje doświadczenia i widzieć głównie te przepisy, które Cię interesują, możesz zacząć obserwować wybrane kategorie.
+        Oczywiście jest to opcjonalne, jednak po każdym logowaniu w pierwszej kolejności zobaczysz przepisy  z kategorii, które obserwujesz.
+        <span class="font-medium">W każdej chwili wchodząc do zakładki "kategorie" możesz stworzyć własną, zacząć obserwować inne lub zrezygnować z tych, które obserwujesz obecnie.</span>
+      </p>
+      <p class="text-medium">To tak proste :) Miłego korzystania z portalu!</p>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+  <div class="col-lg-5">
+  <ul class="nav nav-pills nav-fill">
+  {% for category in rootcategories %}
+  <li class="nav-item">
+    <a class="nav-link active m-2" href="/recipes/category/{{ category.slug }}">{{ category.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+</div>
+</div>
+<div id="subscribe">
+<div class="container mt-5">
+{% load thumbnail %}
+
+
+<div class="container">
+    <div class="row">
+    {% for sub in subcats %}
+      <!-- place item-->
+      <div class="col-6 col-md-3 col-lg-4">
+        <div class="card shadow mb-3" style="background-size:cover;background-image:linear-gradient(#E9F3EB, rgba(233,243,235,.7)),{% if sub.image %} url({{sub.image.url}}) {% endif %};">  
+
+
+        <h6 class="text-center mt-3">{{ sub.title }} - {{ sub.parent.title }}</h6>
+          
+
+                <div class="text-center mb-3">
+                  {% if request.user in sub.subscribers.all %}
+               
+                  <subscribe-button subscribe-id="{{ sub.slug }}" subscribe-count="{{ sub.subscribers.count }}" v-bind:issubscribed="false"></subscribe-button>
+            
+                  {% else %}
+           
+                  <subscribe-button subscribe-id="{{ sub.slug }}" subscribe-count="{{ sub.subscribers.count }}" v-bind:issubscribed="true"></subscribe-button>
+                
+                  {% endif %}
+                </div>
+
+          </div>
+    </div>
+
+    {% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

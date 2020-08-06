@@ -14,3 +14,11 @@ class RegulaminView(TemplateView):
 
 class PolitykaprywatnosciView(TemplateView):
     template_name = "tos/polityka.html"
+
+def choose_category(request):
+    rootcategories = RecipeCategory.objects.root_nodes().filter(level=0)
+    subcats = RecipeCategory.objects.filter(level=1)
+    print(subcats)
+
+    return render(request, 'steps/categories.html', {'rootcategories':rootcategories,
+                                                    'subcats': subcats})

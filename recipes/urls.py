@@ -6,6 +6,7 @@ from . import viewsets
 from .models import RecipeCategory, Embed
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from home.views import choose_category
 
 router = routers.DefaultRouter()
 router.register(r'embeds', viewsets.EmbedViewSet)
@@ -26,4 +27,5 @@ urlpatterns = [
     path('<recipecategory>/subscriptionadd/', views.subscribeadd, name='subscribeadd'),
     path('<recipecategory>/subscriptiondelete/', views.subscribedelete, name='subscribedelete'),
     path('u/<username>/subscriptions/', views.UserSubscriptionListView.as_view(), name='user_subscription_list'),
+    path('steps/choose/', choose_category, name='choosecategory'),
 ]
