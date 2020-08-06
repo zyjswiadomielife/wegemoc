@@ -66,6 +66,7 @@ class Embed(models.Model, Activity):
     type = models.CharField(blank=True, max_length=200)
     thumbnail_url = models.URLField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='recipes', blank=True)
+    provider_name = models.CharField(blank=True, max_length=255)
     html = models.TextField()
     votes = GenericRelation(Like, related_query_name='embedlikes')
     added_by = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL), related_name='addedbyuser')

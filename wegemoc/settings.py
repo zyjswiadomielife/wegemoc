@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['wegemoc.pl', 'wegemoc.local']
 
@@ -133,6 +133,10 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+## Facebook login
+SOCIAL_AUTH_FACEBOOK_KEY = '618730819066815'
+SOCIAL_AUTH_FACEBOOK_SECRET ='c3f87fda5f39752fd73a914c54899ed4'
 
 CSRF_COOKIE_NAME = "XSRF-TOKEN"
 

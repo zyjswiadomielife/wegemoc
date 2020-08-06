@@ -45,6 +45,12 @@
                         <a class="card-link" href="{{ recipe.url }}">
 							<h5 class="font-medium">{{ recipe.title }}</h5>
 						</a>
+						{% if recipe.provider_name == "Facebook" %}
+						<p class="font-medium text-dark">Przepis z Facebooka</p>
+						{% endif %}
+						{% if recipe.provider_name == "Instagram" %}
+						<p class="font-medium text-dark">Przepis z Instargrama</p>
+						{% endif %}
 						<div class="text-dark">{{ recipe.description|safe|truncatewords:100 }}</div>
 						<p class="mt-2 mb-0 text-dark font-medium">Kategorie:</p>
 						{% for category in recipe.category.all %}
