@@ -7,7 +7,7 @@ from django.dispatch import receiver
 import gdpr_assist
 
 def default_avatar_pics():
-    return "static/defaultavatar.png"
+    return "/static/defaultavatar.png"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
