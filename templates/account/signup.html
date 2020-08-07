@@ -19,7 +19,7 @@
                     <h6>Lub zarejestruj się przez:</h6>
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
-                            <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn btn-block text-white mt-3" style="background-color:#3b5998;">Facebook</a>
+                            <a href="{% provider_login_url "facebook" method="oauth2" next="/recipes/steps/choose/" %}" class="btn btn-block text-white mt-3" style="background-color:#3b5998;">Facebook</a>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <a href="{% provider_login_url "google" next="/recipes/steps/choose/" %}" class="btn btn-block btn-danger text-white mt-3">Google +</a>
