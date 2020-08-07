@@ -413,6 +413,8 @@
     data: function () {
       return {
         followingStatus: null,
+        isLoading: false,
+        isLoadingFollow: false,
       }
     },
     created() {
@@ -420,9 +422,11 @@
     },
     methods: {
       followUser() {
+          this.isLoadingFollow = true;
           axios.post('/account/follows/', {'target': this.userId})
                     .then(response => {
                         this.followingStatus = true;
+                        this.isLoadingFollow = false;
                         console.log(response.data);
                     })
                     
@@ -433,15 +437,17 @@
                     });
               },
       unfollowUser(){
+        this.isLoadingFollow = true;
         axios.delete('/account/unfollow/' + this.userId + '/').then(response => {
                     this.followingStatus = false;
+                    this.isLoadingFollow = false;
                     console.log(response.data);
         })}
 
             },
     template: `
-    <button class="btn btn-sm btn-success" @click="unfollowUser" v-if="this.followingStatus">Przestań obserwować</button>
-    <button class="btn btn-sm btn-success" @click="followUser" v-else>Obserwuj</button>
+    <button class="btn btn-sm btn-success" @click="unfollowUser" v-if="this.followingStatus">Przestań obserwować <span v-if="this.isLoadingFollow" class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span></button>
+    <button class="btn btn-sm btn-success" @click="followUser" v-else>Obserwuj <span v-if="this.isLoadingFollow" class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span></button>
     `
   })
   
@@ -464,6 +470,7 @@
         content_type: '',
         object_id: '',
       },
+      isLoading: false,
       likeStatus: null,
     }
   },
@@ -471,16 +478,18 @@
     this.likeStatus = this.isliked
   },
   template:`
-          <button class="btn btn-sm btn-success-gradiant ml-2" @click="likeReaction" v-if="this.likeStatus"><i class="fas fa-carrot"></i> Lubię to [[ dataCount ]]</button>
-          <button class="btn btn-sm btn-danger-gradiant ml-2" @click="unlikeReaction" v-else><i class="fas fa-carrot"></i> Nie lubię [[ dataCount ]]</button>
+          <button class="btn btn-sm btn-success-gradiant ml-2" @click="likeReaction" v-if="this.likeStatus"><i class="fas fa-carrot"></i> Lubię to [[ dataCount ]] <span v-if="this.isLoading" class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span></button>
+          <button class="btn btn-sm btn-danger-gradiant ml-2" @click="unlikeReaction" v-else><i class="fas fa-carrot"></i> Nie lubię [[ dataCount ]]<span v-if="this.isLoading" class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span></button>
           `,
   methods: {
     likeReaction() {
+            this.isLoading = true;
             axios.post('/like/likes/', {'content_type': this.dataType, 'object_id': this.dataId})
                     .then(response => {
                         this.likeStatus = false;
                         this.likes = response.data;
                         this.dataCount = this.likes.total_votes;
+                        this.isLoading = false;
                     })
                     
                     .catch(errors => {
@@ -490,9 +499,11 @@
                     });
             },
     unlikeReaction(){
+        this.isLoading = true;
         axios.delete('/like/' + this.voteType + '/' + this.dataId + '/').then(response => {
                     this.likeStatus = true;
                     this.dataCount = this.likes.total_votes;
+                    this.isLoading = false;
                     console.log(response.data);
         })}
   }
