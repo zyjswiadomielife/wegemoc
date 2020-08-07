@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 def home(request):
     embeds = Embed.objects.all()
-    categories = RecipeCategory.objects.filter(level=1).order_by('-subscribers')
+    categories = RecipeCategory.objects.filter(level=1)
     return render(request, 'recipes/embed_home.html', {'embeds': embeds,
                                                     'categories': categories})
 

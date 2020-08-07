@@ -50,6 +50,9 @@
                     <div v-if="loading===true" class="spinner-grow" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
+                    <div class="alert alert-danger" role="alert">
+                        [[ whenerror ]]
+                    </div>
                     <div class="card" v-if="cardrender===true">
                         <p class="font-medium text-success m-3">[[ embedadd ]]</p>
                         <div class="media align-item-center"><img class="align-self-center img-fluid mr-md-2" :src="embedsinfo.thumbnail_url" :alt="embedsinfo.title" width="120" height="120">
