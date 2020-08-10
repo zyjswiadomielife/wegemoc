@@ -296,7 +296,8 @@
                     html: '',
                     category: [],
                 },
-                whenerror: '',
+                errortext: '',
+                iserror: false,
                 loading: false,
                 isPaste: false,
                 embedsinfo: [],
@@ -311,7 +312,6 @@
                     text: 'Adam',
                     id: 1
                 }],
-                test: [],
                 cardrender: false,
                 embedadd:'',
             }
@@ -395,8 +395,9 @@
                     })
                     .catch((err) => {
                         this.loading = false;
+                        this.iserror = true;
                         console.log(err);
-                        this.whenerror = 'Nie udało sie dodać przepisu, spróbuj kliknij "Dodaj" ponownie. Jeśli się nie uda, oznacza, że nie udało się przetworzyć linku. Może to wynikać na przykład z tego, że strona na której znajduje się przepis jest źle sformatowana.'
+                        this.errortext = 'Nie udało sie dodać przepisu, spróbuj kliknij "Dodaj" ponownie. Jeśli się nie uda, oznacza, że nie udało się przetworzyć linku. Może to wynikać na przykład z tego, że strona na której znajduje się przepis jest źle sformatowana.'
                     })
             },
         },

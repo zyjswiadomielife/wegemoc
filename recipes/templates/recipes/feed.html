@@ -4,16 +4,18 @@
 
 {% block content %}
 {% load thumbnail %}
+{% load follow %}
 <style>
   .fa-carrot {
     color: #ffffff;
   }
 </style>
+<div id="like">
+<div id="bookmark">
 <div class="bg-light">
 <div class="container">
   <div class="row">
-    <div id="like">
-      <div id="bookmark">
+
     {% for category in categories %}
     {% for recipe in category.embeds.all %}
     <div class="col-lg-6">
@@ -42,9 +44,11 @@
         </div>
         <div class="card-footer">
           <div class="d-inline-flex p-2 bd-highlight">
-            
-              <like-button data-id="{{ recipe.id }}" data-type="embed" data-count="{{ recipe.votes.count }}"></like-button>
-            
+            {% if recipe.votes.all|user_in:user %}
+            <like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="28" data-count="{{ recipe.votes.count }}" v-bind:issubscribed="false"></like-button>
+            {% else %}
+            <like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="28" data-count="{{ recipe.votes.count }}" v-bind:isliked="true"></like-button>
+            {% endif %}
             
               <bookmark-button bookmark-id="{{ recipe.id }}" bookmark-count="{{ recipe.bookmarks.count }}"></bookmark-button>
             </div>
