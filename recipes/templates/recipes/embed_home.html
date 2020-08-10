@@ -21,9 +21,11 @@
                                 <h6 class="subtitle text-dark op-8">Dołącz do społeczności wegemoc, w której znajdziesz wiele inspirujących przepisów wegetariańskich i wegańskich.
                                     Rejestrując się, możesz obserwować wybrane kategorie, tworzyć je i rozwijać je wspólnie z innymi.
                                 </h6>
-                                <a class="btn btn-success-gradiant m-t-20 m-r-20" href="{% url 'account_login' %}"><span><i class="far fa-envelope"></i> Zaloguj przez email</span></a>
-
+                                <a class="btn btn-success-gradiant m-t-20 m-r-20" href="{% url 'account_login' %}"><span><i class="far fa-user"></i> Zaloguj</span></a>
+                                <a class="btn btn-danger-gradiant m-t-20 m-r-20" href="{% url 'account_signup' %}"><span><i class="fas fa-user-plus"></i> Zarejestruj</span></a>
+                                <!--
                                 <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn bg-facebook m-t-20 m-r-20"><i class="fab fa-facebook-f"></i> Zaloguj przez Facebook</a>
+                                -->
                             </div>
                             <!-- Column -->
                         </div>
@@ -32,6 +34,102 @@
                 <!-- ============================================================== -->
                 <!-- End Static Slider 10  -->
                 <!-- ============================================================== -->
+
+                <div class="bg-light spacer feature5">
+                    <div class="container">
+                        <!-- Row  -->
+                        <div class="row justify-content-center">
+                            <div class="col-md-7 text-center">
+                                <span class="label label-success label-rounded">Feature 5</span>
+                                <h2 class="title">Awesome with Extra Ordinary Flexibility</h2>
+                                <h6 class="subtitle">You can relay on our amazing features list and also our customer services will be great experience for you without doubt and in no-time</h6>
+                            </div>
+                        </div>
+                        <!-- Row  -->
+                        <div class="row m-t-40">
+                            <!-- Column -->
+                            <div class="col-md-4 wrap-feature5-box">
+                                <div class="card card-shadow">
+                                    <div class="card-body d-flex">
+                                        <div class=""><i class="fas fa-plus-circle"></i></div>
+                                        <div class="">
+                                            <h6 class="font-medium"><a href="javascript:void(0)" class="linking">Instant Solutions</a></h6>
+                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <!-- Column -->
+                            <div class="col-md-4 wrap-feature5-box">
+                                <div class="card card-shadow">
+                                    <div class="card-body d-flex">
+                                        <div class="icon-space"><i class="text-success-gradiant icon-Information"></i></div>
+                                        <div class="">
+                                            <h6 class="font-medium"><a href="javascript:void(0)" class="linking">Powerful Tech </a></h6>
+                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <!-- Column -->
+                            <div class="col-md-4 wrap-feature5-box">
+                                <div class="card card-shadow">
+                                    <div class="card-body d-flex">
+                                        <div class="icon-space"><i class="text-success-gradiant icon-Leo-2"></i></div>
+                                        <div class="">
+                                            <h6 class="font-medium"><a href="javascript:void(0)" class="linking">100% Satisfaction </a></h6>
+                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <!-- Column -->
+                            <div class="col-md-4 wrap-feature5-box">
+                                <div class="card card-shadow">
+                                    <div class="card-body d-flex">
+                                        <div class="icon-space"><i class="text-success-gradiant icon-Target-Market"></i></div>
+                                        <div class="">
+                                            <h6 class="font-medium"><a href="javascript:void(0)" class="linking">Targeting Market</a></h6>
+                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <!-- Column -->
+                            <div class="col-md-4 wrap-feature5-box">
+                                <div class="card card-shadow">
+                                    <div class="card-body d-flex">
+                                        <div class="icon-space"><i class="text-success-gradiant icon-Sunglasses-Smiley"></i></div>
+                                        <div class="">
+                                            <h6 class="font-medium"><a href="javascript:void(0)" class="linking">Goal Achievement </a></h6>
+                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Column -->
+                            <!-- Column -->
+                            <div class="col-md-4 wrap-feature5-box">
+                                <div class="card card-shadow">
+                                    <div class="card-body d-flex">
+                                        <div class="icon-space"><i class="text-success-gradiant  icon-Laptop-Phone"></i></div>
+                                        <div class="">
+                                            <h6 class="font-medium"><a href="javascript:void(0)" class="linking">Fully Responsive</a></h6>
+                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                    
+              
 {% endif %}
                 <!-- ============================================================== -->
                 <!-- Blog home 4  -->
@@ -52,12 +150,18 @@
                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
                             <!-- Column -->
                             <div class="card card-shadow">
-                                <a href="{{ embed.get_absolute_url }}"><img class="card-img-top" src="{% thumbnail embed.image "600x350" crop="smart" %}" alt="{{ embed.title }}"></a>
+                                <a href="{{ embed.get_absolute_url }}">
+                                    {% if embed.image %}
+                                    <img class="card-img-top" src="{% thumbnail embed.image "600x350" crop="smart" %}" alt="{{ embed.title }}">
+                                    {% else %}
+                                    <img class="card-img-top" src="{{ embed.thumbnail_url }}" alt="{{ embed.title }}">
+                                    {% endif %}
+                                </a>
                                 <div class="card-body">
                                     <h5 class="font-medium h5-home"><a href="{{ embed.get_absolute_url }}" class="link">{{ embed.title }}</a></h5>
                                     <p>{{ embed.description|striptags|truncatewords:10 }}</p>
                                     <p class="mb-0">
-                                        <a href="{{ embed.added_by.get_absolute_url }}" class="text-muted"><img src="{% thumbnail embed.added_by.profile.avatar "100x100" crop="smart" %}" alt="task-user" class="thumb-sm rounded-circle mr-2"> 
+                                        <a href="{{ embed.added_by.get_absolute_url }}" class="text-muted"><img src="{{ embed.added_by.profile.avatar }}" alt="task-user" class="thumb-sm rounded-circle mr-2"> 
                                             <span class="font-medium small text-dark">{{ embed.added_by.username }}</span></a>
                                     </p>
                                 </div>
@@ -77,7 +181,7 @@
         <div class="col-md-8 text-center">
             <h2 class="title">Popularne kategorie</h2>
             <h6 class="subtitle">Zajrzyj do kategorii stworzonych przez użytkowników dla użytkowników i znajdź coś dla siebie. 
-                Jeśli postanowisz zostać z nami dłużej, możesz obserwować wybrane kategorie i otrzymywać nowe przepisy tylko z wybranych kategorii.</h6>
+                Jeśli postanowisz zostać z nami dłużej, możesz obserwować wybrane kategorie i stworzyć w ten sposób listę dopasową do Twoich preferencji.</h6>
         </div>
         <!-- Column -->
     </div>

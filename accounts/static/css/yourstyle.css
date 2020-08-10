@@ -411,3 +411,17 @@ Header 1
 .Button-cat:active .Button-inner {
   filter: brightness(0.9);
 }
+
+.wrap-feature5-box .card-body {
+  padding: 30px;
+}
+
+.wrap-feature5-box .card-body .icon-space {
+  padding: 0px 30px 20px 0px;
+  font-size: 45px;
+  margin: 0px;
+}
+
+.wrap-feature5-box .card-body p {
+  margin-bottom: 0px;
+}
