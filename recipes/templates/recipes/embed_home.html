@@ -17,9 +17,9 @@
                         <div class="row justify-content-center ">
                             <!-- Column -->
                             <div class="col-md-7 align-self-center text-center">
-                                <h1 class="title font-stylish">Witaj na Wegemoc</h1>
-                                <h6 class="subtitle text-dark op-8">Dołącz do społeczności wegemoc, w której znajdziesz wiele inspirujących przepisów wegetariańskich i wegańskich.
-                                    Rejestrując się, możesz obserwować wybrane kategorie, tworzyć je i rozwijać je wspólnie z innymi.
+                                <h1 class="title font-stylish">Twoje ulubione wegetariańskie i wegańskie przepisy w jednym miejscu!</h1>
+                                <h6 class="subtitle text-dark op-8">
+                                    Dziel się ulubionymi przepisami, śledź kategorie, które cię interesują i stwórz własne książki kucharskie z przepisów z całego internetu.
                                 </h6>
                                 <a class="btn btn-success-gradiant m-t-20 m-r-20" href="{% url 'account_login' %}"><span><i class="far fa-user"></i> Zaloguj</span></a>
                                 <a class="btn btn-danger-gradiant m-t-20 m-r-20" href="{% url 'account_signup' %}"><span><i class="fas fa-user-plus"></i> Zarejestruj</span></a>
@@ -34,7 +34,7 @@
                 <!-- ============================================================== -->
                 <!-- End Static Slider 10  -->
                 <!-- ============================================================== -->
-                <div class="bg-light feature3">
+                <div class="bg-light pt-4 feature3">
                     <div class="container">
                         <!-- Row  -->
                         <div class="row justify-content-center">
@@ -48,10 +48,11 @@
                             <div class="col-md-6 wrap-feature3-box">
                                 <div class="card card-shadow">
                                     <div class="card-body d-flex">
-                                        <div class="icon-space align-self-center"><span class="fas fa-plus-circle display-2 text-success mr-2"><i class="fas fa-plus-circle"></i></span></div>
+                                        <div class="icon-space align-self-center"><img src="{% static 'images/addrecipe.png' %}" class="mr-3" width="90px" height="90px"></div>
                                         <div class="align-self-center">
-                                            <h5 class="font-medium"><a href="javascript:void(0)" class="linking">Instant Solutions <i class="ti-arrow-right"></i></a></h5>
-                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services will be great experience.</p>
+                                            <h5 class="font-medium"><a href="javascript:void(0)" class="link">Dodaj ulubione przepisy <i class="ti-arrow-right"></i></a></h5>
+                                            <p class="m-t-20">Dodaj przepisy z dowolnego miejsca z internetu. Na wegemoc to proste - wystarczy, że podasz link!
+                                                Nie ważne czy przepis znajduje się na blogu, portalu, Facebooku czy Instagramie.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -61,10 +62,11 @@
                             <div class="col-md-6 wrap-feature3-box">
                                 <div class="card card-shadow">
                                     <div class="card-body d-flex">
-                                        <div class="icon-space align-self-center"><i class="icon-Stopwatch display-2 text-success-gradiant"></i></div>
+                                        <div class="icon-space align-self-center"><img src="{% static 'images/recipes.png' %}" class="mr-3" width="90px" height="90px"></div>
                                         <div class="align-self-center">
-                                            <h5 class="font-medium"><a href="javascript:void(0)" class="linking">Powerful Techniques <i class="ti-arrow-right"></i></a></h5>
-                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services will be great experience.</p>
+                                            <h5 class="font-medium"><a href="javascript:void(0)" class="link">Twórz kategorie <i class="ti-arrow-right"></i></a></h5>
+                                            <p class="m-t-20">Na wegemoc możesz tworzyć kategorie jeśli ci jakiejś brakuje, na przykład jeśli chcesz stworzyć taką, 
+                                                która zawiera tylko dania na święta, wystarczy ją stworzyć.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -74,10 +76,10 @@
                             <div class="col-md-6 wrap-feature3-box">
                                 <div class="card card-shadow">
                                     <div class="card-body d-flex">
-                                        <div class="icon-space align-self-center"><i class="icon-Thumbs-UpSmiley display-2 text-success-gradiant"></i></div>
+                                        <div class="icon-space align-self-center"><img src="{% static 'images/menu.png' %}" class="mr-3" width="90px" height="90px"></div>
                                         <div class="align-self-center">
-                                            <h5 class="font-medium"><a href="javascript:void(0)" class="linking">100% Satisfaction <i class="ti-arrow-right"></i></a></h5>
-                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services will be great experience.</p>
+                                            <h5 class="font-medium"><a href="javascript:void(0)" class="link">Współtwórz kategorie <i class="ti-arrow-right"></i></a></h5>
+                                            <p class="m-t-20">Możesz również współtworzyć kategorie z innymi, wystarczy, że dany przepis dodasz do wybranej kategorii.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -87,10 +89,10 @@
                             <div class="col-md-6 wrap-feature3-box">
                                 <div class="card card-shadow">
                                     <div class="card-body d-flex">
-                                        <div class="icon-space align-self-center"><i class="icon-Window-2 display-2 text-success-gradiant"></i></div>
+                                        <div class="icon-space align-self-center"><img src="{% static 'images/heart.png' %}" class="mr-3" width="90px" height="90px"></div>
                                         <div class="align-self-center">
-                                            <h5 class="font-medium"><a href="javascript:void(0)" class="linking">Retargeting Market <i class="ti-arrow-right"></i></a></h5>
-                                            <p class="m-t-20">You can relay on our amazing features list and also our customer services will be great experience.</p>
+                                            <h5 class="font-medium"><a href="javascript:void(0)" class="link">Twórz własne książki kucharskie <i class="ti-arrow-right"></i></a></h5>
+                                            <p class="m-t-20">Oprócz wymienionych opcji możesz również tworzyć prywatną listę ulubionych.</p>
                                         </div>
                                     </div>
                                 </div>

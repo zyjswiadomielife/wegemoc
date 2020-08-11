@@ -23,7 +23,7 @@ class RecipeCategory(MPTTModel):
     slug = AutoSlugField(populate_from='title', unique=True)
     parent = TreeForeignKey('self', related_name='children', db_index=True, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Kategoria')
     subscribers = models.ManyToManyField(User, related_name='subscribed_category', blank=True)
-    author = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL), default=1)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, default=1)
 
     def __str__(self):
         return self.title
@@ -69,7 +69,7 @@ class Embed(models.Model, Activity):
     provider_name = models.CharField(blank=True, max_length=255)
     html = models.TextField()
     votes = GenericRelation(Like, related_query_name='embedlikes')
-    added_by = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL), related_name='addedbyuser')
+    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name='addedbyuser')
     created_at = models.DateTimeField(auto_now_add=True)
     category = TreeManyToManyField(RecipeCategory, blank=True, null=True, related_name='embeds', verbose_name='Kategoria')
     slug = AutoSlugField(populate_from='title', unique=True)

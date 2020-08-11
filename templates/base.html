@@ -92,9 +92,9 @@
                   {% if request.user.is_authenticated %}
                   <!--Notifications-->
                   <li class="nav-item counter-wrapper-sn">
-                      <a class="nav-link" href="">
+                      <a class="nav-link" href="{% url 'embedadd' %}">
 
-                          <i class="far fa-bell"></i>
+                        <i class="fas fa-plus-circle"></i>
                           <span class="badge badge-success counter-sn"></span>
 
                       </a>

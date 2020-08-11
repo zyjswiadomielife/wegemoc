@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-    'gdpr_assist',
+    'letsagree.apps.LetsagreeConfig',
     'stream_django',
     'likes',
     'questions',
@@ -98,6 +98,17 @@ CORS_ORIGIN_WHITELIST = [
     "http://wege.local:8000",
 ]
 
+#Tos accept
+MIGRATION_MODULES = {
+    'letsagree': 'wegemoc.3p_migrations.letsagree',
+}
+
+LETSAGREE_CACHE = False
+LETSAGREE_LOGOUT_APP_NAME = 'admin'
+LETSAGREE_CSS = {'all': ('letsagree/letsagree.css',)}
+LETSAGREE_BROWSER_TITLE = 'Akceptacja regulaminu'
+LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -107,6 +118,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'letsagree.middleware.LetsAgreeMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -157,10 +169,6 @@ if DEBUG:
             'PASSWORD': os.environ.get('DATA_DB_PASS'),
             'HOST': os.environ.get('DATA_DB_HOST'),
             'PORT': '',
-        },
-        'gdpr_log': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
         }
     }
 
@@ -168,13 +176,8 @@ if DEBUG:
 else:
         DATABASES = {
             'default': dj_database_url.parse('postgres://postgres:035561540e5def53f159939bf27f07d7@dokku-postgres-wegemocdb:5432/wegemocdb'),
-            'gdpr_log': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(BASE_DIR, 'gdpr-log.sqlite3'),
-            }
         }
 
-        DATABASE_ROUTERS = ['gdpr_assist.routers.EventLogRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -198,7 +201,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'pl-pl'
+LANGUAGES = (('pl', 'Polish'), ('en', 'English'))
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 

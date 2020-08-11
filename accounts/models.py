@@ -7,7 +7,7 @@ from django.dispatch import receiver
 import gdpr_assist
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL))
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     avatar = models.ImageField(upload_to='avatar', verbose_name='Awatar profilu', default='defaultavatar.png')
     bio = models.TextField(verbose_name='O mnie', blank=True)
     url = models.URLField(max_length=255, verbose_name='Link do bloga lub innej strony', blank=True, null=True)
@@ -33,7 +33,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 class Follow(Activity, models.Model):
-    user = models.ForeignKey(User, on_delete=gdpr_assist.ANONYMISE(models.SET_NULL), related_name='following')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name='following')
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
     created_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(auto_now=True)
