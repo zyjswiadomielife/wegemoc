@@ -7,7 +7,7 @@ from django.dispatch import receiver
 import gdpr_assist
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name='Użytkownik')
     avatar = models.ImageField(upload_to='avatar', verbose_name='Awatar profilu', default='defaultavatar.png')
     bio = models.TextField(verbose_name='O mnie', blank=True)
     url = models.URLField(max_length=255, verbose_name='Link do bloga lub innej strony', blank=True, null=True)

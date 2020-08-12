@@ -56,11 +56,13 @@
 						{% for category in recipe.category.all %}
 						<a href="/recipes/category/{{ category.parent.slug }}/{{ category.slug }}" class="text-dark font-medium"><span class="badge badge-success">{{ category.title }}</span></a>
 						{% endfor %}
-                    </div>
+					</div>
+					<div id="likebookmark">
                     <div class="card-footer">
 						<div class="d-inline-flex p-2 bd-highlight">
 							<a href="{{ recipe.url }}" class="card-link font-medium"><i class="fas fa-carrot"></i> Przejdź do przepisu</a>
-							<div id="like">
+							
+						
 							{% if request.user.is_authenticated %}
 								{% if recipe.votes.all|user_in:user %}
 								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="28" data-count="{{ recipe.votes.count }}" v-bind:issubscribed="false"></like-button>
@@ -72,8 +74,8 @@
 								<i class="fas fa-carrot"></i> Lubię to {{ recipe.votes.count }}
 							</button>
 							{% endif %}
-							</div>
-							<div id="bookmark">
+						
+							
 								{% if request.user.is_authenticated %}
 								<bookmark-button bookmark-id="{{ recipe.id }}" bookmark-count="{{ recipe.bookmarks.count }}"></bookmark-button>
 								{% else %}

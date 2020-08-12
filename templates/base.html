@@ -23,7 +23,7 @@
     <!-- Common style CSS -->
     <link href="{% static "css/style.css" %}" rel="stylesheet">
     <link href="{% static "css/yourstyle.css" %}" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -257,7 +257,7 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/@johmun/vue-tags-input/dist/vue-tags-input.js"></script>
 
     {% block javascript %}
@@ -505,6 +505,7 @@
         this.isLoading = true;
         axios.delete('/like/' + this.voteType + '/' + this.dataId + '/').then(response => {
                     this.likeStatus = true;
+                    this.likes = response.data;
                     this.dataCount = this.likes.total_votes;
                     this.isLoading = false;
                     console.log(response.data);
@@ -512,11 +513,7 @@
   }
 })
 
-new Vue({ el: '#like',
-          delimiters: ['[[', ']]'] })
-</script>
-<script type="application/javascript">
-  Vue.component('bookmark-button', {
+Vue.component('bookmark-button', {
   delimiters: ['[[', ']]'],
   props: ['bookmarkId', 'bookmarkCount'],
   data: function () {
@@ -541,8 +538,11 @@ new Vue({ el: '#like',
             },
   }
 })
-new Vue({ el: '#bookmark',
-          delimiters: ['[[', ']]'] })
+
+new Vue({ el: '#likebookmark' })
+</script>
+<script type="application/javascript">
+
 </script>
 
 <script type="application/javascript">
@@ -587,8 +587,7 @@ new Vue({ el: '#bookmark',
   }
 })
 
-new Vue({ el: '#subscribe',
-          delimiters: ['[[', ']]'] })
+new Vue({ el: '#subscribe' })
 </script>
 {% endif %}
 </body>

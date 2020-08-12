@@ -12,8 +12,9 @@ from urllib.request import urlopen
 from tempfile import NamedTemporaryFile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import gdpr_assist
 import os
+import urllib
+import urllib.request
 
 class RecipeCategory(MPTTModel):
     title = models.CharField(max_length=255, verbose_name='Nazwa kategorii')
@@ -78,6 +79,10 @@ class Embed(models.Model, Activity):
     def __str__(self):
         return self.title
 
+    def __unicode__(self):
+        """Unicode class."""
+        return unicode(self.thumbnail_url)
+
     class Meta:
         ordering = ['-created_at']
 
@@ -98,8 +103,6 @@ class Embed(models.Model, Activity):
 @receiver(post_save, sender=Embed)
 def save_image_fromurl(sender, instance, **kwargs):
     if instance.thumbnail_url and not instance.image:
-        img_temp = NamedTemporaryFile(delete=True)
-        img_temp.write(urlopen(instance.thumbnail_url).read())
-        img_temp.flush()
-        instance.image.save(f"image_{instance.pk}", File(img_temp))
+        result = urllib.request.urlretrieve(instance.thumbnail_url)
+        instance.image.save(os.path.basename(instance.thumbnail_url), File(open(result[0], 'rb')))
         instance.save()
