@@ -100,6 +100,10 @@ class Embed(models.Model, Activity):
         def anonymise_private_data(self, instance):
             return 0
 
+import requests
+from io import StringIO
+from PIL import Image
+
 @receiver(post_save, sender=Embed)
 def save_image_fromurl(sender, instance, **kwargs):
     if instance.thumbnail_url and not instance.image:
