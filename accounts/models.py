@@ -16,12 +16,6 @@ class Profile(models.Model):
     def __str__(self):
         return 'Profil użytkownika {}'.format(self.user.username)
 
-    class PrivacyMeta:
-        fields = ['bio', 'url', 'facebook']
-
-        def anonymise_private_data(self, instance):
-            return 0
-
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

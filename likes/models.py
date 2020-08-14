@@ -19,10 +19,5 @@ class Like(models.Model, Activity):
     def activity_actor_attr(self):
         return self.user
 
-    class PrivacyMeta:
-        fields = ['user']
-
-        def anonymise_private_data(self, instance):
-            return 0
 
         

@@ -54,11 +54,6 @@ class RecipeCategory(MPTTModel):
             slugs.append('/'.join(ancestors[:i+1]))
         return slugs
 
-    class PrivacyMeta:
-        search_fields = ['title']
-
-        def anonymise_private_data(self, instance):
-            return 0
 
 
 class Embed(models.Model, Activity):
@@ -94,12 +89,6 @@ class Embed(models.Model, Activity):
     @property
     def activity_actor_attr(self):
         return self.added_by
-
-    class PrivacyMeta:
-        fields = ['added_by']
-
-        def anonymise_private_data(self, instance):
-            return 0
 
 
 from django.core.files.base import ContentFile

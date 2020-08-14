@@ -28,12 +28,6 @@ class Question(models.Model, Activity):
     def get_absolute_url(self):
         return reverse('questiondetail', args=[self.slug])
 
-    class PrivacyMeta:
-        search_fields = ['title']
-
-        def anonymise_private_data(self, instance):
-            return 0
-
 class Answer(models.Model, Activity):
     body = models.TextField(verbose_name='Treść')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,9 +41,3 @@ class Answer(models.Model, Activity):
     @property
     def activity_actor_attr(self):
         return self.author
-
-    class PrivacyMeta:
-        search_fields = ['body']
-
-        def anonymise_private_data(self, instance):
-            return 0
