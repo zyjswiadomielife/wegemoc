@@ -379,8 +379,10 @@
             input() {
                 if (this.isPaste) {
                     axios.get('https://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
-                        .then(response => (this.embed = response.data))
-                    isPaste = false;
+                        .then((response) => {
+                            this.embed = response.data;
+                            this.isPaste = false;
+                        })
                 }
             },
             addArticle: function() {

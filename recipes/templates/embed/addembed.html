@@ -105,7 +105,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success-gradiant mt-3">Dodaj link</button>
+                        <button v-if="isPaste" type="submit" class="btn btn-success-gradiant mt-3" disabled>Dodaj link</button>
+                        <button v-else type="submit" class="btn btn-success-gradiant mt-3">Dodaj link</button>
                     </form>
                   </div>
                 </div>

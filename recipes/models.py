@@ -13,8 +13,9 @@ from tempfile import NamedTemporaryFile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import os
-import urllib
-import urllib.request
+import requests
+import PIL
+import io
 
 class RecipeCategory(MPTTModel):
     title = models.CharField(max_length=255, verbose_name='Nazwa kategorii')
@@ -65,7 +66,7 @@ class Embed(models.Model, Activity):
     title = models.CharField(max_length=255, verbose_name='Tytuł')
     description = models.TextField(verbose_name='Opis', blank=True, null=True)
     type = models.CharField(blank=True, max_length=200)
-    thumbnail_url = models.URLField(max_length=255, blank=True, null=True)
+    thumbnail_url = models.URLField(max_length=500, blank=True, null=True)
     image = models.ImageField(upload_to='recipes', blank=True)
     provider_name = models.CharField(blank=True, max_length=255)
     html = models.TextField()
@@ -100,13 +101,17 @@ class Embed(models.Model, Activity):
         def anonymise_private_data(self, instance):
             return 0
 
-import requests
-from io import StringIO
-from PIL import Image
+
+from django.core.files.base import ContentFile
 
 @receiver(post_save, sender=Embed)
 def save_image_fromurl(sender, instance, **kwargs):
     if instance.thumbnail_url and not instance.image:
-        result = urllib.request.urlretrieve(instance.thumbnail_url)
-        instance.image.save(os.path.basename(instance.thumbnail_url), File(open(result[0], 'rb')))
+        req = requests.get(instance.thumbnail_url)
+        image_bytes = io.BytesIO(req.content)
+        img = PIL.Image.open(image_bytes)
+        if img.mode != "RGB":
+            img = img.convert("RGB")
+        img.save(image_bytes, format="JPEG")
+        instance.image.save(instance.slug + '.jpeg', ContentFile(image_bytes.getvalue()), save=False)
         instance.save()
