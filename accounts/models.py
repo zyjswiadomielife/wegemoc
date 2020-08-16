@@ -48,12 +48,6 @@ class Follow(Activity, models.Model):
         target_feed = feed_manager.get_notification_feed(self.target_id)
         return [target_feed]
 
-    class PrivacyMeta:
-        export_exclude = ['deleted_at']
-
-        def anonymise_private_data(self, instance):
-            return 0
-
 def unfollow_feed(sender, instance, **kwargs):
     feed_manager.unfollow_user(instance.user_id, instance.target_id)
 

@@ -6,8 +6,7 @@ from stream_django.activity import Activity
 from autoslug import AutoSlugField
 from django.urls import reverse
 from tinymce import HTMLField
-import tagulous.models
-import gdpr_assist
+
 
 
 class Question(models.Model, Activity):

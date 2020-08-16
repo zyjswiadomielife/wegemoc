@@ -6,7 +6,7 @@ from stream_django.activity import Activity
 
 class Comment(models.Model, Activity):
     body = models.TextField(verbose_name='Treść komentarza')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

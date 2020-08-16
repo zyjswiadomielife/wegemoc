@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['wegemoc.pl', 'wegemoc.local']
 
@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'corsheaders',
-    'tagulous',
     'tinymce',
     'autoslug',
     'accounts',
@@ -70,13 +69,13 @@ INSTALLED_APPS = [
 STREAM_API_KEY = 'uqgz6c8za6ve'
 STREAM_API_SECRET = '356t477hunrphgy9b37ef5z9m4j5zca3cdmkbyukx7wbwjkwzthfnk55edyyhd5g'
 
-#Tagulous
-SERIALIZATION_MODULES = {
-    'xml':    'tagulous.serializers.xml_serializer',
-    'json':   'tagulous.serializers.json',
-    'python': 'tagulous.serializers.python',
-    'yaml':   'tagulous.serializers.pyyaml',
-}
+from django.urls import reverse, reverse_lazy
+
+LETSAGREE_CACHE = False
+LETSAGREE_LOGOUT_APP_NAME = reverse_lazy('account_logout')
+LETSAGREE_CSS = {'all': ('letsagree/letsagree.css',)}
+LETSAGREE_BROWSER_TITLE = 'Akceptacja regulaminu'
+LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
@@ -102,12 +101,6 @@ CORS_ORIGIN_WHITELIST = [
 MIGRATION_MODULES = {
     'letsagree': 'wegemoc.3p_migrations.letsagree',
 }
-
-LETSAGREE_CACHE = False
-LETSAGREE_LOGOUT_APP_NAME = 'admin'
-LETSAGREE_CSS = {'all': ('letsagree/letsagree.css',)}
-LETSAGREE_BROWSER_TITLE = 'Akceptacja regulaminu'
-LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

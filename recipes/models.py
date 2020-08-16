@@ -57,14 +57,14 @@ class RecipeCategory(MPTTModel):
 
 
 class Embed(models.Model, Activity):
-    url = models.URLField(max_length=255, verbose_name='Adres przepisu')
+    url = models.URLField(max_length=255, verbose_name='Adres przepisu', blank=True)
     title = models.CharField(max_length=255, verbose_name='Tytuł', blank=True)
     description = models.TextField(verbose_name='Opis', blank=True, null=True)
     type = models.CharField(blank=True, max_length=200)
     thumbnail_url = models.URLField(max_length=500, blank=True, null=True)
-    image = models.ImageField(upload_to='recipes', blank=True)
-    provider_name = models.CharField(blank=True, max_length=255)
-    html = models.TextField()
+    image = models.ImageField(upload_to='recipes', null=True)
+    provider_name = models.CharField(blank=True, null=True,max_length=255)
+    html = models.TextField(blank=True)
     votes = GenericRelation(Like, related_query_name='embedlikes')
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name='addedbyuser')
     created_at = models.DateTimeField(auto_now_add=True)

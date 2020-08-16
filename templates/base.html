@@ -376,31 +376,26 @@
             paste() {
                 this.isPaste = true;
             },
-            input() {
-                if (this.isPaste) {
-                    axios.get('https://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
-                        .then((response) => {
-                            this.embed = response.data;
-                            this.isPaste = false;
-                        })
-                }
-            },
             addArticle: function() {
                 this.loading = true;
-                this.embed.category = this.selectedId
-                axios.post('/recipes/embeds/', this.embed)
-                    .then((response) => {
-                        this.loading = false;
-                        this.cardrender = true;
-                        this.embedadd = 'Przepis został dodany'
-                        this.embedsinfo = response.data
-                    })
-                    .catch((err) => {
-                        this.loading = false;
-                        this.iserror = true;
-                        console.log(err);
-                        this.errortext = 'Nie udało sie dodać przepisu, spróbuj kliknij "Dodaj" ponownie. Jeśli się nie uda, oznacza, że nie udało się przetworzyć linku. Może to wynikać na przykład z tego, że strona na której znajduje się przepis jest źle sformatowana.'
-                    })
+                axios.get('https://iframe.ly/api/oembed?url=' + this.embed.url + '&api_key=493c9ebbdfcbdac2a10d6b')
+                        .then((response) => {
+                            this.embed = response.data;
+                            this.embed.category = this.selectedId;
+                            axios.post('/recipes/embeds/', this.embed)
+                                .then((response) => {
+                                    this.loading = false;
+                                    this.cardrender = true;
+                                    this.embedadd = 'Przepis został dodany'
+                                    this.embedsinfo = response.data
+                                })
+                                .catch((err) => {
+                                    this.loading = false;
+                                    this.iserror = true;
+                                    console.log(err);
+                                    this.errortext = 'Nie udało sie dodać przepisu, spróbuj kliknij "Dodaj" ponownie. Jeśli się nie uda, oznacza, że nie udało się przetworzyć linku. Może to wynikać na przykład z tego, że strona na której znajduje się przepis jest źle sformatowana.'
+                                })
+                        })
             },
         },
         filters: {
