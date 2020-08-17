@@ -38,12 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'letsagree.apps.LetsagreeConfig',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-    'letsagree.apps.LetsagreeConfig',
+    'django_celery_results',
     'stream_django',
     'likes',
     'questions',
@@ -69,11 +70,9 @@ INSTALLED_APPS = [
 STREAM_API_KEY = 'uqgz6c8za6ve'
 STREAM_API_SECRET = '356t477hunrphgy9b37ef5z9m4j5zca3cdmkbyukx7wbwjkwzthfnk55edyyhd5g'
 
-from django.urls import reverse, reverse_lazy
-
 LETSAGREE_CACHE = False
-LETSAGREE_LOGOUT_APP_NAME = reverse_lazy('account_logout')
 LETSAGREE_CSS = {'all': ('letsagree/letsagree.css',)}
+LETSAGREE_LOGOUT_URL = '/account/logout/'
 LETSAGREE_BROWSER_TITLE = 'Akceptacja regulaminu'
 LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
 
@@ -171,6 +170,8 @@ else:
             'default': dj_database_url.parse('postgres://postgres:035561540e5def53f159939bf27f07d7@dokku-postgres-wegemocdb:5432/wegemocdb'),
         }
 
+
+CELERY_BROKER_URL = 'rediss://default:cebc1hz89tlaix2o@db-redis-fra1-92692-do-user-7829836-0.a.db.ondigitalocean.com:25061'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

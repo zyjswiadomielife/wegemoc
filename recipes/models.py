@@ -90,17 +90,8 @@ class Embed(models.Model, Activity):
     def activity_actor_attr(self):
         return self.added_by
 
-
-from django.core.files.base import ContentFile
+from django.db import transaction
 
 @receiver(post_save, sender=Embed)
-def save_image_fromurl(sender, instance, **kwargs):
-    if instance.thumbnail_url and not instance.image:
-        req = requests.get(instance.thumbnail_url)
-        image_bytes = io.BytesIO(req.content)
-        img = PIL.Image.open(image_bytes)
-        if img.mode != "RGB":
-            img = img.convert("RGB")
-        img.save(image_bytes, format="JPEG")
-        instance.image.save(instance.slug + '.jpeg', ContentFile(image_bytes.getvalue()), save=False)
-        instance.save()
+def image_download(sender, instance, **kwargs):
+    transaction.on_commit(lambda: handle_image_download.apply_async(args=(instance.pk,)))

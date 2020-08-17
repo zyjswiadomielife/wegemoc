@@ -21,3 +21,5 @@ django-gdpr-assist
 dj-database-url
 django-letsagree
 sentry-sdk
+celery
+redis
