@@ -20,6 +20,8 @@ django-cors-headers
 django-gdpr-assist
 dj-database-url
 django-letsagree
-sentry-sdk
 celery
 redis
+django-celery-results
+flower
+sentry-sdk

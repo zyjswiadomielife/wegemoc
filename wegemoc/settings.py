@@ -23,9 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['wegemoc.pl', 'wegemoc.local']
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1','wegemoc.pl', 'wegemoc.local']
 
 # Application definition
 
@@ -66,6 +65,8 @@ INSTALLED_APPS = [
     'home',
     'blog',
 ]
+
+CELERY_RESULT_BACKEND = 'django-db'
 
 STREAM_API_KEY = 'uqgz6c8za6ve'
 STREAM_API_SECRET = '356t477hunrphgy9b37ef5z9m4j5zca3cdmkbyukx7wbwjkwzthfnk55edyyhd5g'
@@ -153,17 +154,9 @@ WSGI_APPLICATION = 'wegemoc.wsgi.application'
 import dj_database_url
 
 if DEBUG:
-    DATABASES = {
-            'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'gonano',
-            'USER': os.environ.get('DATA_DB_USER'),
-            'PASSWORD': os.environ.get('DATA_DB_PASS'),
-            'HOST': os.environ.get('DATA_DB_HOST'),
-            'PORT': '',
+        DATABASES = {
+            'default': dj_database_url.parse('postgres://posjnhic:sf3B2U1O7FzrpEmPZfXZY_L-VR3GYF9s@rogue.db.elephantsql.com:5432/posjnhic'),
         }
-    }
-
 
 else:
         DATABASES = {
@@ -172,6 +165,7 @@ else:
 
 
 CELERY_BROKER_URL = 'rediss://default:cebc1hz89tlaix2o@db-redis-fra1-92692-do-user-7829836-0.a.db.ondigitalocean.com:25061'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

@@ -91,7 +91,19 @@ class Embed(models.Model, Activity):
         return self.added_by
 
 from django.db import transaction
+from .tasks import download_and_save_photo
+
+def download_photo_command(embed: Embed):
+        if embed.thumbnail_url and not embed.image:
+            req = requests.get(embed.thumbnail_url)
+            image_bytes = io.BytesIO(req.content)
+            img = PIL.Image.open(image_bytes)
+            if img.mode != "RGB":
+                img = img.convert("RGB")
+            img.save(image_bytes, format="JPEG")
+            embed.image.save(embed.slug + '.jpeg', ContentFile(image_bytes.getvalue()), save=False)
+            embed.save()
 
 @receiver(post_save, sender=Embed)
 def image_download(sender, instance, **kwargs):
-    transaction.on_commit(lambda: handle_image_download.apply_async(args=(instance.pk,)))
+    download_and_save_photo.apply_async((instance.id,))
