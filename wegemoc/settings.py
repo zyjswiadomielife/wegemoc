@@ -160,11 +160,11 @@ if DEBUG:
 
 else:
         DATABASES = {
-            'default': dj_database_url.parse('postgres://postgres:035561540e5def53f159939bf27f07d7@dokku-postgres-wegemocdb:5432/wegemocdb'),
+            'default': dj_database_url.parse('postgres://postgres:e5dc656ec89b7bb8f6160d5399f7d0a1@dokku-postgres-wegemocdb:5432/wegemocdb'),
         }
 
 
-CELERY_BROKER_URL = 'rediss://default:cebc1hz89tlaix2o@db-redis-fra1-92692-do-user-7829836-0.a.db.ondigitalocean.com:25061'
+CELERY_BROKER_URL = 'redis://wegemocredis:798279c42e29c05bc97d8ccc362326b7c906a48d4e43cc123a3e5f52ad34802d@dokku-redis-wegemocredis:6379'
 
 
 # Password validation
