@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['142.93.167.39','wegemoc.pl', 'wegemoc.local', 'wegemoc.tk']
 
 # Application definition
@@ -160,14 +160,15 @@ if DEBUG:
 
 else:
         DATABASES = {
-            'default': dj_database_url.parse('postgres://postgres:e5dc656ec89b7bb8f6160d5399f7d0a1@dokku-postgres-wegemocdb:5432/wegemocdb'),
+            'default': dj_database_url.parse('postgres://postgres:9c980b089366b309cd1f50af651f5c2a@dokku-postgres-wegemocdb:5432/wegemocdb'),
         }
 
 
 if DEBUG:
     CELERY_BROKER_URL = 'redis://wegeredis:a78010420ac506a1f472ca75207529578cdbea90f6d2f3d2a2a256fbdfb4b484@dokku-redis-wegeredis:6379'
 else:
-    CELERY_BROKER_URL = 'redis://wegemocredis:798279c42e29c05bc97d8ccc362326b7c906a48d4e43cc123a3e5f52ad34802d@dokku-redis-wegemocredis:6379'
+    CELERY_BROKER_URL = 'redis://wegeredis:3b59e698d36313e0547e922abe207d605344303b162020cccc2606d5dab404f6@dokku-redis-wegeredis:6379
+'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
