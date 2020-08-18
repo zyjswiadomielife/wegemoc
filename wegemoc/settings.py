@@ -24,7 +24,7 @@ SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['142.93.167.39','wegemoc.pl', 'wegemoc.local', 'wegemocdev']
+ALLOWED_HOSTS = ['142.93.167.39','wegemoc.pl', 'wegemoc.local', 'wegemoc.tk']
 
 # Application definition
 
