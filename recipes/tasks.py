@@ -3,6 +3,7 @@ from celery import shared_task
 from .models import Embed
 from django.core.files.base import ContentFile
 import requests
+import io
 import PIL
 
 def download_photo_command(embed: Embed):
