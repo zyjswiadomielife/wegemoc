@@ -2,6 +2,7 @@ from wegemoc.celery import app
 from celery import shared_task
 from .models import Embed
 from django.core.files.base import ContentFile
+from .models import download_photo_command
 import requests
 import PIL
 
