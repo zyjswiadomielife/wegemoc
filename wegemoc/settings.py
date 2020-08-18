@@ -24,7 +24,7 @@ SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['142.93.167.39','wegemoc.pl', 'wegemoc.local']
+ALLOWED_HOSTS = ['142.93.167.39','wegemoc.pl', 'wegemoc.local', 'wegemocdev']
 
 # Application definition
 
@@ -73,7 +73,7 @@ STREAM_API_SECRET = '356t477hunrphgy9b37ef5z9m4j5zca3cdmkbyukx7wbwjkwzthfnk55edy
 
 LETSAGREE_CACHE = False
 LETSAGREE_CSS = {'all': ('letsagree/letsagree.css',)}
-LETSAGREE_LOGOUT_URL = '/account/logout/'
+LETSAGREE_LOGOUT_URL = 'account_logout'
 LETSAGREE_BROWSER_TITLE = 'Akceptacja regulaminu'
 LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
 
