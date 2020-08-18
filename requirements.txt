@@ -19,7 +19,7 @@ pinax-messages
 django-cors-headers
 django-gdpr-assist
 dj-database-url
-django-letsagree==1.1.4
+django-letsagree==1.1.5
 celery
 redis
 django-celery-results
