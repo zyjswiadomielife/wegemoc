@@ -26,6 +26,15 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+from django.contrib.auth.models import Group
+
+@receiver(post_save, sender=User)
+def groupassign(sender, instance, created,**kwargs):
+    if created:
+        usergroup = Group.objects.get_or_create(name='Tos')
+        usergroup.user_set.add(user)
+
+
 class Follow(Activity, models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,related_name='following')
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
