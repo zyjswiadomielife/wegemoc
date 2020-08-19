@@ -125,7 +125,7 @@
                             <div class="card card-shadow">
                                 <a href="{{ embed.get_absolute_url }}">
                                     {% if embed.image %}
-                                    <img class="card-img-top" src="{% thumbnail embed.image "600x350" crop="smart" %}" alt="{{ embed.title }}">
+                                    <img class="card-img-top" src="{{ embed.image.url }}" alt="{{ embed.title }}">
                                     {% else %}
                                     <img class="card-img-top" src="{{ embed.thumbnail_url }}" alt="{{ embed.title }}">
                                     {% endif %}
