@@ -30,9 +30,10 @@ from django.contrib.auth.models import Group
 
 @receiver(post_save, sender=User)
 def groupassign(sender, instance, created,**kwargs):
-    if created:
-        usergroup = Group.objects.get_or_create(name='Tos')
-        instance.groups.add(usergroup)
+    user = kwargs["instance"]
+    if kwargs["created"]:
+        group = Group.objects.get(name='Tos')
+        user.groups.add(group)
 
 
 class Follow(Activity, models.Model):
