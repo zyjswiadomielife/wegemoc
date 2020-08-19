@@ -32,7 +32,7 @@ from django.contrib.auth.models import Group
 def groupassign(sender, instance, created,**kwargs):
     if created:
         usergroup = Group.objects.get_or_create(name='Tos')
-        usergroup.user_set.add(user)
+        instance.groups.add(usergroup)
 
 
 class Follow(Activity, models.Model):
