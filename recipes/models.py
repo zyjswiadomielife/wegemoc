@@ -12,10 +12,6 @@ from urllib.request import urlopen
 from tempfile import NamedTemporaryFile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import os
-import requests
-import PIL
-import io
 
 class RecipeCategory(MPTTModel):
     title = models.CharField(max_length=255, verbose_name='Nazwa kategorii')
