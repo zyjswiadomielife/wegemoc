@@ -167,7 +167,7 @@ else:
 if DEBUG:
     CELERY_BROKER_URL = 'redis://wegeredis:a78010420ac506a1f472ca75207529578cdbea90f6d2f3d2a2a256fbdfb4b484@dokku-redis-wegeredis:6379'
 else:
-    CELERY_BROKER_URL = 'amqp://unbsngni:O7GvgtzBTUz2ac57F0m1lZjFcybnnFrl@sparrow.rmq.cloudamqp.com/unbsngni'
+    CELERY_BROKER_URL = 'amqp://wegerabbit:56c35509ebce304aaebd99739e6b4941@dokku-rabbitmq-wegerabbit:5672/wegerabbit'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
