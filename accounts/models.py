@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save, post_delete
 from stream_django.feed_manager import feed_manager
 from stream_django.activity import Activity
