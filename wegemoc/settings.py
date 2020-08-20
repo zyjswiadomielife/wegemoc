@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '8*nylia8)^qbwa%5%@m(nt1lxoblv6@4s*+__u94t(rm48f!ge'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['142.93.167.39','wegemoc.pl', 'wegemoc.local', 'wegemoc.tk']
 
 # Application definition
@@ -107,6 +107,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -155,7 +156,14 @@ import dj_database_url
 
 if DEBUG:
         DATABASES = {
-            'default': dj_database_url.parse('postgres://postgres:5587e7cca273e6801e28e61f7d5a14a7@dokku-postgres-wegemocdb:5432/wegemocdb'),
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'gonano',
+                'USER': os.environ.get('DATA_DB_USER'),
+                'PASSWORD': os.environ.get('DATA_DB_PASS'),
+                'HOST': os.environ.get('DATA_DB_HOST'),
+                'PORT': '',
+            }
         }
 
 else:
@@ -191,10 +199,19 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGES = (('pl', 'Polish'), ('en', 'English'))
+from django.utils.translation import ugettext_lazy as _
+
+LANGUAGES = (
+    ('pl', _('Polish')),
+    ('en', _('English')),
+)
 LANGUAGE_CODE = 'pl'
 
-TIME_ZONE = 'UTC'
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 

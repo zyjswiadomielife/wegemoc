@@ -4,6 +4,7 @@ run.config:
     runtime: python-3.6
   extra_packages:
     - nginx
+    - gettext-tools
 
 deploy.config:
   extra_steps:
