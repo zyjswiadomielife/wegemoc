@@ -74,7 +74,7 @@ STREAM_API_KEY = 'uqgz6c8za6ve'
 STREAM_API_SECRET = '356t477hunrphgy9b37ef5z9m4j5zca3cdmkbyukx7wbwjkwzthfnk55edyyhd5g'
 
 LETSAGREE_CACHE = False
-LETSAGREE_CSS = {'all': ('letsagree/letsagree.css',)}
+LETSAGREE_CSS = {'all': ('letsagree/lets.css',)}
 LETSAGREE_LOGOUT_URL = 'account_logout'
 LETSAGREE_BROWSER_TITLE = 'Akceptacja regulaminu'
 LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
