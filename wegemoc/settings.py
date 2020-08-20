@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     'blog',
 ]
 
+SITE_ID = 1
+
 CELERY_RESULT_BACKEND = 'django-db'
 
 STREAM_API_KEY = 'uqgz6c8za6ve'
@@ -80,8 +82,6 @@ LETSAGREE_BORDER_HEADER = 'Akceptacja regulaminu'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 LOGIN_REDIRECT_URL = '/recipes/feed/'
-
-SITE_ID = 1
 
 IFRAMELYKEY = '493c9ebbdfcbdac2a10d6b'
 
