@@ -108,7 +108,6 @@ def addcategory(request):
             new_category.author = request.user
             new_category.save()
             new_category.subscribers.add(request.user)
-            return redirect('category', slug=new_category.slug)
     else:
         form = AddCategory()
     return render(request, 'recipes/add.html', {'form': form})

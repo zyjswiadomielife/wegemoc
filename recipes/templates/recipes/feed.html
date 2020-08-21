@@ -31,7 +31,11 @@
             </div>
           </div>
           <div class="media">
+            {% if recipe.image %}
             <img class="align-self-start mr-3" width="100px" height="100px" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            {% else %}
+            <img class="align-self-start mr-3" width="100px" height="100px" src="{{ recipe.thumbnail_url }}" alt="{{ recipe.title }}">
+            {% endif %}
             <div class="media-body">
               <h5 class="mt-0"><a href="{{ recipe.get_absolute_url }}" class="link">{{ recipe.title }}</a></h5>
               <p>{{ recipe.description|truncatewords:40|striptags }}</p>
