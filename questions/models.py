@@ -6,6 +6,7 @@ from stream_django.activity import Activity
 from autoslug import AutoSlugField
 from django.urls import reverse
 from tinymce import HTMLField
+import tagulous.models
 
 
 
@@ -15,6 +16,7 @@ class Question(models.Model, Activity):
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     votes = GenericRelation(Like, related_query_name='questionlikes')
+    tags = tagulous.models.TagField(max_count=3, autocomplete_settings={'width': '100%'})
     slug = AutoSlugField(populate_from='title', unique=True)
 
     def __str__(self):

@@ -3,6 +3,7 @@ from tinymce import HTMLField
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 from django.urls import reverse
+import tagulous.models
 
 
 class Post(models.Model):
@@ -11,6 +12,7 @@ class Post(models.Model):
     body = HTMLField(verbose_name='Treść')
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    tags = tagulous.models.TagField()
     slug = AutoSlugField(populate_from='title', unique=True)
 
     def __str__(self):

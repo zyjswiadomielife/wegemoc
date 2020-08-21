@@ -20,6 +20,9 @@ web.main:
   network_dirs:
     data.storage:
       - media
+      
+worker.jobs:
+  start: celery worker -A wegemoc -linfo
 
 data.storage: 
   image: nanobox/unfs:0.9

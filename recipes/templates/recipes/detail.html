@@ -65,9 +65,9 @@
 						
 							{% if request.user.is_authenticated %}
 								{% if recipe.votes.all|user_in:user %}
-								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="28" data-count="{{ recipe.votes.count }}" v-bind:issubscribed="false"></like-button>
+								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="29" data-count="{{ recipe.votes.count }}" v-bind:issubscribed="false"></like-button>
 								{% else %}
-								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="28" data-count="{{ recipe.votes.count }}" v-bind:isliked="true"></like-button>
+								<like-button vote-type="embed" data-id="{{ recipe.id }}" data-type="29" data-count="{{ recipe.votes.count }}" v-bind:isliked="true"></like-button>
 								{% endif %}
 							{% else %}
 							<button type="button" class="btn btn-sm btn-success-gradiant ml-2" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany/a żeby polubić ten przepis.">

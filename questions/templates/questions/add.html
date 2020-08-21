@@ -4,16 +4,25 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-
+<style>
+    .select2-container{
+        width: 100%;
+    }
+</style>
     <div class="container mt-5">
             
         <div class="row justify-content-center">
         <div class="col-lg-7">
         <h4>Dodaj post na forum</h4>
-        <form method="post">
+        <form method="post" class="text-dark">
             {% csrf_token %}
             {{ form.media }}
-            {{ form|crispy }}
+            {{ form.title|as_crispy_field }}
+            {{ form.body|as_crispy_field }}
+            <div class="form-group">
+                <label for="exampleFormControlSelect2">Tagi:</label>
+                {{ form.tags }}
+            </div>
             <button type="submit" class="btn btn-success mb-5">Dodaj</button>
         </form>
     </div>
