@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import RecipeCategory, Embed
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import ListView, TemplateView, View
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -108,6 +108,12 @@ def addcategory(request):
             new_category.author = request.user
             new_category.save()
             new_category.subscribers.add(request.user)
+            parent = form.cleaned_data['parent']
+            if parent.id == 1:
+                category_html = '/recipes/category/' + 'weganskie' + '/' + new_category.slug + '/'
+            else:
+                category_html = '/recipes/category/' + 'wegetarianskie' + '/' + new_category.slug + '/'
+            return HttpResponseRedirect(category_html)
     else:
         form = AddCategory()
     return render(request, 'recipes/add.html', {'form': form})
