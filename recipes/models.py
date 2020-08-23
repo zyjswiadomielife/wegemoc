@@ -17,7 +17,7 @@ class RecipeCategory(MPTTModel):
     title = models.CharField(max_length=255, verbose_name='Nazwa kategorii')
     parentname = models.CharField(max_length=255, verbose_name='Pełna nazwa', null=True, blank=True)
     body = models.TextField(verbose_name='Opis kategorii', blank=True, help_text='To pole nie jest obowiązkowe. Jeśli chcesz, możesz napisać co konkretnie ma być dodawane do tej kategorii.')
-    image = models.ImageField(upload_to='tlo', default='defaultbgcategory.jpg' ,verbose_name='Tło kategorii', help_text='Dodając zdjęcie jesteś w stanie wyróżnić kategorię, jeśli jednak tego nie zrobisz nic się nie stanie. :)', null=True, blank=True)
+    image = models.ImageField(upload_to='tlo', default='defaultbgcategory.jpg', verbose_name='Tło kategorii', help_text='Dodając zdjęcie jesteś w stanie wyróżnić kategorię, jeśli jednak tego nie zrobisz nic się nie stanie. :)', null=True, blank=True)
     slug = AutoSlugField(populate_from='title', unique=True)
     parent = TreeForeignKey('self', related_name='children', db_index=True, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Kategoria')
     subscribers = models.ManyToManyField(User, related_name='subscribed_category', blank=True)
