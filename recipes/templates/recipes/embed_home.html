@@ -134,7 +134,7 @@
                             <div class="card card-shadow">
                                 <a href="{{ embed.get_absolute_url }}">
                                     {% if embed.image %}
-                                    <img class="card-img-top" src="{{ embed.image.url }}" alt="{{ embed.title }}">
+                                    <img class="card-img-top" data-piio="{{ embed.image.url }}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA" alt="{{ embed.title }}">
                                     {% else %}
                                     <img class="card-img-top" src="{{ embed.thumbnail_url }}" alt="{{ embed.title }}">
                                     {% endif %}

@@ -8,8 +8,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Dziel się ulubionymi przepisami, śledź kategorie, które cię interesują i stwórz własne książki kucharskie z przepisów z całego internetu.">
     <meta name="author" content="">
+    {% block meta %}
+    <meta property="og:type"   content="article" /> 
+    <meta property="og:title"  content="Wegemoc.pl - przepisy wegetariańskie i wegańskie" /> 
+    <meta property="og:image"  content="{% static 'images/wegemoc.jpg' %}" /> 
+    <meta property="og:description" content="Dziel się ulubionymi przepisami, śledź kategorie, które cię interesują i stwórz własne książki kucharskie z przepisów z całego internetu." />
+    <meta property="og:url" content="https://wegemoc.pl/" />
+    {% endblock %}
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <title>{% block title %} Wegemoc - przepisy wegetariańskie i wegańskie z całego internetu {% endblock %}</title>
@@ -26,6 +33,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
     <script async defer data-domain="wegemoc.pl" src="https://plausible.io/js/plausible.js"></script>
     <meta name="google-site-verification" content="JeeYaRwODgPEhW9MZL3xLiarAmS_BF-O-SVXpxWAo8E" />
+
+    <script>
+        (function(i,m,a,g,e) {
+            e = i.getElementsByTagName(m)[0], (g = i.createElement(m)).src = "//pcdn.piiojs.com/"+a+"/image.min.js",
+            g.onerror = function() {
+                (g = i.createElement(m)).src = "https://fs.piio.co/image-failover.min.js",
+                e.parentNode.insertBefore(g, e);
+            }, e.parentNode.insertBefore(g, e);
+        }(document, "script", "c85t5q"));
+    </script>
+    <link rel="preconnect" href="//pcdn.piiojs.com" crossorigin>
+    <link rel="preload" as="script" href="//pcdn.piiojs.com/c85t5q/image.min.js">        
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
