@@ -14,7 +14,7 @@ class Profile(models.Model):
     facebook = models.URLField(max_length=255, verbose_name='Profil lub fanpage na Facebooku', blank=True, null=True)
 
     def __str__(self):
-        return 'Profil użytkownika {}'.format(self.user.username)
+        return 'Profil użytkownika'
 
 
 @receiver(post_save, sender=User)

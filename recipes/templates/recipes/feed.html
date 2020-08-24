@@ -10,6 +10,7 @@
     color: #ffffff;
   }
 </style>
+{% if categories %}
 <div id="likebookmark">
 
 <div class="bg-light">
@@ -68,5 +69,13 @@
 </div>
 
 </div>
+{% else %}
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8"><p class="font-medium text-dark">Tutaj powinna być lista przepisów z kategorii, które obserwujesz, 
+      jeśli nic tu niema, przejdź <a href="{% url 'categories' %}">tutaj</a> i zacznij obserwować te, które Cię interesują.</p></div>
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}
