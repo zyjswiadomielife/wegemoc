@@ -212,8 +212,8 @@
 							  <h5 class="card-title"><a href="{{ recipe.get_absolute_url }}" class="link">{{ recipe.title }}</a></h5>
 							  <p class="card-text small">{{ recipe.description|striptags|truncatewords:10 }}</p>
 			
-							<span><i class="fa fa-heart"></i> {{ recipe.votes.count }} </span> 
-							<span class="ml-2"><i class="fa fa-bookmark"></i> {{ recipe.bookmarks.count }} </span>
+							<span><img src="{% static 'images/likes.png' %}" width="25px" height="25px"> {{ recipe.votes.count }} </span> 
+							<span class="ml-2"><img src="{% static 'images/book.png' %}" width="20px" height="20px"> {{ recipe.bookmarks.count }} </span>
 						
 							</div>
 						</div>

@@ -155,12 +155,12 @@
                   {% else %}
                   <li class="nav-item">
                       <a class="nav-link logowanie" href="{% url 'account_login' %}">
-                          <i class="far fa-user text-dark logowanie"></i>
+                        <img src="{% static 'images/login.png' %}" class="logowanie" width="30px" height="30px">
                       </a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link logowanie" href="{% url 'account_signup' %}">
-                          <i class="fas fa-user-plus text-dark logowanie"></i>
+                        <img src="{% static 'images/register.png' %}" class="logowanie" width="30px" height="30px">
                       </a>
                   </li>
                   {% endif %}
@@ -330,7 +330,6 @@
                     id: 1
                 }],
                 cardrender: false,
-                embedadd:'',
             }
         },
         mounted() {
@@ -403,7 +402,6 @@
                                 .then((response) => {
                                     this.loading = false;
                                     this.cardrender = true;
-                                    this.embedadd = 'Przepis został dodany'
                                     this.embedsinfo = response.data
                                 })
                                 .catch((err) => {

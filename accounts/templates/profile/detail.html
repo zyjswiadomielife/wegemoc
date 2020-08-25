@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Profil użytkownika {{ profile.username }} {% endblock %}
 
 {% block content %}
@@ -44,14 +44,14 @@
 				<div class="p-2 bd-highlight">
 					{% if profile.profile.facebook %}
 					<a href="{{ profile.profile.facebook }}">
-						<i class="fab fa-facebook-square" style="color:#3b5998; font-size: 30px;"></i>
+						<img src="{% static 'images/facebook.png' %}" width="35px" height="35px">
 					</a>
 					{% endif %}
 				</div>
 				<div class="p-2 bd-highlight">
 					{% if profile.profile.url %}
 					<a href="{{ profile.profile.url }}">
-						<i class="fas fa-external-link-square-alt" style="font-size: 30px; color: gray;"></i>
+						<img src="{% static 'images/link.png' %}" width="30px" height="30px">
 					</a>
 					{% endif %}
 				</div>
@@ -93,7 +93,13 @@
 		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
 			<!-- Column -->
 			<div class="card card-shadow">
-				<a href="{{ recipe.get_absolute_url }}"><img class="card-img-top" src="{{ recipe.image.url }}" alt="{{ embed.title }}"></a>
+				<a href="{{ recipe.get_absolute_url }}">
+					{% if recipe.image %}
+					<img class="card-img-top" src="{{ recipe.image.url }}" alt="{{ embed.title }}">
+					{% else %}
+					<img class="card-img-top" src="{{ recipe.thumbnail_url }}">
+					{% endif %}
+				</a>
 				<div class="card-body">
 					<h5 class="font-medium h5-home"><a href="{{ recipe.get_absolute_url }}" class="link">{{ recipe.title }}</a></h5>
 					<p>{{ recipe.description|striptags|truncatewords:10 }}</p>
